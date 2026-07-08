@@ -1,0 +1,40 @@
+---
+layout: layouts/base.njk
+title: "Guides"
+description: "Practical guides to modern job evaluation — methodology, checklists, governance, and ready-to-adapt templates from the Engage team."
+permalink: /guides/
+---
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="/">Home</a><span>/</span>Guides</div>
+    <div class="eyebrow">Practical insights</div>
+    <h1>Guides for modern <em>job evaluation.</em></h1>
+    <p class="lead">Field-tested guidance from the Engage team — the methodology explained, readiness checklists, governance discipline, and templates you can adapt for your own organisation.</p>
+  </div>
+</div>
+
+<section class="cases-section">
+  <div class="section-inner">
+    <div class="insights-grid">
+      {%- for g in collections.guide %}
+      <a class="insight-card guide-card" href="{{ g.url }}">
+        <div class="insight-tag">{{ g.data.category }}{% if g.data.gated %} &middot; Gated{% endif %}</div>
+        <h4>{{ g.data.title }}</h4>
+        <p>{{ g.data.summary }}</p>
+        <div class="guide-card-foot">
+          <span>{{ g.data.readtime }}</span>
+          {% if g.data.gated %}<span class="guide-lock">Email required</span>{% endif %}
+        </div>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="demo-cta" style="background:#005a7a;">
+  <div class="section-inner" style="text-align:center;">
+    <h2 style="color:white;">Prefer to see it live?</h2>
+    <p style="color:rgba(255,255,255,0.8);max-width:560px;margin:14px auto 28px;">Book a working session and we&rsquo;ll grade a handful of your real roles using the Engage methodology.</p>
+    <a class="btn-primary" href="/book-demo/">Book a demo</a>
+  </div>
+</section>

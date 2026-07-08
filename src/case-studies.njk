@@ -1,0 +1,46 @@
+---
+layout: layouts/base.njk
+title: "Case studies"
+description: "How organisations across Africa use Engage — from an 80-role org redesign delivered in a week to a management team graded proactively ahead of growth."
+permalink: /case-studies/
+---
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="/">Home</a><span>/</span>Case studies</div>
+    <div class="eyebrow">Proof in practice</div>
+    <h1>Engage in the <em>real world.</em></h1>
+    <p class="lead">From an 80-role organisational redesign delivered in a single week to a nine-role management team graded with intent — see how organisations across Africa put Engage to work.</p>
+  </div>
+</div>
+
+<div class="filter-bar" data-cs-filter>
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="east-africa">East Africa</button>
+  <button class="filter-btn" data-filter="southern-africa">Southern Africa</button>
+  <button class="filter-btn" data-filter="west-africa">West Africa</button>
+  <button class="filter-btn" data-filter="financial">Financial Services</button>
+  <button class="filter-btn" data-filter="public">Public Sector</button>
+  <button class="filter-btn" data-filter="ngo">NGO &amp; Development</button>
+  <button class="filter-btn" data-filter="private">Private Sector</button>
+</div>
+
+<section class="cases-section">
+  <div class="section-inner">
+    <div class="cases-grid">
+      {%- for cs in collections.caseStudy %}
+      <a class="case-card" data-cs-card data-tags="{{ cs.data.regionTag }} {{ cs.data.sectorTag }}" href="{{ cs.url }}">
+        <div class="case-card-top">
+          <div class="case-region">{{ cs.data.region }}{% if cs.data.sector %} &middot; {{ cs.data.sector }}{% endif %}</div>
+          <div class="case-client">{{ cs.data.title }}</div>
+          {% if cs.data.meta %}<div class="case-meta">{{ cs.data.meta }}</div>{% endif %}
+        </div>
+        <div class="case-card-body">
+          <span class="case-tag">{{ cs.data.sector }}</span>
+          <p class="case-summary">{{ cs.data.abstract }}</p>
+        </div>
+        <span class="case-cta">Read case study <span>&rarr;</span></span>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>

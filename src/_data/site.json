@@ -1,0 +1,29 @@
+{
+  "name": "Engage Job Evaluation",
+  "tagline": "Fast & flexible job evaluation",
+  "endorsement": "An APAG methodology",
+  "_url_note": "PLACEHOLDER subdomain — confirm with APAG before launch (DNS pending).",
+  "url": "https://engage.africapeopleadvisory.com",
+  "parent": {
+    "name": "Africa People Advisory Group",
+    "short": "APAG",
+    "url": "https://africapeopleadvisory.com"
+  },
+  "builder": {
+    "name": "WorkInFlow",
+    "email": "info@workinflow.co.za",
+    "phone": "084 377 2351",
+    "url": "https://workinflow.co.za"
+  },
+  "_hubspot_note": "Paste the real HubSpot Meetings link here (e.g. https://meetings.hubspot.com/yourname/demo). Leave empty to show the placeholder scheduler box.",
+  "hubspotMeetingUrl": "",
+  "nav": [
+    { "label": "Overview", "url": "/overview/" },
+    { "label": "How it works", "url": "/how-it-works/" },
+    { "label": "The process", "url": "/the-process/" },
+    { "label": "Case studies", "url": "/case-studies/" },
+    { "label": "Guides", "url": "/guides/" },
+    { "label": "FAQ", "url": "/faq/" },
+    { "label": "Book a demo", "url": "/book-demo/", "cta": true }
+  ]
+}

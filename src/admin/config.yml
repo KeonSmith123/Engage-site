@@ -1,0 +1,90 @@
+# Engage Job Evaluation — Decap CMS configuration
+# Editors manage Guides and Case studies here. Content is committed back to
+# the Git repo as markdown; Netlify rebuilds the site automatically.
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Lets editors preview the CMS locally with `npx decap-server` (ignored in prod).
+local_backend: true
+
+# Drafts move through Draft -> In review -> Ready before publishing.
+publish_mode: editorial_workflow
+
+media_folder: "src/assets/img"
+public_folder: "/assets/img"
+
+collections:
+  # ---------------------------------------------------------------- GUIDES
+  - name: "guides"
+    label: "Guides"
+    label_singular: "Guide"
+    description: "Practical guides and templates. Set 'Gated' to require an email; 'Draft' hides an entry from the site."
+    folder: "src/guides"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    sortable_fields: ["order", "title"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Summary", name: "summary", widget: "text", hint: "One or two sentences shown on the guide card." }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options: ["Basics", "Methodology", "Checklist", "Governance", "Org Design", "Template"]
+      - { label: "Read time", name: "readtime", widget: "string", required: false, hint: "e.g. 6 min read — or 'Template'." }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 99, hint: "Lower numbers appear first." }
+      - { label: "Gated (require email)", name: "gated", widget: "boolean", default: false }
+      - { label: "Draft (hide from site)", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  # ----------------------------------------------------------- CASE STUDIES
+  - name: "case_studies"
+    label: "Case studies"
+    label_singular: "Case study"
+    description: "Client case studies. 'Draft' keeps an entry off the live site until quotes/logos are approved."
+    folder: "src/case-studies"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    sortable_fields: ["order", "title"]
+    fields:
+      - { label: "Client / Title", name: "title", widget: "string" }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 99 }
+      - { label: "Draft (hide from site)", name: "draft", widget: "boolean", default: false }
+      - { label: "Region (display)", name: "region", widget: "string", hint: "e.g. East Africa, or Kenya + Uganda." }
+      - { label: "Sector (display)", name: "sector", widget: "string", hint: "e.g. Financial Services." }
+      - { label: "Image", name: "image", widget: "image", required: false, hint: "Optional photo for the case study. Upload here or pick from the media library. Leave blank to show a placeholder." }
+      - label: "Region filter tag"
+        name: "regionTag"
+        widget: "select"
+        options: ["east-africa", "southern-africa", "west-africa"]
+      - label: "Sector filter tag"
+        name: "sectorTag"
+        widget: "select"
+        options: ["financial", "public", "ngo", "private"]
+      - { label: "Meta line (scope)", name: "meta", widget: "string", required: false, hint: "e.g. 200 employees · 400 roles in two weeks." }
+      - { label: "Logo", name: "logo", widget: "image", required: false }
+      - { label: "Abstract (card + intro)", name: "abstract", widget: "text" }
+      - { label: "Context", name: "context", widget: "text" }
+      - { label: "Business challenge", name: "challenge", widget: "text" }
+      - { label: "Our approach", name: "approach", widget: "text" }
+      - { label: "Outcome", name: "outcome", widget: "text" }
+      - { label: "Client quote", name: "quote", widget: "text", required: false }
+      - { label: "Quote author", name: "quoteAuthor", widget: "string", required: false }
+
+  # ------------------------------------------------------------ SITE MEDIA
+  - name: "site_media"
+    label: "Site images"
+    description: "Photos for fixed pages (homepage hero, Book a Demo, Overview). Upload an image or pick from the media library; leave blank to show a placeholder."
+    files:
+      - name: "media"
+        label: "Page images"
+        file: "src/_data/media.json"
+        fields:
+          - { label: "Homepage hero background", name: "homeHero", widget: "image", required: false, hint: "Wide image. Shows behind the homepage hero with a brand tint over it." }
+          - { label: "Book a Demo image", name: "demoImage", widget: "image", required: false, hint: "A working-session / people photo for the Book a Demo page." }
+          - { label: "Overview image", name: "overviewImage", widget: "image", required: false, hint: "A people / advisory photo shown below the Overview hero." }

@@ -1,0 +1,46 @@
+---
+layout: layouts/base.njk
+---
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="/">Home</a><span>/</span><a href="/guides/">Guides</a><span>/</span>{{ title }}</div>
+    <div class="eyebrow">{{ category }}{% if readtime %} &middot; {{ readtime }}{% endif %}</div>
+    <h1>{{ title }}</h1>
+    {% if summary %}<p class="lead">{{ summary }}</p>{% endif %}
+  </div>
+</div>
+
+<section class="guide-section">
+  <div class="guide-wrap">
+    {% if gated %}
+    <div class="guide-gate" id="guide-gate">
+      <span class="guide-lock">Gated guide</span>
+      <h3>Read the full guide</h3>
+      <p>Enter your name and work email and we&rsquo;ll send &ldquo;{{ title }}&rdquo; straight to your inbox.</p>
+      <form class="gate-form" id="gate-form" data-guide-title="{{ title }}" data-guide-slug="{{ page.fileSlug }}" style="text-align:left;max-width:360px;margin:0 auto;">
+        <div class="field"><label for="gate-name">Full name</label><input id="gate-name" name="name" type="text" required></div>
+        <div class="field"><label for="gate-email">Work email</label><input id="gate-email" name="email" type="email" required></div>
+        <p class="gate-error" id="gate-error" style="display:none;color:#b3261e;font-size:12px;margin:-8px 0 12px;"></p>
+        <button type="submit" class="btn-primary" id="gate-submit" style="width:100%;">Send me the guide</button>
+      </form>
+    </div>
+    <div class="guide-gate" id="guide-gate-success" style="display:none;">
+      <span class="guide-lock">Thanks</span>
+      <h3>Check your inbox</h3>
+      <p>We&rsquo;ve sent &ldquo;{{ title }}&rdquo; to your email. It should arrive within a few minutes.</p>
+    </div>
+    {% else %}
+    <article class="guide-body">
+      {{ content | safe }}
+    </article>
+    {% endif %}
+  </div>
+</section>
+
+<section class="demo-cta" style="background:#005a7a;">
+  <div class="section-inner" style="text-align:center;">
+    <h2 style="color:white;">See Engage applied to your roles</h2>
+    <p style="color:rgba(255,255,255,0.8);max-width:560px;margin:14px auto 28px;">The fastest way to understand Engage is to watch it grade real roles from your own organisation.</p>
+    <a class="btn-primary" href="/book-demo/">Book a demo</a>
+  </div>
+</section>

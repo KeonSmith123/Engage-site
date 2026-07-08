@@ -1,0 +1,193 @@
+/* =====================================================================
+   ENGAGE — DESIGN TOKENS
+   Engage Job Evaluation · An APAG methodology
+   ---------------------------------------------------------------------
+   Engage is a sub-brand of Africa People Advisory Group (APAG) and
+   follows the APAG CI 2022 in full: blue-led palette (#0075A0) with
+   green accent (#1FA049), grey body text (#59595C), white surfaces,
+   the APAG blue->green gradient device, and Helvetica/Arial type only.
+
+   This file is the single source of truth for the build. Reference the
+   semantic tokens (--color-primary, --font-heading, etc.) in components;
+   avoid hard-coding hex values anywhere in the site.
+
+   Prepared by WorkInFlow · v2 (APAG CI compliance) · 23 June 2026
+   ===================================================================== */
+
+:root{
+
+  /* -------------------------------------------------------------------
+     1. BRAND PALETTE — raw values
+     ------------------------------------------------------------------- */
+
+  /* APAG connective (alignment to parent brand — APAG CI 2022) */
+  --apag-blue:           #0075A0;   /* PRIMARY brand colour (blue-led) */
+  --apag-blue-dark:      #005a7a;   /* hover / depth / dark surfaces   */
+  --apag-blue-tint:      #e6f1f6;   /* tint panels, highlights         */
+  --apag-green:          #1FA049;   /* ACCENT — checks, secondary CTAs */
+  --apag-grey:           #59595C;   /* APAG default text colour        */
+  --apag-teal:           #008694;   /* secondary accent                */
+
+  /* APAG secondary set — data viz, tags, never used without primaries */
+  --apag-lime:           #99CA47;
+  --apag-yellow:         #FFC928;
+  --apag-orange:         #EE6C4D;
+
+  /* Neutrals */
+  --ink:                 #59595C;   /* body / strong / card text (APAG grey)*/
+  --mist:                #f4f6f2;   /* page / section surface          */
+  --silver:              #d9ded7;   /* borders, dividers               */
+  --white:               #ffffff;
+
+  /* -------------------------------------------------------------------
+     2. SIGNATURE DEVICE — the brand gradient
+     APAG runs blue -> green; Engage lands it on the Engage green so the
+     family resemblance is unmistakable but the destination is Engage.
+     Use for hero bands, mastheads, footer rules. Tagline/text reversed
+     to white over the gradient.
+     ------------------------------------------------------------------- */
+  --gradient-brand: linear-gradient(100deg, var(--apag-blue) 0%, var(--apag-green) 100%);
+
+  /* -------------------------------------------------------------------
+     3. SEMANTIC TOKENS — use THESE in components
+     ------------------------------------------------------------------- */
+  --color-primary:        var(--apag-blue);
+  --color-primary-strong: var(--apag-blue-dark);
+  --color-primary-tint:   var(--apag-blue-tint);
+  --color-secondary:      var(--apag-green);
+  --color-accent:         var(--apag-green);
+
+  --color-heading:        var(--apag-blue);     /* CI: headlines in APAG blue */
+  --color-text:           var(--apag-grey);     /* CI: grey default text      */
+  --color-text-invert:    var(--white);
+  --color-link:           var(--apag-blue);
+  --color-link-hover:     var(--apag-green);
+
+  --surface:              var(--white);
+  --surface-alt:          var(--mist);
+  --surface-tint:         var(--apag-blue-tint);
+  --border:               var(--silver);
+
+  /* States */
+  --color-success: var(--apag-green);
+  --color-info:    var(--apag-blue);
+  --color-warning: var(--apag-yellow);
+  --color-danger:  var(--apag-orange);
+
+  /* -------------------------------------------------------------------
+     4. TYPOGRAPHY
+     Headlines: Helvetica/Arial bold in APAG blue (CI 2022), no web-font load.
+     Body/labels: system sans (Helvetica/Arial family) — aligns to the
+     APAG CI typeface rule while staying dependency-free.
+     ------------------------------------------------------------------- */
+  --font-heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body:    'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  /* Type scale (1.250 major-third) */
+  --fs-display: 2.500rem;   /* 40px — hero            */
+  --fs-h1:      2.000rem;   /* 32px                   */
+  --fs-h2:      1.500rem;   /* 24px                   */
+  --fs-h3:      1.250rem;   /* 20px                   */
+  --fs-lead:    1.125rem;   /* 18px — intro paragraph */
+  --fs-body:    1.000rem;   /* 16px                   */
+  --fs-small:   0.8125rem;  /* 13px                   */
+  --fs-eyebrow: 0.6875rem;  /* 11px — uppercase label */
+
+  --lh-tight:   1.2;
+  --lh-heading: 1.3;
+  --lh-body:    1.6;
+
+  --fw-regular: 400;
+  --fw-semibold:600;
+  --fw-bold:    700;
+
+  --ls-eyebrow: 0.12em;   /* letter-spacing for eyebrows / labels */
+  --ls-tight:   -0.01em;  /* large headlines                */
+
+  /* -------------------------------------------------------------------
+     5. SPACE · RADII · SHADOWS · LAYOUT  (4px base scale)
+     ------------------------------------------------------------------- */
+  --space-1: 0.25rem;  --space-2: 0.5rem;  --space-3: 0.75rem;
+  --space-4: 1rem;     --space-5: 1.5rem;  --space-6: 2rem;
+  --space-7: 2.5rem;   --space-8: 3rem;    --space-10: 4rem;
+  --space-12: 5rem;
+
+  --radius-sm:   5px;
+  --radius-md:   8px;
+  --radius-lg:   10px;
+  --radius-pill: 999px;
+
+  --shadow-card: 0 1px 3px rgba(17,24,16,.06), 0 6px 24px rgba(17,24,16,.05);
+  --shadow-pop:  0 10px 40px rgba(17,24,16,.14);
+
+  --container:   1080px;   /* max content width */
+  --container-narrow: 920px;
+}
+
+/* =====================================================================
+   6. BASE ELEMENT DEFAULTS (optional — include in the build reset)
+   ===================================================================== */
+body{
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--color-text);
+  background: var(--surface-alt);
+}
+h1,h2,h3,h4{
+  font-family: var(--font-heading);
+  color: var(--color-heading);
+  line-height: var(--lh-heading);
+  font-weight: var(--fw-bold);
+}
+h1{font-size: var(--fs-h1); letter-spacing: var(--ls-tight);}
+h2{font-size: var(--fs-h2);}
+h3{font-size: var(--fs-h3);}
+a{color: var(--color-link); text-decoration: none;}
+a:hover{color: var(--color-link-hover);}
+strong{color: var(--color-heading); font-weight: var(--fw-semibold);}
+
+/* Eyebrow / kicker label */
+.eyebrow{
+  font-family: var(--font-body);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+/* =====================================================================
+   7. CORE COMPONENTS (reference implementations)
+   ===================================================================== */
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; gap:.5rem;
+  font-family:var(--font-body); font-size:var(--fs-small); font-weight:var(--fw-semibold);
+  padding:.7rem 1.4rem; border-radius:var(--radius-sm);
+  cursor:pointer; border:1.5px solid transparent; transition:.15s ease;
+}
+.btn-primary{ background:var(--color-primary); color:var(--white); }
+.btn-primary:hover{ background:var(--color-primary-strong); }
+.btn-secondary{ background:var(--color-secondary); color:var(--white); }
+.btn-secondary:hover{ filter:brightness(.92); }
+.btn-ghost{ background:transparent; color:var(--color-secondary); border-color:var(--color-secondary); }
+.btn-ghost:hover{ background:var(--color-secondary); color:var(--white); }
+
+/* Brand gradient band (hero / masthead) */
+.brand-band{ background:var(--gradient-brand); color:var(--color-text-invert); }
+
+/* Card */
+.card{
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:var(--radius-lg); box-shadow:var(--shadow-card);
+}
+
+/* Tag / pill */
+.tag{
+  display:inline-block; font-size:var(--fs-eyebrow); font-weight:var(--fw-bold);
+  letter-spacing:.08em; text-transform:uppercase;
+  background:var(--surface-tint); color:var(--color-primary-strong);
+  padding:.25rem .6rem; border-radius:var(--radius-sm);
+}

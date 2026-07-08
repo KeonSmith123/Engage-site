@@ -1,0 +1,186 @@
+/* =====================================================================
+   ENGAGE — OVERRIDES
+   Neutralises the demo's SPA splash-screen body rule for the
+   multipage (Eleventy) context. Loaded last.
+   ===================================================================== */
+/* ------------------------------------------------------------------
+   Port corrections (SPA -> multipage)
+   The source stylesheet carries the demo's splash-screen <body> rule
+   (green background, flex-centered, 100vh). In a multipage site that
+   would break every page, so we reset <body> back to a normal document
+   flow here. Loaded last so it wins cleanly without editing the
+   approved design CSS.
+   ------------------------------------------------------------------ */
+body {
+  background: #ffffff !important;
+  display: block !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+}
+
+/* The demo hid the nav until the splash dismissed. There is no splash
+   in the static site, so the fixed top nav is always visible. */
+nav {
+  display: flex !important;
+}
+
+/* Keep the dark footer full-bleed regardless of the demo's section
+   padding rules. */
+footer {
+  width: 100%;
+}
+
+
+/* =====================================================================
+   CHUNK 3 — GUIDES & CASE STUDIES (additive)
+   Collection hubs reuse existing card/grid classes; these rules add the
+   detail-page prose, the guide gate, and small card/detail helpers.
+   All colours come through the design tokens.
+   ===================================================================== */
+
+/* ---- Guide detail: readable prose column ---- */
+.guide-section { padding: 56px 32px 72px; background: var(--white); }
+.guide-wrap { max-width: 760px; margin: 0 auto; }
+.guide-body > :first-child { margin-top: 0; }
+.guide-body h2 { font-family: var(--serif); font-size: 24px; color: var(--color-heading); margin: 38px 0 14px; line-height: 1.3; }
+.guide-body h3 { font-family: var(--serif); font-size: 19px; color: var(--color-heading); margin: 28px 0 10px; line-height: 1.35; }
+.guide-body p { font-size: 16px; color: var(--slate); line-height: 1.75; margin: 0 0 16px; }
+.guide-body ul, .guide-body ol { margin: 0 0 18px; padding-left: 22px; }
+.guide-body li { font-size: 16px; color: var(--slate); line-height: 1.7; margin-bottom: 8px; }
+.guide-body strong { color: var(--ink); font-weight: 600; }
+.guide-body em { font-style: italic; }
+.guide-body a { color: var(--green); text-decoration: underline; }
+.guide-body blockquote { border-left: 3px solid var(--green); padding-left: 16px; margin: 0 0 18px; color: var(--slate); font-style: italic; }
+.guide-body table { width: 100%; border-collapse: collapse; margin: 18px 0 26px; font-size: 14px; }
+.guide-body th, .guide-body td { border: 1px solid var(--silver); padding: 10px 12px; text-align: left; vertical-align: top; line-height: 1.6; }
+.guide-body th { background: var(--green-light); color: var(--green-dark); font-weight: 600; }
+.guide-body hr { border: none; border-top: 1px solid var(--silver); margin: 28px 0; }
+
+/* ---- Guide gate (gated entries; real form wired in lead-automation phase) ---- */
+.guide-gate { max-width: 620px; margin: 8px auto; background: var(--mist); border: 1px solid var(--silver); border-radius: 10px; padding: 36px 32px; text-align: center; }
+.guide-gate h3 { font-family: var(--serif); font-size: 22px; color: var(--color-heading); margin-bottom: 8px; }
+.guide-gate p { color: var(--slate); font-size: 15px; line-height: 1.7; margin: 0 auto 20px; max-width: 460px; }
+.gate-form-ph { border: 1px dashed var(--silver); border-radius: 8px; padding: 18px; color: var(--slate); font-size: 13px; background: var(--white); }
+.guide-lock { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green-dark); background: var(--green-light); padding: 4px 10px; border-radius: 999px; }
+
+/* ---- Guides hub: make insight-card clickable + pin a footer row ---- */
+.guide-card { display: flex; flex-direction: column; height: 100%; color: var(--ink); text-decoration: none; }
+.guide-card p { flex: 1; }
+.guide-card-foot { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--silver); display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--slate); }
+
+/* ---- Case-study detail: render the approved modal card as a static page ---- */
+.cs-detail-section { background: var(--mist); padding: 40px 24px 72px; }
+.cs-detail-wrap { max-width: 820px; margin: 0 auto; }
+.cs-breadcrumb { font-size: 12px; color: var(--slate); margin-bottom: 18px; }
+.cs-breadcrumb a { color: var(--green); text-decoration: none; }
+.cs-breadcrumb span { margin: 0 8px; color: var(--silver); }
+.cs-modal { margin: 0 auto; max-width: 820px; box-shadow: var(--shadow-card); }
+.cs-abstract { font-size: 17px; color: var(--ink); line-height: 1.7; margin-bottom: 28px; font-weight: 500; }
+
+/* =====================================================================
+   CONTENT-LIGHTENING COMPONENTS  ·  v3  ·  23 June 2026 (WorkInFlow)
+   New light-page components introduced when the heavy prose sections
+   on The Process and How It Works were converted to a stepper and to
+   grid cards, plus the homepage compact process strip. All built on the
+   clean semantic tokens in tokens.css (APAG CI). Scoped to avoid the
+   dark homepage .grid-card / .step styles in styles.css.
+   ===================================================================== */
+
+/* --- The Process: vertical connected stepper --- */
+.stepper { list-style: none; margin: 0; padding: 0; }
+.stepper .step { position: relative; display: grid; grid-template-columns: 56px 1fr; gap: 20px; padding: 0 0 28px; border: 0; }
+.stepper .step:last-child { padding-bottom: 0; }
+.stepper .step::before { content: ""; position: absolute; left: 27px; top: 50px; bottom: -2px; width: 2px; background: var(--border); }
+.stepper .step:last-child::before { display: none; }
+.stepper .step-num { width: 56px; height: 56px; border-radius: 50%; background: var(--apag-blue-tint); border: 2px solid var(--color-primary); color: var(--color-primary); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; flex-shrink: 0; position: relative; z-index: 1; }
+.stepper .step-body { padding-top: 5px; }
+.stepper .step-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.stepper .step-head h3 { font-size: 19px; font-weight: 700; color: var(--color-heading); margin: 0; }
+.stepper .step-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--apag-green); background: rgba(31,160,73,0.10); border-radius: 100px; padding: 3px 10px; }
+.stepper .step-body p { font-size: 15px; color: var(--color-text); line-height: 1.65; margin: 0; max-width: 62ch; }
+
+/* --- How It Works: five grid cards (light) --- */
+.grids-section .grid-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 0; }
+.grids-section .grid-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px 18px; display: flex; flex-direction: column; }
+.grids-section .grid-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.grids-section .grid-card-num { font-size: 26px; font-weight: 700; color: var(--color-primary); line-height: 1; }
+.grids-section .grid-card-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; white-space: nowrap; }
+.grids-section .grid-card-badge.skills { color: var(--color-primary); background: var(--apag-blue-tint); }
+.grids-section .grid-card-badge.context { color: var(--apag-green); background: rgba(31,160,73,0.10); }
+.grids-section .grid-card h3 { font-size: 16px; font-weight: 700; color: var(--color-heading); margin: 0 0 6px; }
+.grids-section .grid-card p { font-size: 13px; color: var(--color-text); line-height: 1.55; margin: 0; }
+@media (max-width: 900px) { .grids-section .grid-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .grids-section .grid-cards { grid-template-columns: 1fr; } }
+
+/* --- Homepage: compact process strip --- */
+.process-strip { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin: 32px 0 0; padding: 0; }
+.process-strip li { display: flex; align-items: center; gap: 10px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 100px; padding: 9px 18px 9px 9px; font-size: 14px; font-weight: 600; color: var(--color-heading); }
+.process-strip .ps-num { width: 26px; height: 26px; border-radius: 50%; background: var(--color-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+@media (max-width: 700px) { .process-strip { flex-direction: column; align-items: stretch; } }
+
+/* --- Shared: inline section links / depth pointers --- */
+.section-link { margin-top: 24px; margin-bottom: 0; }
+.section-link a { font-size: 14px; font-weight: 600; color: var(--color-primary); text-decoration: none; }
+.section-link a:hover { color: var(--color-link-hover); }
+.stepper-more { margin-top: 28px; font-size: 14px; color: var(--color-text); }
+.stepper-more a { color: var(--color-primary); font-weight: 600; text-decoration: none; }
+.stepper-more a:hover { text-decoration: underline; }
+
+/* =====================================================================
+   DEPTH & IMAGE-SLOT PASS  ·  v4  ·  23 June 2026 (WorkInFlow)
+   Adds dimensional cues (brand gradient bands, card elevation, outline
+   icons) and a reusable image-slot component + slots ready for real
+   licensed photography. All token-based / APAG CI compliant.
+   ===================================================================== */
+
+/* --- Brand gradient on the dark bands (blue -> hint of green) --- */
+.hero { background: linear-gradient(135deg, #004c6b 0%, #0075A0 58%, #1a8f48 165%) !important; }
+.page-hero { background: linear-gradient(135deg, #004c6b 0%, #0075A0 62%, #1a8f48 180%) !important; }
+.demo-cta { background: linear-gradient(120deg, #0075A0 0%, #128a4f 120%) !important; }
+
+/* --- Card elevation + lift on hover (replaces flat hairline feel) --- */
+.diff-card, .case-card, .model-card, .matters-card,
+.grids-section .grid-card, .receive-item {
+  box-shadow: 0 1px 2px rgba(17,30,40,0.04), 0 10px 26px rgba(17,30,40,0.06);
+  transition: box-shadow .18s ease, transform .18s ease;
+}
+.diff-card:hover, .case-card:hover, .model-card:hover,
+.grids-section .grid-card:hover {
+  box-shadow: 0 2px 4px rgba(17,30,40,0.06), 0 16px 38px rgba(17,30,40,0.10);
+  transform: translateY(-3px);
+}
+.stepper .step { border-radius: 12px; transition: background .18s ease; padding-left: 4px; }
+
+/* --- Outline icons on the four differentiators --- */
+.diff-card { position: relative; }
+.diff-icon { display: inline-flex; width: 44px; height: 44px; border-radius: 10px;
+  align-items: center; justify-content: center; margin-bottom: 16px;
+  background: var(--apag-blue-tint); color: var(--color-primary); }
+.diff-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none;
+  stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.diff-card:nth-child(2) .diff-icon { background: rgba(31,160,73,0.10); color: var(--apag-green); }
+.diff-card:nth-child(4) .diff-icon { background: rgba(31,160,73,0.10); color: var(--apag-green); }
+
+/* --- Reusable image slot (placeholder until real photography is added) --- */
+.img-slot { position: relative; border-radius: 14px; overflow: hidden;
+  background: linear-gradient(135deg, #eef3f6 0%, #e3edf0 100%);
+  border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+.img-slot.ratio-wide { aspect-ratio: 16 / 9; }
+.img-slot.ratio-photo { aspect-ratio: 4 / 3; }
+.img-slot.ratio-portrait { aspect-ratio: 3 / 4; }
+.img-slot-label { display: flex; flex-direction: column; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #7d9aa8; text-align: center; padding: 16px; }
+.img-slot-label svg { width: 34px; height: 34px; stroke: #9bb3bf; fill: none; stroke-width: 1.5; }
+.cs-image, .slot-filled { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
+.cs-image { margin: 0 0 4px; max-height: 360px; }
+
+/* --- Admin-editable page images (set via Site images in the CMS) --- */
+.hero.has-image {
+  background: linear-gradient(135deg, rgba(0,76,107,0.85) 0%, rgba(0,117,160,0.80) 58%, rgba(26,143,72,0.78) 165%), var(--hero-img) center/cover no-repeat !important;
+}
+.page-hero.has-image {
+  background: linear-gradient(135deg, rgba(0,76,107,0.88) 0%, rgba(0,117,160,0.82) 62%, rgba(26,143,72,0.80) 180%), var(--hero-img) center/cover no-repeat !important;
+}
+.page-photo { display: block; width: 100%; max-height: 340px; object-fit: cover; border-radius: 14px; }
+.page-image { max-width: 1100px; margin: 0 auto; padding: 40px 32px 0; }
+.demo-image { margin-bottom: 28px; }
