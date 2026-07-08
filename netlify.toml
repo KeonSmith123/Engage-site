@@ -1,0 +1,21 @@
+# Netlify build configuration — Engage Job Evaluation (WorkInFlow / APAG)
+
+[build]
+  # Eleventy outputs the finished static site into _site
+  command = "npm run build"
+  publish = "_site"
+
+[build.environment]
+  # Pin Node so Netlify's build matches the local toolchain
+  NODE_VERSION = "20"
+
+[functions]
+  # Serverless functions (e.g. send-guide.js, which talks to Resend)
+  directory = "netlify/functions"
+
+# Decap CMS lives at /admin and talks to Netlify Identity + Git Gateway.
+# This header keeps the admin panel embeddable/secure as expected.
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
