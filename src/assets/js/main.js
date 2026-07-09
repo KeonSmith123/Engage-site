@@ -43,6 +43,13 @@ window.toggleFaq = function (el) {
 
 // 4. Guide gate: name + email → Netlify Function → Resend.
 (function () {
+  // If arriving from the emailed link (?unlocked=1), skip the gate entirely.
+  if (window.location.search.indexOf("unlocked=1") !== -1) {
+    var gateEl = document.getElementById("guide-gate");
+    var contentEl = document.getElementById("guide-content");
+    if (gateEl) gateEl.style.display = "none";
+    if (contentEl) contentEl.style.display = "block";
+  }
   var form = document.getElementById("gate-form");
   if (!form) return;
 
