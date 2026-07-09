@@ -45,7 +45,7 @@ exports.handler = async (event) => {
   }
 
   const siteUrl = process.env.URL || "https://engage.africapeopleadvisory.com";
-  const guideUrl = guideSlug ? `${siteUrl}/guides/${guideSlug}/` : siteUrl;
+  const guideUrl = guideSlug ? `${siteUrl}/guides/${guideSlug}/?unlocked=1` : siteUrl;
 
   try {
     const resendRes = await fetch("https://api.resend.com/emails", {
