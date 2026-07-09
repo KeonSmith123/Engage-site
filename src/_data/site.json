@@ -16,7 +16,7 @@
     "url": "https://workinflow.co.za"
   },
   "_hubspot_note": "Paste the real HubSpot Meetings link here (e.g. https://meetings.hubspot.com/yourname/demo). Leave empty to show the placeholder scheduler box.",
-  "hubspotMeetingUrl": "",
+  "hubspotMeetingUrl": "https://meetings-eu1.hubspot.com/keon",
   "nav": [
     { "label": "Overview", "url": "/overview/" },
     { "label": "How it works", "url": "/how-it-works/" },
