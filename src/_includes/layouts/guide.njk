@@ -29,6 +29,9 @@ layout: layouts/base.njk
       <h3>Check your inbox</h3>
       <p>We&rsquo;ve sent &ldquo;{{ title }}&rdquo; to your email. It should arrive within a few minutes.</p>
     </div>
+    <article class="guide-body" id="guide-content" style="display:none;">
+      {{ content | safe }}
+    </article>
     {% else %}
     <article class="guide-body">
       {{ content | safe }}
