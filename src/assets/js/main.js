@@ -91,3 +91,12 @@ window.toggleFaq = function (el) {
       });
   });
 })();
+
+// 5. How It Works: click-to-expand pillars and five-grid cards.
+window.togglePillar = function (head) {
+  var pillar = head.closest(".pillar");
+  if (pillar) pillar.classList.toggle("open");
+};
+window.toggleGridCard = function (card) {
+  card.classList.toggle("open");
+};

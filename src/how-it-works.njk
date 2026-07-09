@@ -79,12 +79,13 @@ description: "The Engage methodology: two pillars, five grids, and exactly what 
 <p>At the highest level, Engage looks at two things: the skills required for the role, and the organisational context in which the role operates. Together these create a balanced view of role size.</p>
 <div class="pillars-grid">
 <div class="pillar">
-<div class="pillar-head">
+<div class="pillar-head" onclick="togglePillar(this)">
 <div class="pillar-icon">I</div>
-<div>
+<div class="pillar-head-text">
 <h3>Skills required</h3>
 <p>What the role demands of the person in it</p>
 </div>
+<span class="pillar-chevron" aria-hidden="true">&#9662;</span>
 </div>
 <div class="pillar-body">
 <div class="pillar-dim">
@@ -102,12 +103,13 @@ description: "The Engage methodology: two pillars, five grids, and exactly what 
 </div>
 </div>
 <div class="pillar">
-<div class="pillar-head">
+<div class="pillar-head" onclick="togglePillar(this)">
 <div class="pillar-icon">II</div>
-<div>
+<div class="pillar-head-text">
 <h3>Organisational context</h3>
 <p>Where the role sits and what it controls</p>
 </div>
+<span class="pillar-chevron" aria-hidden="true">&#9662;</span>
 </div>
 <div class="pillar-body">
 <div class="pillar-dim">
@@ -134,11 +136,11 @@ description: "The Engage methodology: two pillars, five grids, and exactly what 
 <h2 style="margin-bottom:8px;">The five grids.</h2>
 <p class="lead-text" style="margin-bottom:36px;">Every role is read across five dimensions. Together they build a fuller, fairer picture of role size than title or job description alone.</p>
 <div class="grid-cards">
-<div class="grid-card"><div class="grid-card-top"><span class="grid-card-num">01</span><span class="grid-card-badge skills">Skills required</span></div><h3>Technical skills</h3><p>Knowledge level and how that knowledge is applied in practice.</p></div>
-<div class="grid-card"><div class="grid-card-top"><span class="grid-card-num">02</span><span class="grid-card-badge skills">Skills required</span></div><h3>Managerial skills</h3><p>Coordination of work and business decision-making authority.</p></div>
-<div class="grid-card"><div class="grid-card-top"><span class="grid-card-num">03</span><span class="grid-card-badge skills">Skills required</span></div><h3>Persuasive skills</h3><p>The extent to which the role must influence others to create value.</p></div>
-<div class="grid-card"><div class="grid-card-top"><span class="grid-card-num">04</span><span class="grid-card-badge context">Organisational context</span></div><h3>Control</h3><p>The scale of operational responsibility attached to the role.</p></div>
-<div class="grid-card"><div class="grid-card-top"><span class="grid-card-num">05</span><span class="grid-card-badge context">Organisational context</span></div><h3>Impact</h3><p>How significant the role is within the organisation.</p></div>
+<div class="grid-card js-grid" onclick="toggleGridCard(this)"><div class="grid-card-top"><span class="grid-card-num">01</span><span class="grid-card-badge skills">Skills required</span></div><h3>Technical skills</h3><p>Knowledge level and how that knowledge is applied in practice.</p></div>
+<div class="grid-card js-grid" onclick="toggleGridCard(this)"><div class="grid-card-top"><span class="grid-card-num">02</span><span class="grid-card-badge skills">Skills required</span></div><h3>Managerial skills</h3><p>Coordination of work and business decision-making authority.</p></div>
+<div class="grid-card js-grid" onclick="toggleGridCard(this)"><div class="grid-card-top"><span class="grid-card-num">03</span><span class="grid-card-badge skills">Skills required</span></div><h3>Persuasive skills</h3><p>The extent to which the role must influence others to create value.</p></div>
+<div class="grid-card js-grid" onclick="toggleGridCard(this)"><div class="grid-card-top"><span class="grid-card-num">04</span><span class="grid-card-badge context">Organisational context</span></div><h3>Control</h3><p>The scale of operational responsibility attached to the role.</p></div>
+<div class="grid-card js-grid" onclick="toggleGridCard(this)"><div class="grid-card-top"><span class="grid-card-num">05</span><span class="grid-card-badge context">Organisational context</span></div><h3>Impact</h3><p>How significant the role is within the organisation.</p></div>
 </div>
 <p class="stepper-more">Each grid is explained dimension by dimension, with worked examples, in the <a href="/guides/methodology-guide/">Methodology Guide</a>.</p>
 </div>

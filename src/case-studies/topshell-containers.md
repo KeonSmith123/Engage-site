@@ -7,7 +7,8 @@ sector: "Container Solutions"
 regionTag: "southern-africa"
 sectorTag: "private"
 meta: "9 management roles · Proactive grading · Est. 2005"
-logo: ""
+logo: "/assets/img/logos/topshell-containers-logo.png"
+image: "/assets/img/logos/topshell-containers-logo.png"
 abstract: |-
   Established in 2005, Topshell Containers took a deliberate, forward-looking decision to put the right people structures in place before growth exposed the gaps. We evaluated and graded 9 management roles using Engage — proof that rigorous grading delivers value at every scale, not just for large enterprises.
 context: |-

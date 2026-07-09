@@ -30,6 +30,9 @@ permalink: /case-studies/
       {%- for cs in collections.caseStudy %}
       <a class="case-card" data-cs-card data-tags="{{ cs.data.regionTag }} {{ cs.data.sectorTag }}" href="{{ cs.url }}">
         <div class="case-card-top">
+          {% if cs.data.logo %}
+          <div class="cs-card-logo"><img src="{{ cs.data.logo }}" alt="{{ cs.data.title }} logo"></div>
+          {% endif %}
           <div class="case-region">{{ cs.data.region }}{% if cs.data.sector %} &middot; {{ cs.data.sector }}{% endif %}</div>
           <div class="case-client">{{ cs.data.title }}</div>
           {% if cs.data.meta %}<div class="case-meta">{{ cs.data.meta }}</div>{% endif %}

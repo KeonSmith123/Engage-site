@@ -599,7 +599,13 @@ body { font-family:var(--sans); line-height:1.6; background:white; }
 
   /* DELIVERY MODELS */
   .models-section { padding: 72px 48px; background: var(--mist); }
+  .models-layout { display: grid; grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); gap: 32px; margin-top: 40px; align-items: stretch; }
+  .models-photo { border-radius: 8px; overflow: hidden; }
+  .models-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center 32%; display: block; min-height: 320px; }
+  .models-col { display: flex; flex-direction: column; gap: 16px; }
+  .models-col .model-card { flex: 1; }
   .models-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
+  @media (max-width: 760px) { .models-layout { grid-template-columns: 1fr; } .models-photo img { min-height: 220px; max-height: 320px; } }
   .model-card { background: var(--white); border: 1px solid var(--silver); border-radius: 6px; padding: 28px 24px; border-top: 3px solid var(--green); }
   .model-card h3 { font-family: var(--serif); font-size: 20px; color: var(--color-heading); margin-bottom: 8px; }
   .model-card .model-sub { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--green); margin-bottom: 12px; }
@@ -711,6 +717,9 @@ body { font-family:var(--sans); line-height:1.6; background:white; }
   }
   .case-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
   .case-card-top { background: var(--green-dark); padding: 28px 24px 24px; }
+  .case-card-top:has(.cs-card-logo) { padding: 16px; }
+  .cs-card-logo { background:#ffffff; border-radius:8px; padding:24px 20px; display:flex; align-items:center; justify-content:center; }
+  .cs-card-logo img { max-height:58px; max-width:80%; width:auto; height:auto; display:block; }
   .case-region {
     font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
     color: #1FA049; margin-bottom: 10px;
@@ -1015,4 +1024,17 @@ h1,h2,h3,h4,.nav-logo,.footer-logo,.grid-num,.step-num,.stage-num,.grid-block-nu
 .model-card:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,0.09); }
 .model-card-cta { display:block; margin-top:14px; font-size:13px; font-weight:600; color:#0075A0; text-decoration:none; }
 .nav-link.active { color:#0075A0 !important; font-weight:600 !important; }
+
+/* Click-to-expand: How It Works pillars and five-grids cards */
+.pillars-section .pillar-head { cursor: pointer; user-select: none; }
+.pillars-section .pillar-head-text { display: flex; flex-direction: column; }
+.pillars-section .pillar-chevron { margin-left: auto; color: #fff; font-size: 18px; line-height: 1; transition: transform .25s ease; opacity: .8; }
+.pillars-section .pillar.open .pillar-chevron { transform: rotate(180deg); }
+.pillars-section .pillar-body { max-height: 0; overflow: hidden; padding: 0 28px; transition: max-height .32s ease, padding .32s ease; }
+.pillars-section .pillar.open .pillar-body { max-height: 640px; padding: 28px; }
+.grids-section .grid-card { cursor: pointer; user-select: none; }
+.grids-section .grid-card p { display: none; }
+.grids-section .grid-card.open p { display: block; }
+.grids-section .grid-card::after { content: "\002B  Tap to expand"; margin-top: 12px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--color-primary); }
+.grids-section .grid-card.open::after { content: "\2212  Hide"; }
 

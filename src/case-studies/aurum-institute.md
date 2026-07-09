@@ -7,7 +7,8 @@ sector: "Medical Research NGO"
 regionTag: "southern-africa"
 sectorTag: "ngo"
 meta: "Methodology transition · 15 roles validated · 4-year relationship"
-logo: ""
+logo: "/assets/img/logos/aurum-institute-logo.jpg"
+image: "/assets/img/logos/aurum-institute-logo.jpg"
 abstract: |-
   The Aurum Institute, a public-benefit medical research organisation operating across multiple countries, found its existing provider's methodology and tool overly complex and South Africa-centric. We demonstrated Engage by grading a sample of roles side by side with their previous results — and the client adopted the methodology, with internal training and our validation of the first 15 roles.
 context: |-

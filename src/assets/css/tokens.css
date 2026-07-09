@@ -75,6 +75,18 @@
   --color-danger:  var(--apag-orange);
 
   /* -------------------------------------------------------------------
+     4b. LEGACY ALIASES — styles.css still references the pre-rebrand
+     --green* names in ~130 places. Rather than touch every call site,
+     alias them here to the current blue-led palette so those rules
+     resolve correctly. (--green-dark etc. is a variable NAME only —
+     it now points to blue, matching the rest of the CI.)
+     ------------------------------------------------------------------- */
+  --green:        var(--apag-blue);
+  --green-dark:   var(--apag-blue-dark);
+  --green-light:  var(--apag-blue-tint);
+  --green-subtle: #f5f9fb;
+
+  /* -------------------------------------------------------------------
      4. TYPOGRAPHY
      Headlines: Helvetica/Arial bold in APAG blue (CI 2022), no web-font load.
      Body/labels: system sans (Helvetica/Arial family) — aligns to the
