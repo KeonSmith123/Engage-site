@@ -45,13 +45,27 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         from: `Engage Job Evaluation <${FROM_EMAIL}>`,
         to: [recipient],
-        subject: `Your guide: ${guideTitle}`,
-        html: `
-          <p>Hi ${escapeHtml(name)},</p>
-          <p>Thanks for requesting <strong>${escapeHtml(guideTitle)}</strong>. You can read it here:</p>
-          <p><a href="${guideUrl}">${guideUrl}</a></p>
-          <p>— The Engage Job Evaluation team</p>
-        `,
+        subject: "Here's your Engage guide",
+        html: wrapEmail(
+          "One idea to keep in mind as you read it",
+          `
+          <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(name)},</p>
+          <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Here's the resource you requested:</p>
+          ${button(guideUrl, "Download your guide")}
+          <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">As you go through it, there's one idea worth keeping in mind:</p>
+          <p style="margin:0 0 16px 0;color:#0075A0;font-size:17px;line-height:1.6;font-weight:bold;">Good job evaluation should assess the role — not the person.</p>
+          <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">That sounds obvious, but it's one of the points where many grading systems begin to weaken. Over time, they often become:</p>
+          <ul style="margin:12px 0 20px 0;padding-left:22px;color:#59595C;font-size:16px;line-height:1.6;">
+            <li style="margin:0 0 8px 0;padding:0;">overly dependent on job descriptions</li>
+            <li style="margin:0 0 8px 0;padding:0;">difficult to explain clearly</li>
+            <li style="margin:0 0 8px 0;padding:0;">harder to maintain as roles evolve</li>
+            <li style="margin:0 0 8px 0;padding:0;">increasingly reliant on specialist interpretation</li>
+          </ul>
+          <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">That's why many organisations start revisiting job evaluation only after the framework has already become harder to trust.</p>
+          <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Over the next few days, we'll share a few short ideas on why this happens, what organisations are doing differently, and what a more modern approach can look like in practice.</p>
+          <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>Engage Job Evaluation team</strong> &middot; APAG</p>
+        `
+        ),
       }),
     });
     if (!resendRes.ok) {
@@ -60,9 +74,6 @@ exports.handler = async (event) => {
       return { statusCode: 502, body: JSON.stringify({ error: "Email failed to send." }) };
     }
 
-    // Log the lead to Netlify DB so send-scheduled.js can follow up on day 5.
-    // Best-effort: if this fails, we still return success since the guide
-    // email itself already went out successfully.
     console.log("DB URL present:", !!process.env.NETLIFY_DATABASE_URL);
     try {
       const sql = neon();
@@ -82,6 +93,50 @@ exports.handler = async (event) => {
     return { statusCode: 500, body: JSON.stringify({ error: "Unexpected server error." }) };
   }
 };
+
+function wrapEmail(previewText, bodyHtml) {
+  return `<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Engage</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f7f9;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${previewText}</div>
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f4f7f9;">
+  <tr><td align="center" style="padding:24px 12px;">
+    <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0"
+           style="max-width:600px;width:100%;background-color:#ffffff;border:1px solid #e2e8ec;border-radius:10px;overflow:hidden;">
+      <tr><td style="background-color:#0075A0;padding:22px 32px;">
+        <span style="font-family:Helvetica,Arial,sans-serif;font-size:20px;font-weight:bold;color:#ffffff;letter-spacing:.3px;">Engage</span><span style="font-family:Helvetica,Arial,sans-serif;font-size:20px;color:#cfe7f0;"> Job Evaluation</span>
+      </td></tr>
+      <tr><td style="height:4px;background-color:#1FA049;font-size:0;line-height:0;">&nbsp;</td></tr>
+      <tr><td style="padding:32px;font-family:Helvetica,Arial,sans-serif;">
+        ${bodyHtml}
+      </td></tr>
+      <tr><td style="padding:22px 32px;background-color:#f4f7f9;border-top:1px solid #e2e8ec;">
+        <p style="margin:0 0 6px 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#8a9299;line-height:1.5;">Engage Job Evaluation is a methodology by Africa People Advisory Group (APAG).</p>
+        <p style="margin:0;font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#a7adb2;line-height:1.5;">
+          You are receiving this because you requested information from Engage.
+          <a href="mailto:info@workinflow.co.za?subject=Unsubscribe" style="color:#8a9299;text-decoration:underline;">Unsubscribe</a>.
+        </p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>`;
+}
+
+function button(href, label) {
+  return `<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:24px 0;">
+      <tr><td align="center" bgcolor="#0075A0" style="border-radius:6px;">
+        <a href="${href}" target="_blank" style="display:inline-block;padding:14px 30px;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:6px;">${label}</a>
+      </td></tr>
+    </table>`;
+}
 
 function escapeHtml(str) {
   return String(str)
