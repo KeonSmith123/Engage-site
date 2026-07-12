@@ -16,7 +16,6 @@ exports.handler = async (event) => {
     return { statusCode: 405, body: "Method not allowed" };
   }
 
-  // --- 1. Verify the request actually came from HubSpot (v3 signature) ---
   const signature = event.headers["x-hubspot-signature-v3"];
   const timestamp = event.headers["x-hubspot-request-timestamp"];
   const rawBody = event.body || "";
@@ -51,7 +50,6 @@ exports.handler = async (event) => {
     return { statusCode: 401, body: "Unauthorized" };
   }
 
-  // --- 2. Parse the event batch ---
   let events;
   try {
     events = JSON.parse(rawBody);
@@ -60,6 +58,8 @@ exports.handler = async (event) => {
   }
 
   const sql = neon();
+  const siteUrl = process.env.URL || "https://engage.africapeopleadvisory.com";
+  const calendarLink = `${siteUrl}/book-demo/`;
 
   for (const evt of events) {
     if (evt.subscriptionType !== "contact.propertyChange") continue;
@@ -69,7 +69,6 @@ exports.handler = async (event) => {
     if (!contactId) continue;
 
     try {
-      // --- 3. Fetch the contact's name/email ---
       const contactRes = await fetch(
         `https://api.hubapi.com/crm/v3/objects/contacts/${contactId}?properties=email,firstname,lastname`,
         { headers: { Authorization: `Bearer ${HUBSPOT_ACCESS_TOKEN}` } }
@@ -90,7 +89,6 @@ exports.handler = async (event) => {
         continue;
       }
 
-      // --- 4. Fetch their most recent meeting engagement ---
       let meetingTime = null;
       const assocRes = await fetch(
         `https://api.hubapi.com/crm/v3/objects/contacts/${contactId}/associations/meetings`,
@@ -111,7 +109,6 @@ exports.handler = async (event) => {
         }
       }
 
-      // --- 5. Upsert the lead row ---
       const existing = await sql`
         SELECT id FROM leads WHERE email = ${email} AND source = 'demo'
         ORDER BY created_at DESC LIMIT 1
@@ -130,7 +127,6 @@ exports.handler = async (event) => {
         `;
       }
 
-      // --- 6. Send the confirmation email (best-effort) ---
       if (RESEND_API_KEY) {
         const already = await sql`
           SELECT email1_sent_at FROM leads
@@ -148,12 +144,31 @@ exports.handler = async (event) => {
               from: `Engage Job Evaluation <${FROM_EMAIL}>`,
               to: [process.env.RESEND_TO_OVERRIDE || email],
               subject: "Your Engage session is confirmed",
-              html: `
-                <p>Hi ${escapeHtml(name)},</p>
-                <p>Thanks for booking a session with Engage — we're looking forward to it.</p>
-                <p>We'll be in touch shortly before your session with a few things to help you get the most out of it.</p>
-                <p>— The Engage team</p>
-              `,
+              html: wrapEmail(
+                "A quick note on what to expect and how to prepare",
+                `
+                <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(name)},</p>
+                <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Your <strong>Engage Job Evaluation</strong> session is confirmed. Thank you for booking time with us.</p>
+                <p style="margin:0 0 16px 0;color:#0075A0;font-size:17px;line-height:1.6;font-weight:bold;">This will be a working session, not a standard presentation.</p>
+                <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">In the session, we will:</p>
+                <ul style="margin:12px 0 20px 0;padding-left:22px;color:#59595C;font-size:16px;line-height:1.6;">
+                  <li style="margin:0 0 8px 0;padding:0;">evaluate a sample of your roles live</li>
+                  <li style="margin:0 0 8px 0;padding:0;">apply the methodology in real time</li>
+                  <li style="margin:0 0 8px 0;padding:0;">explain how decisions are reached</li>
+                  <li style="margin:0 0 8px 0;padding:0;">show how the outputs translate into grading</li>
+                </ul>
+                <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">To get the most value from the discussion, it would help to have the following available:</p>
+                <ul style="margin:12px 0 20px 0;padding-left:22px;color:#59595C;font-size:16px;line-height:1.6;">
+                  <li style="margin:0 0 8px 0;padding:0;">5–10 role titles</li>
+                  <li style="margin:0 0 8px 0;padding:0;">a basic reporting structure</li>
+                  <li style="margin:0 0 8px 0;padding:0;">any current grading information, if available</li>
+                  <li style="margin:0 0 8px 0;padding:0;">any specific grading or reward concerns you want to explore</li>
+                </ul>
+                ${button(calendarLink, "View your booking")}
+                <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Looking forward to the discussion.</p>
+                <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>Engage Job Evaluation team</strong> &middot; APAG</p>
+              `
+              ),
             }),
           });
           if (resendRes.ok) {
@@ -173,6 +188,50 @@ exports.handler = async (event) => {
 
   return { statusCode: 200, body: JSON.stringify({ ok: true }) };
 };
+
+function wrapEmail(previewText, bodyHtml) {
+  return `<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Engage</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f7f9;">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">${previewText}</div>
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#f4f7f9;">
+  <tr><td align="center" style="padding:24px 12px;">
+    <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0"
+           style="max-width:600px;width:100%;background-color:#ffffff;border:1px solid #e2e8ec;border-radius:10px;overflow:hidden;">
+      <tr><td style="background-color:#0075A0;padding:22px 32px;">
+        <span style="font-family:Helvetica,Arial,sans-serif;font-size:20px;font-weight:bold;color:#ffffff;letter-spacing:.3px;">Engage</span><span style="font-family:Helvetica,Arial,sans-serif;font-size:20px;color:#cfe7f0;"> Job Evaluation</span>
+      </td></tr>
+      <tr><td style="height:4px;background-color:#1FA049;font-size:0;line-height:0;">&nbsp;</td></tr>
+      <tr><td style="padding:32px;font-family:Helvetica,Arial,sans-serif;">
+        ${bodyHtml}
+      </td></tr>
+      <tr><td style="padding:22px 32px;background-color:#f4f7f9;border-top:1px solid #e2e8ec;">
+        <p style="margin:0 0 6px 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#8a9299;line-height:1.5;">Engage Job Evaluation is a methodology by Africa People Advisory Group (APAG).</p>
+        <p style="margin:0;font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#a7adb2;line-height:1.5;">
+          You are receiving this because you requested information from Engage.
+          <a href="mailto:info@workinflow.co.za?subject=Unsubscribe" style="color:#8a9299;text-decoration:underline;">Unsubscribe</a>.
+        </p>
+      </td></tr>
+    </table>
+  </td></tr>
+</table>
+</body>
+</html>`;
+}
+
+function button(href, label) {
+  return `<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:24px 0;">
+      <tr><td align="center" bgcolor="#0075A0" style="border-radius:6px;">
+        <a href="${href}" target="_blank" style="display:inline-block;padding:14px 30px;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:6px;">${label}</a>
+      </td></tr>
+    </table>`;
+}
 
 function escapeHtml(str) {
   return String(str)
