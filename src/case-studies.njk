@@ -13,22 +13,11 @@ permalink: /case-studies/
   </div>
 </div>
 
-<div class="filter-bar" data-cs-filter>
-  <button class="filter-btn active" data-filter="all">All</button>
-  <button class="filter-btn" data-filter="east-africa">East Africa</button>
-  <button class="filter-btn" data-filter="southern-africa">Southern Africa</button>
-  <button class="filter-btn" data-filter="west-africa">West Africa</button>
-  <button class="filter-btn" data-filter="financial">Financial Services</button>
-  <button class="filter-btn" data-filter="public">Public Sector</button>
-  <button class="filter-btn" data-filter="ngo">NGO &amp; Development</button>
-  <button class="filter-btn" data-filter="private">Private Sector</button>
-</div>
-
 <section class="cases-section">
   <div class="section-inner">
     <div class="cases-grid">
       {%- for cs in collections.caseStudy %}
-      <a class="case-card" data-cs-card data-tags="{{ cs.data.regionTag }} {{ cs.data.sectorTag }}" href="{{ cs.url }}">
+      <a class="case-card" href="{{ cs.url }}">
         <div class="case-card-top">
           {% if cs.data.logo %}
           <div class="cs-card-logo"><img src="{{ cs.data.logo }}" alt="{{ cs.data.title }} logo"></div>

@@ -22,7 +22,7 @@
     { "label": "How it works", "url": "/how-it-works/" },
     { "label": "The process", "url": "/the-process/" },
     { "label": "Case studies", "url": "/case-studies/" },
-    { "label": "Guides", "url": "/guides/" },
+    { "label": "Insights", "url": "/guides/" },
     { "label": "FAQ", "url": "/faq/" },
     { "label": "Book a demo", "url": "/book-demo/", "cta": true }
   ]

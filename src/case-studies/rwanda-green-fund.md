@@ -1,5 +1,5 @@
 ---
-title: "Rwanda Green Fund"
+title: "Climate Finance Institution"
 order: 1
 draft: false
 region: "East Africa"
@@ -7,8 +7,7 @@ sector: "Climate Finance"
 regionTag: "east-africa"
 sectorTag: "ngo"
 meta: "~80 roles · Org design + grading · Delivered in one week"
-logo: "/assets/img/logos/rwanda-green-fund-logo.jpg"
-image: "/assets/img/logos/rwanda-green-fund-logo.jpg"
+logo: ""
 abstract: |-
   With plans to double headcount over three to four years, this East Africa-based climate finance institution needed an organisational structure and grading framework capable of supporting rapid growth. We designed a future-fit structure, aligned job titles, and evaluated roughly 80 positions in-country within a single week.
 context: |-

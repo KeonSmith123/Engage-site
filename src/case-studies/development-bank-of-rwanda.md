@@ -1,5 +1,5 @@
 ---
-title: "Development Bank of Rwanda"
+title: "Development Bank"
 order: 5
 draft: true
 region: "East Africa"

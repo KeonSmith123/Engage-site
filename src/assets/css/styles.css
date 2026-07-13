@@ -4,6 +4,22 @@
    Depends on tokens.css. Do not hard-code hex values here.
    ===================================================================== */
 
+/* Engage wordmark logo (nav + footer) — added when the approved logo
+   file replaced the interim text wordmark. Selector specificity means
+   this applies regardless of the duplicated .nav-logo text rules below. */
+.nav-logo { display: flex; align-items: center; }
+.nav-logo img { height: 40px; width: auto; display: block; }
+footer img[alt^="Engage"] { height: 40px; width: auto; }
+
+/* Page hero content was left-aligned within the full-bleed coloured band,
+   leaving a lot of empty space on wide screens (per client screenshot
+   review). Centering the inner block while keeping its own text
+   left-aligned matches the requested fix, and — like the logo rule above —
+   this single definition wins over the duplicated .page-hero-inner blocks
+   further down the file purely because max-width there never set margins. */
+.page-hero { display: flex; justify-content: center; }
+.page-hero-inner { margin: 0 auto; width: 100%; }
+
 :root { --serif: 'Helvetica Neue', Helvetica, Arial, sans-serif; --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
 *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
 html { scroll-behavior:smooth; }
@@ -298,6 +314,8 @@ body { font-family:var(--sans); line-height:1.6; background:white; }
   .hero-meta { display: flex; gap: 32px; }
   .hero-meta-item { }
   .hero-meta-num { font-family: var(--serif); font-size: 28px; color: #1FA049; line-height: 1; }
+  .hero-meta-item:nth-child(2) .hero-meta-num { color: var(--apag-yellow); }
+  .hero-meta-item:nth-child(3) .hero-meta-num { color: var(--apag-orange); }
   .hero-meta-label { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 4px; }
 
   /* ANCHOR NAV */
@@ -355,6 +373,8 @@ body { font-family:var(--sans); line-height:1.6; background:white; }
     display: flex; align-items: center; justify-content: center;
     font-family: var(--serif); font-size: 22px; color: #1FA049; flex-shrink: 0;
   }
+  .pillar:nth-of-type(1) .pillar-icon { color: var(--apag-teal); }
+  .pillar:nth-of-type(2) .pillar-icon { color: var(--apag-orange); }
   .pillar-head h3 { font-family: var(--serif); font-size: 22px; color: var(--white); }
   .pillar-head p { font-size: 13px; color: rgba(255,255,255,0.55); margin-top: 2px; }
   .pillar-body { padding: 28px; }
@@ -507,6 +527,8 @@ body { font-family:var(--sans); line-height:1.6; background:white; }
   .page-hero .lead { font-size: 17px; color: rgba(255,255,255,0.72); line-height: 1.75; max-width: 600px; margin-bottom: 32px; }
   .hero-stats { display: flex; gap: 40px; }
   .hero-stat-num { font-family: var(--serif); font-size: 28px; color: #1FA049; line-height: 1; }
+  .hero-stats > div:nth-child(2) .hero-stat-num { color: var(--apag-yellow); }
+  .hero-stats > div:nth-child(3) .hero-stat-num { color: var(--apag-orange); }
   .hero-stat-label { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 4px; }
 
   /* ANCHOR NAV */
@@ -557,6 +579,13 @@ body { font-family:var(--sans); line-height:1.6; background:white; }
     display: flex; align-items: center; justify-content: center;
     font-family: var(--serif); font-size: 18px; color: var(--white);
   }
+  /* Cycle through the APAG secondary palette so the five stages read as
+     distinct steps rather than five identical dots (per brand review). */
+  .stage-pip:nth-child(1) .pip-circle { background: var(--apag-blue); box-shadow: 0 0 0 2px var(--apag-blue); }
+  .stage-pip:nth-child(2) .pip-circle { background: var(--apag-green); box-shadow: 0 0 0 2px var(--apag-green); }
+  .stage-pip:nth-child(3) .pip-circle { background: var(--apag-teal); box-shadow: 0 0 0 2px var(--apag-teal); }
+  .stage-pip:nth-child(4) .pip-circle { background: var(--apag-orange); box-shadow: 0 0 0 2px var(--apag-orange); }
+  .stage-pip:nth-child(5) .pip-circle { background: var(--apag-blue-dark); box-shadow: 0 0 0 2px var(--apag-blue-dark); }
   .pip-label { font-size: 12px; font-weight: 600; color: var(--ink); text-align: center; line-height: 1.4; }
   .pip-sub { font-size: 11px; color: var(--slate); text-align: center; line-height: 1.4; }
 
@@ -697,6 +726,8 @@ body { font-family:var(--sans); line-height:1.6; background:white; }
   .page-hero .lead { font-size: 17px; color: rgba(255,255,255,0.72); line-height: 1.75; max-width: 620px; margin-bottom: 32px; }
   .hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
   .hero-stat-num { font-family: var(--serif); font-size: 28px; color: #1FA049; line-height: 1; }
+  .hero-stats > div:nth-child(2) .hero-stat-num { color: var(--apag-yellow); }
+  .hero-stats > div:nth-child(3) .hero-stat-num { color: var(--apag-orange); }
   .hero-stat-label { font-size: 12px; color: rgba(255,255,255,0.45); margin-top: 4px; }
 
   /* FILTER BAR */

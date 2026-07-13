@@ -1,5 +1,5 @@
 ---
-title: "Apollo Group"
+title: "Financial Services Organisation"
 order: 7
 draft: true
 region: "Kenya + Uganda"

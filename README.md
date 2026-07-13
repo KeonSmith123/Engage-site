@@ -79,30 +79,39 @@ Each guide has a title, summary, category, read time, **order** (lower = first),
 and two switches:
 
 - **Gated** — when on, the public page shows an email-capture panel instead of
-  the body. All guides currently ship **ungated**. (The email delivery itself is
-  wired in the lead-automation phase — the toggle and panel are already in place.)
+  the body. All 10 guides currently ship **gated** (matches APAG's confirmed
+  list of gated assets — the four ungated assets, the overview flyer, the
+  comparison page, the sample grade grid, and the FAQ, are separate site pages
+  rather than entries in this collection). The email delivery itself is
+  wired in the lead-automation phase — the toggle and panel are already in place.
 - **Draft** — when on, the guide does not render and does not appear in any list.
 
 ### Case studies (8 entries)
 
-Four are **live**, built from the approved 12 June case-study pack:
+Four are **live**:
 
-- Rwanda Green Fund · Aurum Institute · Logistics Group South Africa · Topshell Containers
+- Climate Finance Institution (East Africa) · Medical Research NGO (South Africa)
+  · Logistics Group South Africa · Container Solutions Provider (South Africa)
 
 Four are **draft** (hidden from the site) pending approved quotes and logos from APAG:
 
-- Development Bank of Rwanda · CBZ Bank · Apollo Group · GridCo
+- Development Bank · Large Bank · Financial Services Organisation · State-Owned Entity
 
-Each case study uses structured fields — Region, Sector, two filter tags
-(region + sector), a scope/meta line, an abstract, and the four narrative
-sections (Context, Business challenge, Our approach, Outcome), plus an optional
-client quote. To publish a draft: open it, add the real quote/logo, untick
-**Draft**, save. It appears on the hub immediately on the next build, sorted by
-its **order** value.
+All client names and logos have been anonymised at APAG's request — case
+studies are titled by sector/region instead of by company name, and the
+`logo`/`image` fields are cleared. If a client later approves being named
+publicly, restore their name in `title` and add their logo path back into
+`logo`/`image` on that entry only.
 
-The hub filter bar (All / regions / sectors) is driven by each card's region and
-sector tags. "Private Sector" was added for the two private-sector engagements
-(Logistics, Topshell).
+Each case study uses structured fields — Region, Sector, a scope/meta line, an
+abstract, and the four narrative sections (Context, Business challenge, Our
+approach, Outcome), plus an optional client quote. To publish a draft: open
+it, add the real quote/logo, untick **Draft**, save. It appears on the hub
+immediately on the next build, sorted by its **order** value.
+
+The region/sector filter bar was removed from the case-studies hub at APAG's
+request; `regionTag`/`sectorTag` fields remain in the front matter (harmless,
+unused) in case filtering is reintroduced later.
 
 ---
 
@@ -128,8 +137,8 @@ These are content/config confirmations only; none block the build:
   in the real Engage grade-band names when confirmed.
 - **Live subdomain + DNS** — `src/_data/site.json` uses the placeholder
   `engage.africapeopleadvisory.com`. Update `url` once the subdomain is final.
-- **Client logos** — drop logos into the CMS for each case study (and for the
-  draft entries before publishing).
+- **Client logos** — cleared at APAG's request (case studies are anonymised).
+  Only re-add a logo if that specific client has approved being named publicly.
 - **Real quotes** — BRD, CBZ, Apollo, GridCo, Topshell and Logistics quote fields
   are empty/editable; RGF and Aurum carry approved quotes already.
 - **Book a demo** — the demo page holds a placeholder for the HubSpot Meetings embed.

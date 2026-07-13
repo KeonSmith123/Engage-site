@@ -1,5 +1,5 @@
 ---
-title: "GridCo"
+title: "State-Owned Entity"
 order: 8
 draft: true
 region: "Ghana"

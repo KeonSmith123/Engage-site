@@ -1,5 +1,5 @@
 <nav>
-  <a class="nav-logo" href="/"><span>Engage</span> Job Evaluation</a>
+  <a class="nav-logo" href="/"><img src="/assets/img/brand/engage-logo.png" alt="Engage Job Evaluation, by APAG"></a>
   <ul class="nav-links">
     {% for item in site.nav %}
     <li><a href="{{ item.url }}"{% if item.cta %} class="nav-cta"{% elif item.url | isActive(page.url) %} class="active"{% endif %}>{{ item.label }}</a></li>

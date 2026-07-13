@@ -18,30 +18,7 @@ window.toggleFaq = function (el) {
   if (item) item.classList.toggle("open");
 };
 
-// 3. Case-studies hub filter (progressive — all cards show if JS is off).
-//    Buttons carry data-filter; cards carry data-tags (space-separated).
-(function () {
-  var bar = document.querySelector("[data-cs-filter]");
-  if (!bar) return;
-  var cards = Array.prototype.slice.call(
-    document.querySelectorAll("[data-cs-card]")
-  );
-  bar.addEventListener("click", function (e) {
-    var btn = e.target.closest("[data-filter]");
-    if (!btn) return;
-    var f = btn.getAttribute("data-filter");
-    bar.querySelectorAll("[data-filter]").forEach(function (b) {
-      b.classList.toggle("active", b === btn);
-    });
-    cards.forEach(function (c) {
-      var tags = (c.getAttribute("data-tags") || "").split(" ");
-      var show = f === "all" || tags.indexOf(f) !== -1;
-      c.style.display = show ? "" : "none";
-    });
-  });
-})();
-
-// 4. Guide gate: name + email → Netlify Function → Resend.
+// 3. Guide gate: name + email → Netlify Function → Resend.
 (function () {
   // If arriving from the emailed link (?unlocked=1), skip the gate entirely.
   if (window.location.search.indexOf("unlocked=1") !== -1) {
@@ -99,7 +76,7 @@ window.toggleFaq = function (el) {
   });
 })();
 
-// 5. How It Works: click-to-expand pillars and five-grid cards.
+// 4. How It Works: click-to-expand pillars and five-grid cards.
 window.togglePillar = function (head) {
   var pillar = head.closest(".pillar");
   if (pillar) pillar.classList.toggle("open");

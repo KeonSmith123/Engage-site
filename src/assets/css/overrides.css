@@ -104,6 +104,11 @@ footer {
 .grids-section .grid-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px 18px; display: flex; flex-direction: column; }
 .grids-section .grid-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
 .grids-section .grid-card-num { font-size: 26px; font-weight: 700; color: var(--color-primary); line-height: 1; }
+.grids-section .grid-card:nth-child(1) .grid-card-num { color: var(--apag-blue); }
+.grids-section .grid-card:nth-child(2) .grid-card-num { color: var(--apag-teal); }
+.grids-section .grid-card:nth-child(3) .grid-card-num { color: var(--apag-green); }
+.grids-section .grid-card:nth-child(4) .grid-card-num { color: var(--apag-orange); }
+.grids-section .grid-card:nth-child(5) .grid-card-num { color: var(--apag-blue-dark); }
 .grids-section .grid-card-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; white-space: nowrap; }
 .grids-section .grid-card-badge.skills { color: var(--color-primary); background: var(--apag-blue-tint); }
 .grids-section .grid-card-badge.context { color: var(--apag-green); background: rgba(31,160,73,0.10); }
@@ -159,7 +164,12 @@ footer {
 .diff-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none;
   stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
 .diff-card:nth-child(2) .diff-icon { background: rgba(31,160,73,0.10); color: var(--apag-green); }
-.diff-card:nth-child(4) .diff-icon { background: rgba(31,160,73,0.10); color: var(--apag-green); }
+.diff-card:nth-child(3) .diff-icon { background: rgba(0,134,148,0.10); color: var(--apag-teal); }
+.diff-card:nth-child(4) .diff-icon { background: rgba(238,108,77,0.10); color: var(--apag-orange); }
+.diff-card:nth-child(1) { border-top-color: var(--apag-blue); }
+.diff-card:nth-child(2) { border-top-color: var(--apag-green); }
+.diff-card:nth-child(3) { border-top-color: var(--apag-teal); }
+.diff-card:nth-child(4) { border-top-color: var(--apag-orange); }
 
 /* --- Reusable image slot (placeholder until real photography is added) --- */
 .img-slot { position: relative; border-radius: 14px; overflow: hidden;
