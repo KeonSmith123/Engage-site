@@ -94,3 +94,51 @@ window.togglePillar = function (head) {
 window.toggleGridCard = function (card) {
   card.classList.toggle("open");
 };
+
+// 5. Landing: animated count-up for the trust-stats band.
+(function () {
+  var nums = document.querySelectorAll(".trust-num");
+  if (!nums.length) return;
+  nums.forEach(function (el) {
+    var target = parseInt(el.getAttribute("data-count-to"), 10);
+    var suffix = el.getAttribute("data-suffix") || "";
+    var start = null, duration = 1200;
+    function step(ts) {
+      if (!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      el.textContent = Math.floor(progress * target) + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+      else el.textContent = target + suffix;
+    }
+    requestAnimationFrame(step);
+  });
+})();
+
+// 6. Landing: client logo carousel (5 visible, arrows + dots).
+(function () {
+  var track = document.getElementById("engage-carousel-track");
+  var dotsWrap = document.getElementById("engage-carousel-dots");
+  if (!track || !dotsWrap) return;
+  var total = track.children.length;
+  var visible = 5;
+  var maxIndex = Math.max(0, total - visible);
+  var index = 0;
+  for (var i = 0; i < total; i++) {
+    var dot = document.createElement("button");
+    dot.setAttribute("aria-label", "Go to client " + (i + 1));
+    dot.style.cssText = "width:10px;height:10px;border-radius:50%;border:1px solid var(--border);background:white;cursor:pointer;padding:0;";
+    dot.addEventListener("click", (function (n) { return function () { go(n); }; })(i));
+    dotsWrap.appendChild(dot);
+  }
+  function update() {
+    track.style.transform = "translateX(-" + (index * (100 / visible)) + "%)";
+    Array.prototype.forEach.call(dotsWrap.children, function (d, i) {
+      var active = i === index;
+      d.style.background = active ? "var(--apag-green)" : "white";
+      d.style.borderColor = active ? "var(--apag-green)" : "var(--border)";
+    });
+  }
+  function go(n) { index = Math.max(0, Math.min(maxIndex, n)); update(); }
+  window.engageCarouselMove = function (dir) { go(index + dir); };
+  update();
+})();

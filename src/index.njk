@@ -19,14 +19,41 @@ description: Modern, factor-based job evaluation for organisations that don't ha
 </div>
 </section>
 
-<div class="trust-strip" style="background:#f4f6f2;padding:24px 32px;border-bottom:1px solid #dfe3e6;display:flex;align-items:center;gap:32px;flex-wrap:wrap;justify-content:center;">
-<span style="font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#59595C;white-space:nowrap;flex-shrink:0;">Trusted across Africa</span>
-<div style="display:flex;gap:36px;align-items:center;flex-wrap:wrap;">
-<div style="text-align:center;"><div style="font-size:20px;font-weight:700;color:var(--apag-blue);line-height:1;">6+</div><div style="font-size:11px;color:#59595C;margin-top:4px;">Countries</div></div>
-<div style="text-align:center;"><div style="font-size:20px;font-weight:700;color:var(--apag-blue);line-height:1;">1,500+</div><div style="font-size:11px;color:#59595C;margin-top:4px;">Roles graded</div></div>
-<div style="text-align:center;"><div style="font-size:20px;font-weight:700;color:var(--apag-blue);line-height:1;">20+</div><div style="font-size:11px;color:#59595C;margin-top:4px;">Organisations</div></div>
-<div style="text-align:center;"><div style="font-size:20px;font-weight:700;color:var(--apag-blue);line-height:1;">4 yrs</div><div style="font-size:11px;color:#59595C;margin-top:4px;">Longest relationship</div></div>
+<!-- CLIENT LOGO CAROUSEL -->
+<section class="client-carousel-section" style="padding:56px 32px 64px;background:white;text-align:center;">
+<div style="font-size:22px;font-weight:600;letter-spacing:0.04em;color:var(--apag-grey);text-transform:uppercase;">Some of our clients</div>
+<div style="width:120px;height:4px;background:var(--gradient-brand);margin:14px auto 44px;border-radius:2px;"></div>
+<div style="position:relative;max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:8px;">
+<button class="carousel-arrow" onclick="engageCarouselMove(-1)" aria-label="Previous clients" style="background:none;border:none;cursor:pointer;color:var(--apag-grey);font-size:28px;line-height:1;padding:8px;flex-shrink:0;">&#8249;</button>
+<div style="overflow:hidden;flex:1;">
+<div id="engage-carousel-track" style="display:flex;transition:transform .35s ease;">
+<div style="flex:0 0 20%;display:flex;align-items:center;justify-content:center;padding:0 18px;box-sizing:border-box;"><div style="width:100%;height:90px;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;background:white;padding:12px;"><img src="/assets/img/logos/rwanda-green-fund-logo.jpg" alt="Rwanda Green Fund" style="max-width:100%;max-height:100%;object-fit:contain;"></div></div>
+<div style="flex:0 0 20%;display:flex;align-items:center;justify-content:center;padding:0 18px;box-sizing:border-box;"><div style="width:100%;height:90px;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;background:white;padding:12px;"><img src="/assets/img/logos/aurum-institute-logo.jpg" alt="Aurum Institute" style="max-width:100%;max-height:100%;object-fit:contain;"></div></div>
+<div style="flex:0 0 20%;display:flex;align-items:center;justify-content:center;padding:0 18px;box-sizing:border-box;"><div style="width:100%;height:90px;border:1px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;background:white;padding:12px;"><img src="/assets/img/logos/topshell-containers-logo.png" alt="Topshell Containers" style="max-width:100%;max-height:100%;object-fit:contain;"></div></div>
+<div style="flex:0 0 20%;display:flex;align-items:center;justify-content:center;padding:0 18px;box-sizing:border-box;"><div style="width:100%;height:90px;border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--apag-grey);background:#fafbfa;">Logo pending</div></div>
+<div style="flex:0 0 20%;display:flex;align-items:center;justify-content:center;padding:0 18px;box-sizing:border-box;"><div style="width:100%;height:90px;border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--apag-grey);background:#fafbfa;">Logo pending</div></div>
+<div style="flex:0 0 20%;display:flex;align-items:center;justify-content:center;padding:0 18px;box-sizing:border-box;"><div style="width:100%;height:90px;border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--apag-grey);background:#fafbfa;">Logo pending</div></div>
+<div style="flex:0 0 20%;display:flex;align-items:center;justify-content:center;padding:0 18px;box-sizing:border-box;"><div style="width:100%;height:90px;border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--apag-grey);background:#fafbfa;">Logo pending</div></div>
+<div style="flex:0 0 20%;display:flex;align-items:center;justify-content:center;padding:0 18px;box-sizing:border-box;"><div style="width:100%;height:90px;border:1px dashed var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--apag-grey);background:#fafbfa;">Logo pending</div></div>
 </div>
+</div>
+<button class="carousel-arrow" onclick="engageCarouselMove(1)" aria-label="Next clients" style="background:none;border:none;cursor:pointer;color:var(--apag-grey);font-size:28px;line-height:1;padding:8px;flex-shrink:0;">&#8250;</button>
+</div>
+<div id="engage-carousel-dots" style="display:flex;justify-content:center;gap:10px;margin-top:28px;"></div>
+</section>
+
+<!-- GRADIENT TRUST STATS BAND -->
+<section class="trust-stats-section" style="background:var(--gradient-brand);padding:56px 32px;">
+<div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:56px;flex-wrap:wrap;justify-content:center;">
+<div class="trust-fade" style="font-size:14px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.85);white-space:nowrap;">Trusted across Africa</div>
+<div style="display:flex;gap:56px;align-items:center;flex-wrap:wrap;">
+<div class="trust-fade" style="text-align:center;animation-delay:.1s;"><div class="trust-num" data-count-to="6" data-suffix="+" style="font-size:44px;font-weight:700;color:white;line-height:1;">0</div><div style="font-size:14px;color:rgba(255,255,255,0.8);margin-top:6px;">Countries</div></div>
+<div class="trust-fade" style="text-align:center;animation-delay:.2s;"><div class="trust-num" data-count-to="1500" data-suffix="+" style="font-size:44px;font-weight:700;color:white;line-height:1;">0</div><div style="font-size:14px;color:rgba(255,255,255,0.8);margin-top:6px;">Roles graded</div></div>
+<div class="trust-fade" style="text-align:center;animation-delay:.3s;"><div class="trust-num" data-count-to="20" data-suffix="+" style="font-size:44px;font-weight:700;color:white;line-height:1;">0</div><div style="font-size:14px;color:rgba(255,255,255,0.8);margin-top:6px;">Organisations</div></div>
+<div class="trust-fade" style="text-align:center;animation-delay:.4s;"><div class="trust-num" data-count-to="4" data-suffix=" yrs" style="font-size:44px;font-weight:700;color:white;line-height:1;">0</div><div style="font-size:14px;color:rgba(255,255,255,0.8);margin-top:6px;">Longest relationship</div></div>
+</div>
+</div>
+</section>
 </div>
 
 <section class="tension" id="how-it-works">

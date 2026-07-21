@@ -296,3 +296,10 @@ footer {
   .eng-h2{font-size:26px;}
   .eng-diffgrid{grid-template-columns:1fr;gap:16px;}
 }
+
+
+/* ---- E. Trust band + client carousel (Landing) ---- */
+@keyframes engFadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.trust-fade { opacity:0; animation:engFadeUp .6s ease forwards; }
+.carousel-arrow { border-radius:50%; transition:background .15s ease, color .15s ease; }
+.carousel-arrow:hover { background:var(--mist); color:var(--apag-blue); }
