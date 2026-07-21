@@ -194,3 +194,105 @@ footer {
 .page-photo { display: block; width: 100%; max-height: 340px; object-fit: cover; border-radius: 14px; }
 .page-image { max-width: 1100px; margin: 0 auto; padding: 40px 32px 0; }
 .demo-image { margin-bottom: 28px; }
+
+
+/* =====================================================================
+   CHUNK 5 — NATIVE INFOGRAPHIC COMPONENTS + COMPARISON ACCORDION
+   (WorkInFlow · replaces the client's static PNG infographics with
+   responsive, accessible, CMS-editable components.)
+   All colour comes through the APAG CI tokens in tokens.css. Full
+   palette used as data-device accents; blue/green/grey stay dominant.
+   ===================================================================== */
+
+/* ---- shared bits ---- */
+.eng-eyebrow{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--apag-blue);margin-bottom:14px;}
+.eng-h2{font-size:34px;color:var(--apag-grey);margin:0 0 12px;line-height:1.2;}
+.eng-rule{width:64px;height:4px;border-radius:2px;background:var(--gradient-brand);margin:0 0 32px;}
+.eng-lead{font-size:16px;line-height:1.75;color:var(--apag-grey);max-width:720px;}
+
+/* ---- A. Benefit list (Overview → "Why organisations choose Engage") ---- */
+.eng-benefits{list-style:none;margin:0;padding:0;}
+.eng-benefits li{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--silver);font-size:15px;color:var(--apag-grey);line-height:1.5;}
+.eng-benefits li:last-child{border-bottom:0;}
+.eng-benefits .chip{width:30px;height:30px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.eng-benefits .chip svg{width:15px;height:15px;stroke:#fff;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.eng-benefits li:nth-child(1) .chip{background:var(--apag-blue);}
+.eng-benefits li:nth-child(2) .chip{background:var(--apag-teal);}
+.eng-benefits li:nth-child(3) .chip{background:var(--apag-green);}
+.eng-benefits li:nth-child(4) .chip{background:var(--apag-lime);}
+.eng-benefits li:nth-child(5) .chip{background:var(--apag-orange);}
+.eng-benefits li:nth-child(6) .chip{background:var(--apag-yellow);}
+
+/* ---- B. Difference grid (Overview → "What makes Engage different") ---- */
+.eng-diffgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.eng-diffgrid .card{position:relative;background:#fff;border:1px solid var(--silver);border-radius:12px;
+  padding:30px 30px 30px 32px;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease;}
+.eng-diffgrid .card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;}
+.eng-diffgrid .card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,0.08);}
+.eng-diffgrid .card-head{display:flex;align-items:center;gap:16px;margin-bottom:14px;}
+.eng-diffgrid .badge{width:52px;height:52px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.eng-diffgrid .badge svg{width:26px;height:26px;stroke:#fff;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.eng-diffgrid .card h3{font-size:20px;color:var(--apag-grey);margin:0;line-height:1.25;}
+.eng-diffgrid .card p{font-size:15px;line-height:1.7;color:var(--apag-grey);margin:0;}
+.eng-diffgrid .c1::before{background:var(--apag-blue);}  .eng-diffgrid .c1 .badge{background:var(--apag-blue);}
+.eng-diffgrid .c2::before{background:var(--apag-teal);}  .eng-diffgrid .c2 .badge{background:var(--apag-teal);}
+.eng-diffgrid .c3::before{background:var(--apag-green);} .eng-diffgrid .c3 .badge{background:var(--apag-green);}
+.eng-diffgrid .c4::before{background:var(--apag-lime);}  .eng-diffgrid .c4 .badge{background:var(--apag-lime);}
+
+/* ---- C. Comparison accordion (Overview → "Engage vs traditional") ---- */
+.eng-compare .in-short{font-size:15px;line-height:1.75;max-width:760px;color:var(--apag-grey);margin:0 0 24px;
+  padding:16px 20px;background:#fff;border-left:3px solid var(--apag-green);border-radius:0 6px 6px 0;}
+.eng-compare .in-short strong{color:var(--apag-blue);}
+.eng-compare .toggle{display:inline-flex;align-items:center;gap:10px;background:var(--gradient-brand);color:#fff;border:none;
+  font-family:var(--font-body,'Helvetica Neue',Helvetica,Arial,sans-serif);font-size:14px;font-weight:600;
+  padding:13px 22px;border-radius:6px;cursor:pointer;box-shadow:0 2px 8px rgba(0,117,160,0.25);transition:filter .15s,box-shadow .15s;}
+.eng-compare .toggle:hover{filter:brightness(1.06);box-shadow:0 4px 14px rgba(0,117,160,0.32);}
+.eng-compare .toggle .chev{transition:transform .25s;font-size:12px;}
+.eng-compare.open .toggle .chev{transform:rotate(180deg);}
+.eng-compare .panel{overflow:hidden;max-height:0;transition:max-height .45s ease;}
+.eng-compare.open .panel{max-height:4000px;}
+.eng-compare .panel-pad{padding-top:28px;}
+.eng-compare .tbl-wrap{overflow-x:auto;background:#fff;border:1px solid var(--silver);border-radius:8px;}
+.eng-compare table{width:100%;min-width:680px;border-collapse:collapse;}
+.eng-compare thead td{background:#005a7a;padding:16px 24px;font-size:12px;font-weight:600;text-transform:uppercase;
+  letter-spacing:0.08em;color:rgba(255,255,255,0.55);}
+.eng-compare thead td.eng{color:var(--apag-green);}
+.eng-compare tbody tr{border-top:1px solid var(--silver);}
+.eng-compare td{padding:16px 24px;font-size:14px;line-height:1.55;vertical-align:top;}
+.eng-compare td.area{font-weight:600;color:var(--apag-grey);background:var(--mist);width:190px;border-left:4px solid var(--apag-blue);}
+.eng-compare td.eng{color:#005a7a;background:#f5f9fb;}
+.eng-compare td.trad{color:var(--apag-grey);}
+.eng-compare tbody tr:nth-child(1) .area{border-left-color:var(--apag-blue);}
+.eng-compare tbody tr:nth-child(2) .area{border-left-color:var(--apag-teal);}
+.eng-compare tbody tr:nth-child(3) .area{border-left-color:var(--apag-green);}
+.eng-compare tbody tr:nth-child(4) .area{border-left-color:var(--apag-lime);}
+.eng-compare tbody tr:nth-child(5) .area{border-left-color:var(--apag-yellow);}
+.eng-compare tbody tr:nth-child(6) .area{border-left-color:var(--apag-orange);}
+.eng-compare tbody tr:nth-child(7) .area{border-left-color:var(--apag-blue);}
+.eng-compare tbody tr:nth-child(8) .area{border-left-color:var(--apag-teal);}
+.eng-compare tbody tr:nth-child(9) .area{border-left-color:var(--apag-green);}
+.eng-compare .prose{max-width:760px;margin:36px 0 0;}
+.eng-compare .prose h3{font-size:19px;color:var(--apag-blue);margin:28px 0 8px;display:flex;align-items:center;gap:10px;}
+.eng-compare .prose h3::before{content:"";width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.eng-compare .prose .p1 h3::before{background:var(--apag-teal);}
+.eng-compare .prose .p2 h3::before{background:var(--apag-orange);}
+.eng-compare .prose .p3 h3::before{background:var(--apag-green);}
+.eng-compare .prose p{font-size:15px;line-height:1.75;color:var(--apag-grey);margin:0;}
+
+/* ---- D. "Still" list (Landing → traditional pain points) ---- */
+.eng-still{list-style:none;margin:0;padding:0;}
+.eng-still li{display:flex;align-items:center;gap:16px;padding:14px 18px;margin-bottom:10px;border-radius:8px;
+  background:var(--mist);border-left:4px solid var(--apag-blue);font-size:15px;color:var(--apag-grey);line-height:1.5;}
+.eng-still li:last-child{margin-bottom:0;}
+.eng-still .chip{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.eng-still .chip svg{width:19px;height:19px;stroke:#fff;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.eng-still li:nth-child(1){border-left-color:var(--apag-blue);}   .eng-still li:nth-child(1) .chip{background:var(--apag-blue);}
+.eng-still li:nth-child(2){border-left-color:var(--apag-teal);}   .eng-still li:nth-child(2) .chip{background:var(--apag-teal);}
+.eng-still li:nth-child(3){border-left-color:var(--apag-green);}  .eng-still li:nth-child(3) .chip{background:var(--apag-green);}
+.eng-still li:nth-child(4){border-left-color:var(--apag-lime);}   .eng-still li:nth-child(4) .chip{background:var(--apag-lime);}
+.eng-still li:nth-child(5){border-left-color:var(--apag-orange);} .eng-still li:nth-child(5) .chip{background:var(--apag-orange);}
+
+@media(max-width:720px){
+  .eng-h2{font-size:26px;}
+  .eng-diffgrid{grid-template-columns:1fr;gap:16px;}
+}

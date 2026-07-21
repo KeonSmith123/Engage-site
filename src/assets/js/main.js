@@ -76,6 +76,16 @@ window.toggleFaq = function (el) {
   });
 })();
 
+// 3b. Overview: Engage-vs-traditional comparison accordion.
+window.toggleCompare = function (el) {
+  var box = el.closest(".eng-compare");
+  if (!box) return;
+  var open = box.classList.toggle("open");
+  el.setAttribute("aria-expanded", open ? "true" : "false");
+  var lbl = el.querySelector(".label");
+  if (lbl) lbl.textContent = open ? "Hide the full side-by-side" : "See the full side-by-side";
+};
+
 // 4. How It Works: click-to-expand pillars and five-grid cards.
 window.togglePillar = function (head) {
   var pillar = head.closest(".pillar");
