@@ -306,41 +306,51 @@ footer {
 
 /* =====================================================================
    CHUNK 6 — PAGE HERO REDESIGN (site-wide)  ·  24 July 2026 (WorkInFlow)
-   Client feedback: too much open space in the blue .page-hero band;
-   reduce its height and use the freed width, putting the lead
-   paragraph on white next to the heading rather than stacked below it.
-   Applies to every page that uses .page-hero (Overview, How It Works,
-   The Process, Case Studies, Guides, FAQ, Book a Demo). This block is
-   the authoritative definition — it loads last, after the several
-   legacy duplicate .page-hero rules ported from the single-file demo,
-   so it wins the cascade without needing to hunt down every earlier
-   occurrence in styles.css.
+   v2 — client picked "Option A" from the HTML preview (split layout,
+   divider instead of a white card) with two amendments: the divider
+   sits at the true horizontal centre of the band (equal 1fr/1fr
+   columns, not the earlier 1.15/0.85 split), and the lead paragraph is
+   set larger to close the dead space between it and the heading. Also
+   bumped the eyebrow size per client note ("should be larger in
+   proportion to the rest"). Applies to every page that uses
+   .page-hero (Overview, How It Works, The Process, Case Studies,
+   Guides, FAQ, Book a Demo). This block is the authoritative
+   definition — it loads last, after the several legacy duplicate
+   .page-hero rules ported from the single-file demo, so it wins the
+   cascade without needing to hunt down every earlier occurrence in
+   styles.css.
    ===================================================================== */
 .page-hero { padding: 44px 48px 40px; }
 .page-hero-inner {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1fr 1fr;
   grid-template-areas: "crumb crumb" "eyebrow eyebrow" "heading lead" "extra extra";
-  column-gap: 56px;
+  column-gap: 48px;
   row-gap: 0;
   align-items: center;
   max-width: 1180px !important;
   margin: 0 auto;
 }
 .page-hero-inner > .breadcrumb { grid-area: crumb; margin-bottom: 20px; }
-.page-hero-inner > .eyebrow { grid-area: eyebrow; margin-bottom: 12px; }
+.page-hero-inner > .eyebrow {
+  grid-area: eyebrow;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
 .page-hero-inner > h1 { grid-area: heading; margin-bottom: 0; align-self: center; }
 .page-hero-inner > .lead {
   grid-area: lead;
   align-self: center;
   max-width: none;
   margin-bottom: 0;
-  background: #fff;
-  color: #3c4247;
-  font-size: 15.5px;
-  padding: 26px 30px;
-  border-radius: 14px;
-  box-shadow: 0 1px 2px rgba(17,30,40,0.06), 0 14px 34px rgba(0,20,30,0.18);
+  background: transparent;
+  border-left: 1px solid rgba(255,255,255,0.2);
+  padding-left: 36px;
+  color: rgba(255,255,255,0.86);
+  font-size: 19px;
+  line-height: 1.68;
 }
 .page-hero-inner > .hero-stats,
 .page-hero-inner > .hero-meta { grid-area: extra; margin-top: 28px; }
@@ -350,5 +360,69 @@ footer {
     grid-template-columns: 1fr;
     grid-template-areas: "crumb" "eyebrow" "heading" "lead" "extra";
   }
-  .page-hero-inner > .lead { margin-top: 22px; }
+  .page-hero-inner > .lead {
+    margin-top: 22px;
+    border-left: none;
+    padding-left: 0;
+    font-size: 17px;
+  }
+}
+
+/* =====================================================================
+   CHUNK 7 — CLOSING CTA BAND REDESIGN  ·  24 July 2026 (WorkInFlow)
+   Client picked "Option B" from the HTML preview: text block on the
+   left, buttons on the right, single row instead of a tall stacked
+   block. Also bumped the supporting paragraph so it reads more
+   prominently (was a faded, easy-to-miss line). Applies to
+   The Process and How It Works, which both use .cta-section. The
+   Overview page's equivalent band is hand-styled inline (ported from
+   the demo, not using this class) and was updated to match directly
+   in overview.njk. This block loads last, after the legacy duplicate
+   .cta-section rules in styles.css, so it wins the cascade cleanly.
+   ===================================================================== */
+.cta-section {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "eyebrow actions" "heading actions" "text actions";
+  align-items: center;
+  column-gap: 40px;
+  row-gap: 6px;
+  text-align: left;
+  padding: 44px 48px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.cta-section .eyebrow { grid-area: eyebrow; text-align: left; margin: 0; }
+.cta-section h2 { grid-area: heading; text-align: left; margin: 0; max-width: 560px; }
+.cta-section p {
+  grid-area: text;
+  text-align: left;
+  margin: 0;
+  max-width: 520px;
+  font-size: 17px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.92);
+}
+.cta-section .cta-actions { grid-area: actions; display: flex; gap: 12px; flex-shrink: 0; margin: 0; }
+
+@media (max-width: 900px) {
+  .cta-section {
+    grid-template-columns: 1fr;
+    grid-template-areas: "eyebrow" "heading" "text" "actions";
+    text-align: center;
+  }
+  .cta-section .eyebrow,
+  .cta-section h2,
+  .cta-section p { text-align: center; margin-left: auto; margin-right: auto; }
+  .cta-section .cta-actions { justify-content: center; margin-top: 20px; }
+}
+
+@media (max-width: 900px) {
+  .overview-cta-row {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: "eyebrow" "heading" "text" "actions" !important;
+    text-align: center !important;
+    justify-items: center;
+  }
+  .overview-cta-row > div:last-child { justify-content: center !important; margin-top: 16px; }
 }
