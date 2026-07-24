@@ -1,7 +1,7 @@
 ---
 title: "Financial Services Organisation"
 order: 7
-draft: true
+draft: false
 region: "Kenya + Uganda"
 sector: "Financial Services"
 regionTag: "east-africa"

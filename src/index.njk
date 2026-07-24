@@ -47,10 +47,9 @@ description: Modern, factor-based job evaluation for organisations that don't ha
 <div style="max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:56px;flex-wrap:wrap;justify-content:center;">
 <div class="trust-fade" style="font-size:14px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.85);white-space:nowrap;">Trusted across Africa</div>
 <div style="display:flex;gap:56px;align-items:center;flex-wrap:wrap;">
-<div class="trust-fade" style="text-align:center;animation-delay:.1s;"><div class="trust-num" data-count-to="6" data-suffix="+" style="font-size:44px;font-weight:700;color:white;line-height:1;">0</div><div style="font-size:14px;color:rgba(255,255,255,0.8);margin-top:6px;">Countries</div></div>
-<div class="trust-fade" style="text-align:center;animation-delay:.2s;"><div class="trust-num" data-count-to="1500" data-suffix="+" style="font-size:44px;font-weight:700;color:white;line-height:1;">0</div><div style="font-size:14px;color:rgba(255,255,255,0.8);margin-top:6px;">Roles graded</div></div>
-<div class="trust-fade" style="text-align:center;animation-delay:.3s;"><div class="trust-num" data-count-to="20" data-suffix="+" style="font-size:44px;font-weight:700;color:white;line-height:1;">0</div><div style="font-size:14px;color:rgba(255,255,255,0.8);margin-top:6px;">Organisations</div></div>
-<div class="trust-fade" style="text-align:center;animation-delay:.4s;"><div class="trust-num" data-count-to="4" data-suffix=" yrs" style="font-size:44px;font-weight:700;color:white;line-height:1;">0</div><div style="font-size:14px;color:rgba(255,255,255,0.8);margin-top:6px;">Longest relationship</div></div>
+<div class="trust-fade" style="text-align:center;animation-delay:.1s;"><div class="trust-num" data-count-to="35" data-suffix="+" style="font-size:44px;font-weight:700;color:white;line-height:1;">0</div><div style="font-size:14px;color:rgba(255,255,255,0.8);margin-top:6px;">Countries</div></div>
+<div class="trust-fade" style="text-align:center;animation-delay:.2s;"><div class="trust-num" data-count-to="19930" data-suffix="+" style="font-size:44px;font-weight:700;color:white;line-height:1;">0</div><div style="font-size:14px;color:rgba(255,255,255,0.8);margin-top:6px;">Roles graded</div></div>
+<div class="trust-fade" style="text-align:center;animation-delay:.3s;"><div class="trust-num" data-count-to="88" data-suffix="+" style="font-size:44px;font-weight:700;color:white;line-height:1;">0</div><div style="font-size:14px;color:rgba(255,255,255,0.8);margin-top:6px;">Organisations</div></div>
 </div>
 </div>
 </section>
@@ -106,22 +105,9 @@ description: Modern, factor-based job evaluation for organisations that don't ha
 <div class="section-eyebrow">Case studies</div>
 <h2>Real organisations. Real complexity. Real outcomes.</h2>
 <div class="case-grid">
-<div class="case-card"><span class="case-tag">East Africa · Climate Finance</span><h3>Climate Finance Institution</h3><p class="case-meta">80 roles · Organisational design + grading</p><p>Preparing to double headcount, this climate finance institution needed a future-fit structure and grading framework delivered in one week, in-country.</p><a class="case-link" href="/case-studies/rwanda-green-fund/">Read case study →</a></div>
-<div class="case-card"><span class="case-tag">South Africa · Medical Research</span><h3>Medical Research NGO</h3><p class="case-meta">Pan-African NGO · Methodology transition</p><p>Replaced a complex incumbent methodology. Simpler, faster, now used internally on an annual basis — four-year ongoing relationship.</p><a class="case-link" href="/case-studies/aurum-institute/">Read case study →</a></div>
-<div class="case-card"><span class="case-tag">South Africa · Logistics</span><h3>Logistics Group South Africa</h3><p class="case-meta">All roles graded · Market-related pay ranges</p><p>As the group expanded, it needed a consistent, equitable approach to compensation — every role graded and linked to a benchmarked pay range.</p><a class="case-link" href="/case-studies/logistics-group-sa/">Read case study →</a></div>
-<div class="case-card"><span class="case-tag">South Africa · Container Solutions</span><h3>Container Solutions Provider</h3><p class="case-meta">9 management roles · Proactive grading</p><p>A proactive decision to put the right people structures in place before growth exposed the gaps — proof that rigorous grading adds value at every scale.</p><a class="case-link" href="/case-studies/topshell-containers/">Read case study →</a></div>
-</div>
-</div>
-</section>
-<section class="testimonials">
-<div class="section-inner">
-<div class="section-eyebrow">Client voices</div>
-<h2>Hear how clients describe the experience.</h2>
-<div class="vid-grid">
-<div class="vid-ph"><div class="vid-play"></div><span class="vid-name">Client testimonial</span><span class="vid-org">Coming soon</span></div>
-<div class="vid-ph"><div class="vid-play"></div><span class="vid-name">Client testimonial</span><span class="vid-org">Coming soon</span></div>
-<div class="vid-ph"><div class="vid-play"></div><span class="vid-name">Client testimonial</span><span class="vid-org">Coming soon</span></div>
-<div class="vid-ph"><div class="vid-play"></div><span class="vid-name">Client testimonial</span><span class="vid-org">Coming soon</span></div>
+{%- for cs in collections.caseStudy | sort(attribute='data.order') %}
+<div class="case-card"><span class="case-tag">{{ cs.data.region }}{% if cs.data.sector %} · {{ cs.data.sector }}{% endif %}</span><h3>{{ cs.data.title }}</h3>{% if cs.data.meta %}<p class="case-meta">{{ cs.data.meta }}</p>{% endif %}<p>{{ cs.data.abstract }}</p><a class="case-link" href="{{ cs.url }}">Read case study →</a></div>
+{%- endfor %}
 </div>
 </div>
 </section>

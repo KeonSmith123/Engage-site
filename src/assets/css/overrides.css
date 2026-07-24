@@ -303,3 +303,52 @@ footer {
 .trust-fade { opacity:0; animation:engFadeUp .6s ease forwards; }
 .carousel-arrow { border-radius:50%; transition:background .15s ease, color .15s ease; }
 .carousel-arrow:hover { background:var(--mist); color:var(--apag-blue); }
+
+/* =====================================================================
+   CHUNK 6 — PAGE HERO REDESIGN (site-wide)  ·  24 July 2026 (WorkInFlow)
+   Client feedback: too much open space in the blue .page-hero band;
+   reduce its height and use the freed width, putting the lead
+   paragraph on white next to the heading rather than stacked below it.
+   Applies to every page that uses .page-hero (Overview, How It Works,
+   The Process, Case Studies, Guides, FAQ, Book a Demo). This block is
+   the authoritative definition — it loads last, after the several
+   legacy duplicate .page-hero rules ported from the single-file demo,
+   so it wins the cascade without needing to hunt down every earlier
+   occurrence in styles.css.
+   ===================================================================== */
+.page-hero { padding: 44px 48px 40px; }
+.page-hero-inner {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-areas: "crumb crumb" "eyebrow eyebrow" "heading lead" "extra extra";
+  column-gap: 56px;
+  row-gap: 0;
+  align-items: center;
+  max-width: 1180px !important;
+  margin: 0 auto;
+}
+.page-hero-inner > .breadcrumb { grid-area: crumb; margin-bottom: 20px; }
+.page-hero-inner > .eyebrow { grid-area: eyebrow; margin-bottom: 12px; }
+.page-hero-inner > h1 { grid-area: heading; margin-bottom: 0; align-self: center; }
+.page-hero-inner > .lead {
+  grid-area: lead;
+  align-self: center;
+  max-width: none;
+  margin-bottom: 0;
+  background: #fff;
+  color: #3c4247;
+  font-size: 15.5px;
+  padding: 26px 30px;
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(17,30,40,0.06), 0 14px 34px rgba(0,20,30,0.18);
+}
+.page-hero-inner > .hero-stats,
+.page-hero-inner > .hero-meta { grid-area: extra; margin-top: 28px; }
+
+@media (max-width: 900px) {
+  .page-hero-inner {
+    grid-template-columns: 1fr;
+    grid-template-areas: "crumb" "eyebrow" "heading" "lead" "extra";
+  }
+  .page-hero-inner > .lead { margin-top: 22px; }
+}

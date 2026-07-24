@@ -106,9 +106,9 @@ window.toggleGridCard = function (card) {
     function step(ts) {
       if (!start) start = ts;
       var progress = Math.min((ts - start) / duration, 1);
-      el.textContent = Math.floor(progress * target) + suffix;
+      el.textContent = Math.floor(progress * target).toLocaleString() + suffix;
       if (progress < 1) requestAnimationFrame(step);
-      else el.textContent = target + suffix;
+      else el.textContent = target.toLocaleString() + suffix;
     }
     requestAnimationFrame(step);
   });

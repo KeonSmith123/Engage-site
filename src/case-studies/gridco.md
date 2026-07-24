@@ -1,7 +1,7 @@
 ---
 title: "State-Owned Entity"
 order: 8
-draft: true
+draft: false
 region: "Ghana"
 sector: "State-Owned Entity"
 regionTag: "west-africa"

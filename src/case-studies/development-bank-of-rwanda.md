@@ -1,7 +1,7 @@
 ---
 title: "Development Bank"
 order: 5
-draft: true
+draft: false
 region: "East Africa"
 sector: "Development Banking"
 regionTag: "east-africa"

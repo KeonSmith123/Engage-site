@@ -1,7 +1,7 @@
 ---
 title: "Large Bank"
 order: 6
-draft: true
+draft: false
 region: "Zimbabwe"
 sector: "Financial Services"
 regionTag: "southern-africa"
