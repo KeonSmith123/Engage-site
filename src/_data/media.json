@@ -1,9 +1,1 @@
-{
-  "homeHero": "/assets/img/pexels-gustavo-fring-7446599.jpg",
-  "demoImage": "/assets/img/pexels-rdne-8069408.jpg",
-  "overviewImage": "/assets/img/pexels-pavel-danilyuk-7654581.jpg",
-  "compareImage": "/assets/img/pexels-darlene-alderson-7971230.jpg",
-  "tensionImage": "/assets/img/pexels-tima-miroshnichenko-5453848.jpg",
-  "mattersImage": "/assets/img/photos/two-colleagues-reviewing-evaluation.jpg",
-  "modelsImage": "/assets/img/pexels-darlene-alderson-7971168.jpg"
-}
+{"homeHero": "/assets/img/pexels-gustavo-fring-7446599.jpg", "demoImage": "/assets/img/pexels-rdne-8069408.jpg", "overviewImage": "", "compareImage": "/assets/img/pexels-darlene-alderson-7971230.jpg", "tensionImage": "/assets/img/pexels-darlene-alderson-7971230.jpg", "mattersImage": "/assets/img/photos/two-colleagues-reviewing-evaluation.jpg", "modelsImage": "/assets/img/photos/three-ways-handshake.jpg"}

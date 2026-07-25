@@ -2,6 +2,40 @@
 // The SPA showPage() logic from the demo is intentionally gone; routing
 // is now real pages. This stays minimal.
 
+// 0. Mobile nav toggle (hamburger). Closes on outside click, Escape,
+// or when a link inside it is clicked (full page nav still needs this
+// so the menu isn't left visually "open" for an instant on slow loads).
+(function () {
+  var toggle = document.querySelector(".nav-toggle");
+  var links = document.getElementById("nav-links");
+  if (!toggle || !links) return;
+
+  function setOpen(open) {
+    toggle.classList.toggle("open", open);
+    links.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  }
+
+  window.toggleNav = function (btn) {
+    setOpen(!links.classList.contains("open"));
+  };
+
+  links.addEventListener("click", function (e) {
+    if (e.target.closest("a")) setOpen(false);
+  });
+
+  document.addEventListener("click", function (e) {
+    if (!links.classList.contains("open")) return;
+    if (e.target.closest("nav")) return;
+    setOpen(false);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") setOpen(false);
+  });
+})();
+
 // 1. Mark the current nav link active as a fallback to the server-rendered class.
 (function () {
   var path = window.location.pathname;
@@ -114,22 +148,54 @@ window.toggleGridCard = function (card) {
   });
 })();
 
-// 6. Landing: client logo carousel (5 visible, arrows + dots).
+// 6. Landing: client logo carousel (arrows + dots).
+// Was hardcoded to 5 visible logos regardless of viewport — on a phone
+// that rendered as five unreadable slivers. visible now recalculates
+// on load and resize (5 desktop / 3 tablet / 2 phone), each logo's
+// flex-basis is set directly so it always matches what the transform
+// math expects, and the dots are rebuilt whenever the count changes.
 (function () {
   var track = document.getElementById("engage-carousel-track");
   var dotsWrap = document.getElementById("engage-carousel-dots");
   if (!track || !dotsWrap) return;
-  var total = track.children.length;
+  var items = Array.prototype.slice.call(track.children);
+  var total = items.length;
   var visible = 5;
-  var maxIndex = Math.max(0, total - visible);
+  var maxIndex = 0;
   var index = 0;
-  for (var i = 0; i < total; i++) {
-    var dot = document.createElement("button");
-    dot.setAttribute("aria-label", "Go to client " + (i + 1));
-    dot.style.cssText = "width:10px;height:10px;border-radius:50%;border:1px solid var(--border);background:white;cursor:pointer;padding:0;";
-    dot.addEventListener("click", (function (n) { return function () { go(n); }; })(i));
-    dotsWrap.appendChild(dot);
+
+  function visibleForWidth() {
+    var w = window.innerWidth;
+    if (w <= 560) return 2;
+    if (w <= 860) return 3;
+    return 5;
   }
+
+  function rebuildDots() {
+    dotsWrap.innerHTML = "";
+    var pageCount = maxIndex + 1;
+    for (var i = 0; i < pageCount; i++) {
+      var dot = document.createElement("button");
+      dot.setAttribute("aria-label", "Go to client " + (i + 1));
+      dot.style.cssText = "width:10px;height:10px;border-radius:50%;border:1px solid var(--border);background:white;cursor:pointer;padding:0;";
+      dot.addEventListener("click", (function (n) { return function () { go(n); }; })(i));
+      dotsWrap.appendChild(dot);
+    }
+  }
+
+  function layout() {
+    var newVisible = visibleForWidth();
+    var changed = newVisible !== visible;
+    visible = newVisible;
+    items.forEach(function (el) {
+      el.style.flex = "0 0 " + (100 / visible) + "%";
+    });
+    maxIndex = Math.max(0, total - visible);
+    index = Math.min(index, maxIndex);
+    if (changed) rebuildDots();
+    update();
+  }
+
   function update() {
     track.style.transform = "translateX(-" + (index * (100 / visible)) + "%)";
     Array.prototype.forEach.call(dotsWrap.children, function (d, i) {
@@ -140,5 +206,11 @@ window.toggleGridCard = function (card) {
   }
   function go(n) { index = Math.max(0, Math.min(maxIndex, n)); update(); }
   window.engageCarouselMove = function (dir) { go(index + dir); };
-  update();
+
+  layout();
+  var resizeTimer;
+  window.addEventListener("resize", function () {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(layout, 150);
+  });
 })();

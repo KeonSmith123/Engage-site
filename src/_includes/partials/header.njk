@@ -1,6 +1,9 @@
 <nav>
   <a class="nav-logo" href="/"><img src="/assets/img/brand/engage-logo.png" alt="Engage Job Evaluation, by APAG"></a>
-  <ul class="nav-links">
+  <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links" onclick="toggleNav(this)">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
     {% for item in site.nav %}
     <li><a href="{{ item.url }}"{% if item.cta %} class="nav-cta"{% elif item.url | isActive(page.url) %} class="active"{% endif %}>{{ item.label }}</a></li>
     {% endfor %}

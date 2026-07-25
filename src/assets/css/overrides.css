@@ -24,6 +24,77 @@ nav {
   display: flex !important;
 }
 
+/* =====================================================================
+   MOBILE NAV — hamburger menu (25 July 2026, WorkInFlow)
+   The site previously had zero responsive handling for the top nav —
+   .nav-links was an unconditional flex row with 7 items, which either
+   overflows or wraps on phone widths. This adds a standard hamburger
+   toggle below 860px (matching the breakpoint already used for the
+   image-slot sections added this week), driven by main.js.
+   ===================================================================== */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 110;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--apag-grey, #59595C);
+  border-radius: 1px;
+  transition: transform .25s ease, opacity .2s ease;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 860px) {
+  nav { padding: 0 20px !important; }
+  .nav-toggle { display: flex !important; }
+  .nav-links {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+    background: #fff;
+    border-bottom: 1px solid var(--border, #dfe3e6);
+    box-shadow: 0 12px 24px rgba(17,30,40,0.08);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s ease;
+  }
+  .nav-links.open {
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+  }
+  .nav-links li { width: 100%; }
+  .nav-links a {
+    display: block;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border, #dfe3e6);
+    font-size: 16px;
+  }
+  .nav-links .nav-cta {
+    display: block;
+    margin: 16px 24px;
+    text-align: center;
+  }
+}
+
+
 /* Keep the dark footer full-bleed regardless of the demo's section
    padding rules. */
 footer {
@@ -511,4 +582,110 @@ footer {
     border-bottom: 1px solid rgba(255,255,255,0.22);
     padding-bottom: 28px; margin-bottom: 28px;
   }
+}
+
+/* =====================================================================
+   CHUNK 9 — MOBILE RESPONSIVE PASS  ·  25 July 2026 (WorkInFlow)
+   Full-site audit found a number of two/three/four-column grids with
+   no breakpoint at all — they were built and approved at desktop width
+   only. This closes those gaps. Two tiers used consistently with the
+   breakpoints already established elsewhere in this file: 900px for
+   "stack to one column" on paired sections, and an additional 560px
+   step for card grids of 3+ so tablets get 2-up before phones get 1-up.
+   ===================================================================== */
+
+/* ---- Footer: 3-column -> stacked on every page, no exceptions ---- */
+@media (max-width: 900px) {
+  footer { grid-template-columns: 1fr !important; gap: 32px !important; padding: 40px 24px !important; }
+}
+
+/* ---- Homepage: "many job evaluation systems" problem/list split ---- */
+@media (max-width: 860px) {
+  .tension-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* ---- Homepage + The Process: differentiator cards ---- */
+@media (max-width: 560px) {
+  .diff-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ---- Homepage: case study preview cards ---- */
+@media (max-width: 900px) { .case-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (max-width: 560px) { .case-grid { grid-template-columns: 1fr !important; } }
+
+/* ---- Case Studies page: full card grid ---- */
+@media (max-width: 900px) { .cases-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (max-width: 560px) { .cases-grid { grid-template-columns: 1fr !important; } }
+
+/* ---- Homepage + Guides page: insight/guide card grid ---- */
+@media (max-width: 900px) { .insights-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (max-width: 560px) { .insights-grid { grid-template-columns: 1fr !important; } }
+
+/* ---- Overview page: "Why Engage exists" text + benefits list ---- */
+@media (max-width: 900px) {
+  .why-engage-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* ---- Overview page: "Engage evaluates / does not evaluate" pair ---- */
+@media (max-width: 700px) {
+  .evaluates-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+}
+
+/* ---- How It Works: role-not-person intro (text + principle list) ---- */
+@media (max-width: 900px) {
+  .intro-inner { grid-template-columns: 1fr !important; gap: 36px !important; }
+}
+
+/* ---- How It Works: two-pillars cards ---- */
+@media (max-width: 700px) {
+  .pillars-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ---- How It Works: measured unit size (text + bar chart) ---- */
+@media (max-width: 900px) {
+  .mus-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* ---- How It Works: what Engage evaluates / does not, two columns ---- */
+@media (max-width: 700px) {
+  .yesno-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+}
+
+/* ---- The Process: overview text + principle list ---- */
+@media (max-width: 900px) {
+  .overview-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* ---- The Process: "what you leave with" deliverables ---- */
+@media (max-width: 900px) { .receive-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (max-width: 560px) { .receive-grid { grid-template-columns: 1fr !important; } }
+
+/* ---- Book a Demo: main content + fixed-width form card ----
+   .main-inner was a fixed 1fr/420px split with no fallback — on a
+   360-400px phone that 420px column alone is wider than the viewport,
+   which forces the whole page to scroll horizontally. Stacking this
+   is the single highest-impact fix in this pass after the nav. */
+@media (max-width: 900px) {
+  .main-inner { grid-template-columns: 1fr !important; gap: 40px !important; }
+}
+@media (max-width: 600px) {
+  .for-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ---- Homepage hero: headline + video placeholder ----
+   No breakpoint existed at all for the main .hero grid — the first
+   thing a phone visitor sees was two ~180px-wide squeezed columns
+   with a 540px min-height forcing a lot of empty scroll. */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+    padding: 64px 24px 40px !important;
+    gap: 36px !important;
+  }
+}
+
+/* ---- Client logo carousel: arrows sit closer on narrow screens ---- */
+@media (max-width: 560px) {
+  .client-carousel-section { padding: 40px 16px 48px !important; }
 }
