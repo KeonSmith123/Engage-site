@@ -1,1 +1,7 @@
-{"homeHero": "", "demoImage": "", "overviewImage": ""}
+{
+  "homeHero": "/assets/img/pexels-gustavo-fring-7446599.jpg",
+  "demoImage": "/assets/img/pexels-rdne-8069408.jpg",
+  "overviewImage": "",
+  "compareImage": "/assets/img/pexels-darlene-alderson-7971230.jpg",
+  "tensionImage": "/assets/img/pexels-darlene-alderson-7971230.jpg"
+}
