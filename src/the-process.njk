@@ -97,7 +97,7 @@ description: "A practical, defensible five-stage job-evaluation process — stru
 <p class="lead-text" style="margin-bottom:0">The process can be applied in different ways depending on your organisation's needs, capacity, and readiness for internal ownership.</p>
 <div class="models-layout">
 <div class="models-photo">
-<img src="/assets/img/photos/three-ways-handshake.jpg" alt="Two colleagues shaking hands across a boardroom table">
+{% if media.modelsImage %}<img src="{{ media.modelsImage }}" alt="Two colleagues shaking hands across a boardroom table">{% else %}<img src="/assets/img/photos/three-ways-handshake.jpg" alt="Two colleagues shaking hands across a boardroom table">{% endif %}
 </div>
 <div class="models-col">
 <div class="model-card">
@@ -169,11 +169,13 @@ description: "A practical, defensible five-stage job-evaluation process — stru
 </section>
 <!-- CTA -->
 <section class="cta-section" id="book-demo">
+<div class="cta-section-inner">
 <div class="eyebrow">See it in action</div>
 <h2>The fastest way to understand the process is to experience it.</h2>
 <p>Book a working session and we will run the Engage methodology on up to 10 of your roles live — so you can see the logic, the committee approach, and the outcome in practice.</p>
 <div class="cta-actions">
 <a class="btn-primary" href="/book-demo/">Book a demo</a>
 <a class="btn-ghost" href="/how-it-works/">How it works</a>
+</div>
 </div>
 </section>

@@ -149,7 +149,7 @@ description: "The Engage methodology: two pillars, five grids, and exactly what 
 <section class="matters-section" id="what-matters">
 <div class="matters-inner">
 <div class="matters-layout">
-<div class="matters-photo"><img src="/assets/img/photos/two-colleagues-reviewing-evaluation.jpg" alt="Two colleagues reviewing a role evaluation together at a laptop"/></div>
+<div class="matters-photo">{% if media.mattersImage %}<img src="{{ media.mattersImage }}" alt="Two colleagues reviewing a role evaluation together at a laptop"/>{% else %}<img src="/assets/img/photos/two-colleagues-reviewing-evaluation.jpg" alt="Two colleagues reviewing a role evaluation together at a laptop"/>{% endif %}</div>
 <div class="matters-content">
 <div class="matters-intro">
 <div class="section-eyebrow">Why this framework matters</div>
@@ -238,11 +238,13 @@ description: "The Engage methodology: two pillars, five grids, and exactly what 
 </section>
 <!-- CTA -->
 <section class="cta-section">
+<div class="cta-section-inner">
 <div class="eyebrow">See it in action</div>
 <h2>The fastest way to understand Engage is to see it applied to your roles.</h2>
 <p>Book a working session and we will grade up to 10 of your roles live — so you can experience the logic, the process, and the outcome for yourself.</p>
 <div class="cta-actions">
 <a class="btn-primary" href="/book-demo/">Book a demo</a>
 <a class="btn-ghost" href="/the-process/">See the process</a>
+</div>
 </div>
 </section>
