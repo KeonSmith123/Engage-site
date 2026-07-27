@@ -204,13 +204,39 @@ window.toggleGridCard = function (card) {
       d.style.borderColor = active ? "var(--apag-green)" : "var(--border)";
     });
   }
-  function go(n) { index = Math.max(0, Math.min(maxIndex, n)); update(); }
+  function go(n) { index = Math.max(0, Math.min(maxIndex, n)); update(); restartAuto(); }
   window.engageCarouselMove = function (dir) { go(index + dir); };
 
+  // Auto-rotate: advances one page at a time and loops back to the start.
+  // Pauses on hover/focus and respects prefers-reduced-motion.
+  var AUTO_MS = 4000;
+  var timer = null;
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function startAuto() {
+    if (reduceMotion || maxIndex <= 0) return;
+    stopAuto();
+    timer = setInterval(function () {
+      index = index >= maxIndex ? 0 : index + 1;
+      update();
+    }, AUTO_MS);
+  }
+  function stopAuto() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+  function restartAuto() { stopAuto(); startAuto(); }
+
+  var section = track.closest(".client-carousel-section") || track.parentElement;
+  section.addEventListener("mouseenter", stopAuto);
+  section.addEventListener("mouseleave", startAuto);
+  section.addEventListener("focusin", stopAuto);
+  section.addEventListener("focusout", startAuto);
+
   layout();
+  startAuto();
   var resizeTimer;
   window.addEventListener("resize", function () {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(layout, 150);
+    resizeTimer = setTimeout(function () { layout(); restartAuto(); }, 150);
   });
 })();
