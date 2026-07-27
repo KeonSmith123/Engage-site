@@ -87,7 +87,6 @@ collections:
         fields:
           - { label: "Homepage hero background", name: "homeHero", widget: "image", required: false, hint: "Wide image. Shows behind the homepage hero with a brand tint over it." }
           - { label: "Book a Demo image", name: "demoImage", widget: "image", required: false, hint: "A working-session / people photo for the Book a Demo page." }
-          - { label: "Overview image", name: "overviewImage", widget: "image", required: false, hint: "A people / advisory photo shown below the Overview hero." }
           - { label: "Engage vs traditional image", name: "compareImage", widget: "image", required: false, hint: "Photo shown beside the 'Engage vs traditional' intro on the Overview page." }
           - { label: "The problem image", name: "tensionImage", widget: "image", required: false, hint: "Photo shown below the intro text in the 'Many job evaluation systems...' section on the homepage." }
           - { label: "How It Works — why it matters photo", name: "mattersImage", widget: "image", required: false, hint: "Photo in the 'Why this framework matters' section on the How It Works page." }
