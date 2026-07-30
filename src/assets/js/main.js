@@ -120,6 +120,28 @@ window.toggleCompare = function (el) {
   if (lbl) lbl.textContent = open ? "Hide the full side-by-side" : "See the full side-by-side";
 };
 
+// 3c. Insights hub: Guides / Webinars sub-category tabs.
+window.showInsights = function (which) {
+  var names = ["guides", "webinars"];
+  names.forEach(function (n) {
+    var tab = document.getElementById("tab-" + n);
+    var panel = document.getElementById("panel-" + n);
+    var on = n === which;
+    if (tab) {
+      tab.classList.toggle("active", on);
+      tab.setAttribute("aria-selected", on ? "true" : "false");
+    }
+    if (panel) panel.hidden = !on;
+  });
+  if (history.replaceState) {
+    history.replaceState(null, "", which === "webinars" ? "#webinars" : "#guides");
+  }
+};
+(function () {
+  if (!document.getElementById("tab-webinars")) return;
+  if (window.location.hash === "#webinars") window.showInsights("webinars");
+})();
+
 // 4. How It Works: click-to-expand pillars and five-grid cards.
 window.togglePillar = function (head) {
   var pillar = head.closest(".pillar");
@@ -135,6 +157,8 @@ window.toggleGridCard = function (card) {
   if (!nums.length) return;
   nums.forEach(function (el) {
     var target = parseInt(el.getAttribute("data-count-to"), 10);
+    // No numeric target (e.g. a static value like "88+" or "Annual") → leave the text as authored.
+    if (isNaN(target)) return;
     var suffix = el.getAttribute("data-suffix") || "";
     var start = null, duration = 1200;
     function step(ts) {

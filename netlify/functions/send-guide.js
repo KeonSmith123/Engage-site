@@ -33,7 +33,8 @@ exports.handler = async (event) => {
     };
   }
   const siteUrl = process.env.URL || "https://engage.africapeopleadvisory.com";
-  const guideUrl = guideSlug ? `${siteUrl}/guides/${guideSlug}/?unlocked=1` : siteUrl;
+  // Deliver the branded PDF asset for this guide (committed under src/assets/guides/<slug>.pdf).
+  const guideUrl = guideSlug ? `${siteUrl}/assets/guides/${guideSlug}.pdf` : siteUrl;
 
   try {
     const resendRes = await fetch("https://api.resend.com/emails", {
@@ -51,7 +52,7 @@ exports.handler = async (event) => {
           `
           <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(name)},</p>
           <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Here's the resource you requested:</p>
-          ${button(guideUrl, "Download your guide")}
+          ${button(guideUrl, "Download your guide (PDF)")}
           <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">As you go through it, there's one idea worth keeping in mind:</p>
           <p style="margin:0 0 16px 0;color:#0075A0;font-size:17px;line-height:1.6;font-weight:bold;">Good job evaluation should assess the role — not the person.</p>
           <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">That sounds obvious, but it's one of the points where many grading systems begin to weaken. Over time, they often become:</p>

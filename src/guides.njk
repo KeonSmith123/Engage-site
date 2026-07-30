@@ -15,18 +15,47 @@ permalink: /guides/
 
 <section class="cases-section">
   <div class="section-inner">
-    <div class="insights-grid">
-      {%- for g in collections.guide %}
-      <a class="insight-card guide-card" href="{{ g.url }}">
-        <div class="insight-tag">{{ g.data.category }}{% if g.data.gated %} &middot; Gated{% endif %}</div>
-        <h4>{{ g.data.title }}</h4>
-        <p>{{ g.data.summary }}</p>
-        <div class="guide-card-foot">
-          <span>{{ g.data.readtime }}</span>
-          {% if g.data.gated %}<span class="guide-lock">Email required</span>{% endif %}
-        </div>
-      </a>
-      {%- endfor %}
+    <div class="insights-tabs" role="tablist" aria-label="Insight categories">
+      <button class="insights-tab active" id="tab-guides" role="tab" aria-selected="true" aria-controls="panel-guides" onclick="showInsights('guides')">Guides</button>
+      <button class="insights-tab" id="tab-webinars" role="tab" aria-selected="false" aria-controls="panel-webinars" onclick="showInsights('webinars')">Webinars</button>
+    </div>
+
+    <div class="insights-panel" id="panel-guides" role="tabpanel" aria-labelledby="tab-guides">
+      <div class="insights-grid">
+        {%- for g in collections.guide %}
+        <a class="insight-card guide-card" href="{{ g.url }}">
+          <div class="insight-tag">{{ g.data.category }}{% if g.data.gated %} &middot; Gated{% endif %}</div>
+          <h4>{{ g.data.title }}</h4>
+          <p>{{ g.data.summary }}</p>
+          <div class="guide-card-foot">
+            <span>{{ g.data.readtime }}</span>
+            {% if g.data.gated %}<span class="guide-lock">Email required</span>{% endif %}
+          </div>
+        </a>
+        {%- endfor %}
+      </div>
+    </div>
+
+    <div class="insights-panel" id="panel-webinars" role="tabpanel" aria-labelledby="tab-webinars" hidden>
+      {%- if collections.webinar.length %}
+      <div class="insights-grid">
+        {%- for w in collections.webinar %}
+        {%- set wid = w.data.youtube | ytId %}
+        <a class="insight-card webinar-card" href="{{ w.url }}">
+          <div class="webinar-thumb"{% if wid %} style="background-image:url('https://i.ytimg.com/vi/{{ wid }}/hqdefault.jpg')"{% endif %}>
+            <span class="webinar-play" aria-hidden="true"></span>
+          </div>
+          <div class="webinar-card-body">
+            <div class="insight-tag">{{ w.data.category or "Webinar" }}</div>
+            <h4>{{ w.data.title }}</h4>
+            <p>{{ w.data.summary }}</p>
+          </div>
+        </a>
+        {%- endfor %}
+      </div>
+      {%- else %}
+      <p class="insights-empty">Webinars are coming soon.</p>
+      {%- endif %}
     </div>
   </div>
 </section>

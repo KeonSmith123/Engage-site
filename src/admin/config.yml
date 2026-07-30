@@ -40,6 +40,27 @@ collections:
       - { label: "Draft (hide from site)", name: "draft", widget: "boolean", default: false }
       - { label: "Body", name: "body", widget: "markdown" }
 
+  # -------------------------------------------------------------- WEBINARS
+  - name: "webinars"
+    label: "Webinars"
+    label_singular: "Webinar"
+    description: "On-demand webinars shown under Insights → Webinars. Paste the YouTube link; a new page and card are generated automatically."
+    folder: "src/webinars"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    sortable_fields: ["order", "title"]
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Summary", name: "summary", widget: "text", hint: "One or two sentences shown on the webinar card." }
+      - { label: "Category", name: "category", widget: "string", default: "Webinar", required: false }
+      - { label: "YouTube link", name: "youtube", widget: "string", hint: "Paste the full YouTube link (e.g. https://www.youtube.com/watch?v=XXXXXXXXXXX) — a start time in the link is respected." }
+      - { label: "Label", name: "readtime", widget: "string", required: false, default: "Webinar", hint: "Small label on the card, e.g. 'Webinar' or '32 min'." }
+      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 99, hint: "Lower numbers appear first." }
+      - { label: "Draft (hide from site)", name: "draft", widget: "boolean", default: false }
+      - { label: "Description", name: "body", widget: "markdown", required: false }
+
   # ----------------------------------------------------------- CASE STUDIES
   - name: "case_studies"
     label: "Case studies"

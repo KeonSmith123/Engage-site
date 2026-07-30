@@ -1,0 +1,41 @@
+---
+layout: layouts/base.njk
+---
+{% set vid = youtube | ytId %}
+{% set vstart = youtube | ytStart(start) %}
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="/">Home</a><span>/</span><a href="/guides/#webinars">Insights</a><span>/</span>{{ title }}</div>
+    <div class="eyebrow">{{ category or "Webinar" }}{% if readtime %} &middot; {{ readtime }}{% endif %}</div>
+    <h1>{{ title }}</h1>
+    {% if summary %}<p class="lead">{{ summary }}</p>{% endif %}
+  </div>
+</div>
+
+<section class="guide-section">
+  <div class="guide-wrap">
+    {% if vid %}
+    <div class="video-embed">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/{{ vid }}{% if vstart %}?start={{ vstart }}{% endif %}"
+        title="{{ title }}"
+        loading="lazy"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen></iframe>
+    </div>
+    {% else %}
+    <p class="video-missing">This webinar link is not set yet. Add a YouTube URL in the CMS to display the video.</p>
+    {% endif %}
+    {% if content %}<article class="guide-body webinar-body">{{ content | safe }}</article>{% endif %}
+  </div>
+</section>
+
+<section class="demo-cta" style="background:#005a7a;">
+  <div class="section-inner" style="text-align:center;">
+    <h2 style="color:white;">See Engage applied to your roles</h2>
+    <p style="color:rgba(255,255,255,0.8);max-width:560px;margin:14px auto 28px;">The fastest way to understand Engage is to watch it grade real roles from your own organisation.</p>
+    <a class="btn-primary" href="/book-demo/">Book a demo</a>
+  </div>
+</section>

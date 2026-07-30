@@ -684,3 +684,48 @@ footer {
 @media (max-width: 560px) {
   .client-carousel-section { padding: 40px 16px 48px !important; }
 }
+
+/* ---- Insights hub: Guides / Webinars sub-tabs + webinar cards + video embed ---- */
+/* Uses tokens.css variables only (avoids the legacy --green aliasing in styles.css). */
+.insights-tabs { display: flex; gap: 10px; margin: 0 0 26px; flex-wrap: wrap; }
+.insights-tab {
+  appearance: none; cursor: pointer; font: inherit; font-weight: 700; font-size: 14px;
+  padding: 9px 20px; border-radius: 999px; border: 1px solid var(--apag-blue);
+  background: #fff; color: var(--apag-blue); transition: background .15s, color .15s;
+}
+.insights-tab:hover { background: var(--apag-blue-tint); }
+.insights-tab.active { background: var(--apag-blue); color: #fff; }
+.insights-panel[hidden] { display: none; }
+.insights-empty { color: var(--apag-grey); font-size: 15px; padding: 20px 0; }
+
+/* Webinar cards (share the .insight-card base, but lead with a video thumbnail) */
+.webinar-card {
+  padding: 0; overflow: hidden; text-decoration: none; color: var(--apag-grey);
+  display: flex; flex-direction: column;
+}
+.webinar-thumb {
+  position: relative; aspect-ratio: 16 / 9; background-size: cover; background-position: center;
+  background-color: #0a2a38; border-bottom: 1px solid var(--border);
+}
+.webinar-play {
+  position: absolute; inset: 0; margin: auto; width: 54px; height: 54px; border-radius: 50%;
+  background: rgba(0,117,160,0.92); box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  transition: transform .15s, background .15s;
+}
+.webinar-play::before {
+  content: ""; position: absolute; top: 50%; left: 54%; transform: translate(-50%,-50%);
+  border-style: solid; border-width: 10px 0 10px 17px; border-color: transparent transparent transparent #fff;
+}
+.webinar-card:hover .webinar-play { transform: scale(1.08); background: var(--apag-green); }
+.webinar-card-body { padding: 18px 22px 22px; }
+.webinar-card-body h4 { font-family: var(--font-heading); font-size: 17px; color: var(--color-heading); margin: 8px 0 7px; line-height: 1.3; }
+.webinar-card-body p { font-size: 13px; color: var(--apag-grey); line-height: 1.6; margin: 0; }
+
+/* Responsive 16:9 video embed on the webinar detail page */
+.video-embed {
+  position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden;
+  background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.12); margin: 0 auto;
+}
+.video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.webinar-body { margin-top: 26px; }
+.video-missing { color: var(--apag-grey); font-style: italic; padding: 24px; text-align: center; border: 1px dashed var(--border); border-radius: 8px; }
