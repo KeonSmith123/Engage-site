@@ -40,7 +40,7 @@ permalink: /guides/
       {%- if collections.webinar.length %}
       <div class="insights-grid">
         {%- for w in collections.webinar %}
-        {%- set wid = w.data.youtube | ytId %}
+        {%- set wid = w.data.videoId %}
         <a class="insight-card webinar-card" href="{{ w.url }}">
           <div class="webinar-thumb"{% if wid %} style="background-image:url('https://i.ytimg.com/vi/{{ wid }}/hqdefault.jpg')"{% endif %}>
             <span class="webinar-play" aria-hidden="true"></span>
