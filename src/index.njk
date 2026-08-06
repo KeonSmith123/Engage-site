@@ -14,8 +14,16 @@ description: Modern, factor-based job evaluation for organisations that don't ha
 </div>
 </div>
 <div class="hero-video">
+{%- set heroVideoSrc = media.heroVideo | vimeoSrc %}
+{%- if heroVideoSrc %}
+<button type="button" class="hero-video-play" data-vimeo-embed="{{ heroVideoSrc }}" data-vimeo-url="{{ media.heroVideo }}" aria-label="Play the 60-second Engage explainer video">
+<span class="play-btn"></span>
+<span class="video-label">Watch the 60-second explainer</span>
+</button>
+{%- else %}
 <div class="play-btn"></div>
 <span class="video-label">60-second explainer — coming soon</span>
+{%- endif %}
 </div>
 </section>
 

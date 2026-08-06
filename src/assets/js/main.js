@@ -264,3 +264,44 @@ window.toggleGridCard = function (card) {
     resizeTimer = setTimeout(function () { layout(); restartAuto(); }, 150);
   });
 })();
+
+// 7. Landing: homepage hero explainer (Vimeo click-to-play facade).
+// The player iframe is only injected on click, so the homepage stays
+// fast. The poster is Vimeo's own thumbnail, fetched via oEmbed (works
+// for unlisted /hash links too) so CMS editors never upload a still;
+// if the fetch fails, the brand-gradient box stays as the fallback.
+// Mirrors the webinar embed, but deferred rather than eager.
+(function () {
+  var btn = document.querySelector(".hero-video-play");
+  if (!btn) return;
+
+  var url = btn.getAttribute("data-vimeo-url");
+  var embed = btn.getAttribute("data-vimeo-embed");
+  if (!embed) return;
+
+  if (url) {
+    var api =
+      "https://vimeo.com/api/oembed.json?url=" + encodeURIComponent(url) + "&width=900";
+    fetch(api)
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (d && d.thumbnail_url) {
+          btn.style.backgroundImage = "url('" + d.thumbnail_url + "')";
+          btn.classList.add("has-thumb");
+        }
+      })
+      .catch(function () { /* keep the gradient fallback */ });
+  }
+
+  btn.addEventListener("click", function () {
+    var frame = btn.closest(".hero-video");
+    if (!frame) return;
+    var iframe = document.createElement("iframe");
+    iframe.src = embed + "&autoplay=1";
+    iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
+    iframe.setAttribute("allowfullscreen", "");
+    iframe.setAttribute("title", "Engage — 60-second explainer");
+    frame.appendChild(iframe);
+    frame.classList.add("is-playing");
+  });
+})();

@@ -729,3 +729,36 @@ footer {
 .video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .webinar-body { margin-top: 26px; }
 .video-missing { color: var(--apag-grey); font-style: italic; padding: 24px; text-align: center; border: 1px dashed var(--border); border-radius: 8px; }
+
+/* =====================================================================
+   CHUNK — Homepage hero explainer video (Vimeo click-to-play facade)
+   ---------------------------------------------------------------------
+   Replaces the static .hero-video placeholder with a poster + play
+   button that only injects the Vimeo <iframe> on click, so the homepage
+   LCP stays fast. The poster is Vimeo's own thumbnail (fetched via
+   oEmbed in main.js, block 7); if that fetch fails, the brand-gradient
+   box shows through as a graceful fallback. .hero-video base styling
+   (aspect-ratio, border, radius) is inherited from styles.css — this
+   chunk only adds the facade layer. tokens.css variables only.
+   ===================================================================== */
+.hero-video { position: relative; overflow: hidden; }
+.hero-video-play {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; padding: 0; border: 0; cursor: pointer;
+  background: transparent center / cover no-repeat; color: var(--white);
+}
+.hero-video-play::after {
+  content: ""; position: absolute; inset: 0;
+  background: rgba(4, 40, 55, 0.32); transition: background .15s ease;
+}
+.hero-video-play.has-thumb::after { background: rgba(4, 40, 55, 0.40); }
+.hero-video-play:hover::after { background: rgba(4, 40, 55, 0.22); }
+.hero-video-play .play-btn,
+.hero-video-play .video-label { position: relative; z-index: 1; }
+.hero-video-play .play-btn { transition: transform .15s ease; }
+.hero-video-play:hover .play-btn { transform: scale(1.06); }
+.hero-video-play .video-label { color: rgba(255, 255, 255, 0.92); font-weight: 600; }
+.hero-video-play:focus-visible { outline: 3px solid var(--apag-green); outline-offset: 3px; }
+.hero-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.hero-video.is-playing .hero-video-play { display: none; }
