@@ -1,5 +1,5 @@
 /* =====================================================================
-   ENGAGE — OVERRIDES
+   ENGAGE, OVERRIDES
    Neutralises the demo's SPA splash-screen body rule for the
    multipage (Eleventy) context. Loaded last.
    ===================================================================== */
@@ -25,8 +25,8 @@ nav {
 }
 
 /* =====================================================================
-   MOBILE NAV — hamburger menu (25 July 2026, WorkInFlow)
-   The site previously had zero responsive handling for the top nav —
+   MOBILE NAV, hamburger menu (25 July 2026, WorkInFlow)
+   The site previously had zero responsive handling for the top nav,
    .nav-links was an unconditional flex row with 7 items, which either
    overflows or wraps on phone widths. This adds a standard hamburger
    toggle below 860px (matching the breakpoint already used for the
@@ -103,7 +103,7 @@ footer {
 
 
 /* =====================================================================
-   CHUNK 3 — GUIDES & CASE STUDIES (additive)
+   CHUNK 3, GUIDES & CASE STUDIES (additive)
    Collection hubs reuse existing card/grid classes; these rules add the
    detail-page prose, the guide gate, and small card/detail helpers.
    All colours come through the design tokens.
@@ -282,7 +282,7 @@ footer {
 
 
 /* =====================================================================
-   CHUNK 5 — NATIVE INFOGRAPHIC COMPONENTS + COMPARISON ACCORDION
+   CHUNK 5, NATIVE INFOGRAPHIC COMPONENTS + COMPARISON ACCORDION
    (WorkInFlow · replaces the client's static PNG infographics with
    responsive, accessible, CMS-editable components.)
    All colour comes through the APAG CI tokens in tokens.css. Full
@@ -390,8 +390,8 @@ footer {
 .carousel-arrow:hover { background:var(--mist); color:var(--apag-blue); }
 
 /* =====================================================================
-   CHUNK 6 — PAGE HERO REDESIGN (site-wide)  ·  24 July 2026 (WorkInFlow)
-   v2 — client picked "Option A" from the HTML preview (split layout,
+   CHUNK 6, PAGE HERO REDESIGN (site-wide)  ·  24 July 2026 (WorkInFlow)
+   v2, client picked "Option A" from the HTML preview (split layout,
    divider instead of a white card) with two amendments: the divider
    sits at the true horizontal centre of the band (equal 1fr/1fr
    columns, not the earlier 1.15/0.85 split), and the lead paragraph is
@@ -400,7 +400,7 @@ footer {
    proportion to the rest"). Applies to every page that uses
    .page-hero (Overview, How It Works, The Process, Case Studies,
    Guides, FAQ, Book a Demo). This block is the authoritative
-   definition — it loads last, after the several legacy duplicate
+   definition, it loads last, after the several legacy duplicate
    .page-hero rules ported from the single-file demo, so it wins the
    cascade without needing to hunt down every earlier occurrence in
    styles.css.
@@ -454,7 +454,7 @@ footer {
 }
 
 /* =====================================================================
-   CHUNK 7 — CLOSING CTA BAND REDESIGN  ·  24 July 2026 (WorkInFlow)
+   CHUNK 7, CLOSING CTA BAND REDESIGN  ·  24 July 2026 (WorkInFlow)
    Client picked "Option B" from the HTML preview: text block on the
    left, buttons on the right, single row instead of a tall stacked
    block. Also bumped the supporting paragraph so it reads more
@@ -513,12 +513,12 @@ footer {
 }
 
 /* =====================================================================
-   CHUNK 8 — HOMEPAGE HERO / FRAMEWORK STRIP / DEMO CTA  ·  25 July 2026
+   CHUNK 8, HOMEPAGE HERO / FRAMEWORK STRIP / DEMO CTA  ·  25 July 2026
    (WorkInFlow). Client-approved HTML preview, built into the live site:
-   1) homepage .hero — eyebrow, heading, paragraph and buttons sized up.
-   2) .framework strip — split into two columns by a centre divider,
+   1) homepage .hero, eyebrow, heading, paragraph and buttons sized up.
+   2) .framework strip, split into two columns by a centre divider,
       one CTA button on each side, larger type.
-   3) .demo-cta ("Grade up to 10 of your roles") — heading left-aligned
+   3) .demo-cta ("Grade up to 5 of your roles"), heading left-aligned
       instead of centred, divider down the middle, paragraph + booking
       form moved to the right column.
    ===================================================================== */
@@ -553,7 +553,7 @@ footer {
   }
 }
 
-/* --- 3. Demo CTA ("Grade up to 10 of your roles") --- */
+/* --- 3. Demo CTA ("Grade up to 5 of your roles") --- */
 .demo-cta { text-align: left; padding: 64px 48px; }
 .demo-cta-grid {
   max-width: 1080px;
@@ -580,9 +580,9 @@ footer {
 }
 
 /* =====================================================================
-   CHUNK 9 — MOBILE RESPONSIVE PASS  ·  25 July 2026 (WorkInFlow)
+   CHUNK 9, MOBILE RESPONSIVE PASS  ·  25 July 2026 (WorkInFlow)
    Full-site audit found a number of two/three/four-column grids with
-   no breakpoint at all — they were built and approved at desktop width
+   no breakpoint at all, they were built and approved at desktop width
    only. This closes those gaps. Two tiers used consistently with the
    breakpoints already established elsewhere in this file: 900px for
    "stack to one column" on paired sections, and an additional 560px
@@ -656,7 +656,7 @@ footer {
 @media (max-width: 560px) { .receive-grid { grid-template-columns: 1fr !important; } }
 
 /* ---- Book a Demo: main content + fixed-width form card ----
-   .main-inner was a fixed 1fr/420px split with no fallback — on a
+   .main-inner was a fixed 1fr/420px split with no fallback, on a
    360-400px phone that 420px column alone is wider than the viewport,
    which forces the whole page to scroll horizontally. Stacking this
    is the single highest-impact fix in this pass after the nav. */
@@ -668,7 +668,7 @@ footer {
 }
 
 /* ---- Homepage hero: headline + video placeholder ----
-   No breakpoint existed at all for the main .hero grid — the first
+   No breakpoint existed at all for the main .hero grid, the first
    thing a phone visitor sees was two ~180px-wide squeezed columns
    with a 540px min-height forcing a lot of empty scroll. */
 @media (max-width: 900px) {
@@ -731,14 +731,14 @@ footer {
 .video-missing { color: var(--apag-grey); font-style: italic; padding: 24px; text-align: center; border: 1px dashed var(--border); border-radius: 8px; }
 
 /* =====================================================================
-   CHUNK — Homepage hero explainer video (Vimeo click-to-play facade)
+   CHUNK, Homepage hero explainer video (Vimeo click-to-play facade)
    ---------------------------------------------------------------------
    Replaces the static .hero-video placeholder with a poster + play
    button that only injects the Vimeo <iframe> on click, so the homepage
    LCP stays fast. The poster is Vimeo's own thumbnail (fetched via
    oEmbed in main.js, block 7); if that fetch fails, the brand-gradient
    box shows through as a graceful fallback. .hero-video base styling
-   (aspect-ratio, border, radius) is inherited from styles.css — this
+   (aspect-ratio, border, radius) is inherited from styles.css, this
    chunk only adds the facade layer. tokens.css variables only.
    ===================================================================== */
 .hero-video { position: relative; overflow: hidden; }
@@ -762,3 +762,71 @@ footer {
 .hero-video-play:focus-visible { outline: 3px solid var(--apag-green); outline-offset: 3px; }
 .hero-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .hero-video.is-playing .hero-video-play { display: none; }
+
+
+/* =====================================================================
+   WORKINFLOW UPDATES (Aug 2026), appended per house convention.
+   Tokens only; styles.css untouched.
+   --------------------------------------------------------------------- */
+
+/* --- Item 7: extend the "still:" list to bottom-align with the image --- */
+@media (min-width: 861px) {
+  .tension-right { display: flex; flex-direction: column; }
+  .tension-right .eng-still { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .tension-right .eng-still li { flex: 1; margin-bottom: 0; }
+}
+
+/* --- Item 8: Book a demo, "bring -> leave with" exchange panel + fit grid --- */
+.exchange { position: relative; background: var(--white); border: 1px solid var(--silver);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden; }
+.exchange::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gradient-brand); }
+.exchange-grid { display: grid; grid-template-columns: 1fr 58px 1fr; }
+.ex-side { padding: 30px 30px 32px; }
+.ex-leave { background: var(--apag-blue-tint); }
+.ex-label { display: flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--apag-blue); margin-bottom: 6px; }
+.ex-label svg { width: 16px; height: 16px; flex-shrink: 0; }
+.ex-sub { font-size: 12px; color: var(--apag-grey); margin: 0 0 18px; }
+.ex-list { list-style: none; margin: 0; padding: 0; }
+.ex-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.5;
+  padding: 11px 0; border-bottom: 1px solid rgba(89,89,92,.10); }
+.ex-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.ex-bring .ex-list li { color: var(--apag-grey); }
+.ex-leave .ex-list li { color: var(--apag-blue-dark); }
+.ex-bring .mk { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; border-radius: 4px;
+  border: 1.5px solid var(--silver); background: var(--white); }
+.ex-leave .mk { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; border-radius: 50%;
+  background: var(--apag-green); display: flex; align-items: center; justify-content: center; }
+.ex-leave .mk svg { width: 10px; height: 10px; stroke: var(--white); fill: none; }
+.ex-seam { position: relative; }
+.ex-seam::before { content: ""; position: absolute; top: 26px; bottom: 26px; left: 50%; width: 2px;
+  transform: translateX(-50%); background: linear-gradient(180deg, var(--apag-blue), var(--apag-green));
+  opacity: .5; }
+.ex-node { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 40px;
+  height: 40px; border-radius: 50%; background: var(--white); border: 2px solid var(--apag-blue);
+  box-shadow: var(--shadow-card); display: flex; align-items: center; justify-content: center; z-index: 2; }
+.ex-node svg { width: 18px; height: 18px; stroke: var(--apag-blue); fill: none; transition: transform .2s ease; }
+
+.fit { margin-top: 44px; }
+.fit h2 { font-family: var(--font-heading); font-size: 24px; font-weight: 700; color: var(--apag-blue);
+  margin: 0 0 6px; line-height: 1.3; }
+.fit .fit-lead { font-size: 14px; color: var(--apag-grey); margin: 0 0 22px; }
+.fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fit-item { display: flex; gap: 12px; align-items: flex-start; background: var(--white);
+  border: 1px solid var(--silver); border-left: 3px solid var(--apag-blue-tint);
+  border-radius: var(--radius-md); padding: 15px 16px; font-size: 14px; line-height: 1.45;
+  color: var(--apag-grey); transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease; }
+.fit-item:hover { border-left-color: var(--apag-blue); box-shadow: var(--shadow-card);
+  transform: translateY(-1px); }
+.fit-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--apag-blue); flex-shrink: 0;
+  margin-top: 5px; box-shadow: 0 0 0 4px var(--apag-blue-tint); }
+
+@media (max-width: 720px) {
+  .exchange-grid { grid-template-columns: 1fr; }
+  .ex-seam { height: 58px; }
+  .ex-seam::before { top: 50%; bottom: auto; left: 26px; right: 26px; width: auto; height: 2px;
+    transform: translateY(-50%); background: linear-gradient(90deg, var(--apag-blue), var(--apag-green)); }
+  .ex-node svg { transform: rotate(90deg); }
+  .fit-grid { grid-template-columns: 1fr; }
+}

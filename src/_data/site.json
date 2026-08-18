@@ -2,7 +2,7 @@
   "name": "Engage Job Evaluation",
   "tagline": "Fast & flexible job evaluation",
   "endorsement": "An APAG methodology",
-  "_url_note": "PLACEHOLDER subdomain — confirm with APAG before launch (DNS pending).",
+  "_url_note": "PLACEHOLDER subdomain, confirm with APAG before launch (DNS pending).",
   "url": "https://engage.africapeopleadvisory.com",
   "parent": {
     "name": "Africa People Advisory Group",
@@ -16,8 +16,9 @@
     "url": "https://workinflow.co.za"
   },
   "_hubspot_note": "Paste the real HubSpot Meetings link here (e.g. https://meetings.hubspot.com/yourname/demo). Leave empty to show the placeholder scheduler box.",
-  "hubspotMeetingUrl": "https://meetings.hubspot.com/deon-de-swardt",
+  "hubspotMeetingUrl": "https://meetings-eu1.hubspot.com/keon",
   "nav": [
+    { "label": "Home", "url": "/" },
     { "label": "Overview", "url": "/overview/" },
     { "label": "How it works", "url": "/how-it-works/" },
     { "label": "The process", "url": "/the-process/" },

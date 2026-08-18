@@ -75,7 +75,7 @@ Good governance signs:
 
 ## Section 3: Committee Discipline
 
-A committee structure can strengthen consistency — but only if it is well governed.
+A committee structure can strengthen consistency, but only if it is well governed.
 
 Check whether:
 
@@ -263,7 +263,7 @@ Before relying on the current process, ask:
 
 - Do we have enough internal ownership to sustain the process?
 
-If not, the organisation may have a methodology — but not yet a well-governed job evaluation system.
+If not, the organisation may have a methodology, but not yet a well-governed job evaluation system.
 
 ## Final Note
 

@@ -1,6 +1,6 @@
 ---
 title: "Job Evaluation Committee Guide"
-summary: "How to set up and run an effective evaluation committee — membership, discipline, and the decisions it owns."
+summary: "How to set up and run an effective evaluation committee, membership, discipline, and the decisions it owns."
 category: "Governance"
 readtime: "8 min read"
 order: 8

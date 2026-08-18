@@ -1,6 +1,6 @@
 ---
 title: "Grading Input Checklist"
-summary: "The information that supports stronger, more reliable evaluation decisions — a practical readiness check before you grade a role."
+summary: "The information that supports stronger, more reliable evaluation decisions, a practical readiness check before you grade a role."
 category: "Checklist"
 readtime: "7 min read"
 order: 3
@@ -101,7 +101,7 @@ A role cannot be evaluated well in isolation. Its place in the organisation matt
 
 ## Section 3: Job Description Usefulness
 
-Job descriptions can be useful — but they should not be treated as the only source of truth.
+Job descriptions can be useful, but they should not be treated as the only source of truth.
 
 Engage is clear that role descriptions are helpful as a reference, but not critical, and that a solid knowledge of the role is needed even where job descriptions are incomplete or absent.
 

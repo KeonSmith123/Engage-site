@@ -1,13 +1,13 @@
 ---
 title: "Regrading Decision Guide"
-summary: "When a role should — and should not — be regraded, and how to make that call consistently and defensibly."
+summary: "When a role should (and should not) be regraded, and how to make that call consistently and defensibly."
 category: "Governance"
 readtime: "6 min read"
 order: 6
 gated: true
 draft: false
 ---
-*A practical guide to help organisations decide when a role should be regraded — and when another solution is more appropriate.*
+*A practical guide to help organisations decide when a role should be regraded, and when another solution is more appropriate.*
 
 ## Introduction
 
@@ -17,7 +17,7 @@ Sometimes that request is justified. Sometimes it is not.
 
 The challenge is knowing the difference.
 
-A disciplined approach to regrading protects the integrity of the whole grading framework. Without that discipline, organisations can start using regrading to solve issues that are not really about role size at all — such as pay concerns, retention pressure, performance, or temporary operational demands. That is when confidence in the grading system begins to weaken.
+A disciplined approach to regrading protects the integrity of the whole grading framework. Without that discipline, organisations can start using regrading to solve issues that are not really about role size at all, such as pay concerns, retention pressure, performance, or temporary operational demands. That is when confidence in the grading system begins to weaken.
 
 This guide is designed to help organisations think clearly about when regrading is appropriate, when it is not, and what good governance should look like in the decision.
 

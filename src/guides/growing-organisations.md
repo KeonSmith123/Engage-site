@@ -131,7 +131,7 @@ As organisations scale, they often compete harder for scarce talent. This can cr
 
 ## How to maintain consistency during change
 
-Consistency becomes harder during growth — but it is also more important.
+Consistency becomes harder during growth, but it is also more important.
 
 The following disciplines help organisations maintain confidence in grading decisions as structures evolve.
 
@@ -297,7 +297,7 @@ That is what makes grading more sustainable during growth.
 
 ## Final Note
 
-Job evaluation should help a growing organisation make better decisions — not create more uncertainty.
+Job evaluation should help a growing organisation make better decisions, not create more uncertainty.
 
 Done well, it provides:
 

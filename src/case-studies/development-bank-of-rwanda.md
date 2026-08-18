@@ -9,7 +9,7 @@ sectorTag: "financial"
 meta: "200 employees · Grading structure + pay alignment · Expanded to competency design"
 logo: ""
 abstract: |-
-  This East Africa-based development bank engaged Engage to create a more effective organisational framework. We designed a more differentiated grading structure with clearer progression at lower levels, then aligned compensation to market — and the relationship later expanded into competency design.
+  This East Africa-based development bank engaged Engage to create a more effective organisational framework. We designed a more differentiated grading structure with clearer progression at lower levels, then aligned compensation to market, and the relationship later expanded into competency design.
 context: |-
   This East Africa-based development bank employs approximately 200 people. The relationship began with a job evaluation and grading project aimed at creating a more effective organisational framework to support employee growth, reward management, and broader talent practices.
 challenge: |-

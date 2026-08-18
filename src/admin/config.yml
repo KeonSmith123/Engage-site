@@ -1,4 +1,4 @@
-# Engage Job Evaluation — Decap CMS configuration
+# Engage Job Evaluation, Decap CMS configuration
 # Editors manage Guides and Case studies here. Content is committed back to
 # the Git repo as markdown; Netlify rebuilds the site automatically.
 
@@ -34,7 +34,7 @@ collections:
         name: "category"
         widget: "select"
         options: ["Basics", "Methodology", "Checklist", "Governance", "Org Design", "Template"]
-      - { label: "Read time", name: "readtime", widget: "string", required: false, hint: "e.g. 6 min read — or 'Template'." }
+      - { label: "Read time", name: "readtime", widget: "string", required: false, hint: "e.g. 6 min read, or 'Template'." }
       - { label: "Order", name: "order", widget: "number", value_type: "int", default: 99, hint: "Lower numbers appear first." }
       - { label: "Gated (require email)", name: "gated", widget: "boolean", default: false }
       - { label: "Draft (hide from site)", name: "draft", widget: "boolean", default: false }
@@ -55,7 +55,7 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Summary", name: "summary", widget: "text", hint: "One or two sentences shown on the webinar card." }
       - { label: "Category", name: "category", widget: "string", default: "Webinar", required: false }
-      - { label: "YouTube link", name: "youtube", widget: "string", hint: "Paste the full YouTube link (e.g. https://www.youtube.com/watch?v=XXXXXXXXXXX) — a start time in the link is respected." }
+      - { label: "YouTube link", name: "youtube", widget: "string", hint: "Paste the full YouTube link (e.g. https://www.youtube.com/watch?v=XXXXXXXXXXX), a start time in the link is respected." }
       - { label: "Label", name: "readtime", widget: "string", required: false, default: "Webinar", hint: "Small label on the card, e.g. 'Webinar' or '32 min'." }
       - { label: "Order", name: "order", widget: "number", value_type: "int", default: 99, hint: "Lower numbers appear first." }
       - { label: "Draft (hide from site)", name: "draft", widget: "boolean", default: false }
@@ -111,5 +111,5 @@ collections:
           - { label: "Book a Demo image", name: "demoImage", widget: "image", required: false, hint: "A working-session / people photo for the Book a Demo page." }
           - { label: "Engage vs traditional image", name: "compareImage", widget: "image", required: false, hint: "Photo shown beside the 'Engage vs traditional' intro on the Overview page." }
           - { label: "The problem image", name: "tensionImage", widget: "image", required: false, hint: "Photo shown below the intro text in the 'Many job evaluation systems...' section on the homepage." }
-          - { label: "How It Works — why it matters photo", name: "mattersImage", widget: "image", required: false, hint: "Photo in the 'Why this framework matters' section on the How It Works page." }
-          - { label: "The Process — three ways to engage photo", name: "modelsImage", widget: "image", required: false, hint: "Photo beside the three delivery-model cards on The Process page." }
+          - { label: "How It Works, why it matters photo", name: "mattersImage", widget: "image", required: false, hint: "Photo in the 'Why this framework matters' section on the How It Works page." }
+          - { label: "The Process, three ways to engage photo", name: "modelsImage", widget: "image", required: false, hint: "Photo beside the three delivery-model cards on The Process page." }

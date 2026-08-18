@@ -1,6 +1,6 @@
 ---
 title: "Job Evaluation Governance Guide"
-summary: "What good governance looks like across the full job evaluation lifecycle — triggers, roles, committee discipline, appeals, and audit."
+summary: "What good governance looks like across the full job evaluation lifecycle, triggers, roles, committee discipline, appeals, and audit."
 category: "Governance"
 readtime: "10 min read"
 order: 9
@@ -73,17 +73,17 @@ A useful way to think about governance is this:
 
 ## Governance elements
 
-- Clear triggers — Prevents unnecessary or poorly motivated evaluation requests
+- Clear triggers: prevents unnecessary or poorly motivated evaluation requests
 
-- Defined decision roles — Avoids confusion over who evaluates, validates, and approves
+- Defined decision roles: avoids confusion over who evaluates, validates, and approves
 
-- Documentation and audit trail — Makes decisions explainable and defensible
+- Documentation and audit trail: makes decisions explainable and defensible
 
-- Appeals discipline — Creates fairness without turning the process into ongoing dispute
+- Appeals discipline: creates fairness without turning the process into ongoing dispute
 
-- Committee operating rules — Supports consistency and structured judgment
+- Committee operating rules: supports consistency and structured judgment
 
-## Periodic review — Helps keep the framework current over time
+## Periodic review: helps keep the framework current over time
 
 ## Section 2: The difference between methodology and governance
 

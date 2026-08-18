@@ -1,4 +1,4 @@
-// Engage Job Evaluation — site script.
+// Engage Job Evaluation, site script.
 // The SPA showPage() logic from the demo is intentionally gone; routing
 // is now real pages. This stays minimal.
 
@@ -102,7 +102,7 @@ window.toggleFaq = function (el) {
       })
       .catch(function () {
         errorEl.textContent =
-          "Something went wrong — please try again, or email info@workinflow.co.za.";
+          "Something went wrong, please try again, or email info@workinflow.co.za.";
         errorEl.style.display = "block";
         submitBtn.disabled = false;
         submitBtn.textContent = "Send me the guide";
@@ -173,7 +173,7 @@ window.toggleGridCard = function (card) {
 })();
 
 // 6. Landing: client logo carousel (arrows + dots).
-// Was hardcoded to 5 visible logos regardless of viewport — on a phone
+// Was hardcoded to 5 visible logos regardless of viewport, on a phone
 // that rendered as five unreadable slivers. visible now recalculates
 // on load and resize (5 desktop / 3 tablet / 2 phone), each logo's
 // flex-basis is set directly so it always matches what the transform
@@ -300,8 +300,60 @@ window.toggleGridCard = function (card) {
     iframe.src = embed + "&autoplay=1";
     iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
     iframe.setAttribute("allowfullscreen", "");
-    iframe.setAttribute("title", "Engage — 60-second explainer");
+    iframe.setAttribute("title", "Engage, 60-second explainer");
     frame.appendChild(iframe);
     frame.classList.add("is-playing");
   });
+})();
+
+
+// 8. Sub-page anchor nav: move the active underline to the section in view.
+// Inert on pages without an .anchor-nav (guarded return). Offset is read from
+// the fixed nav's own position so it stays correct if the header height changes.
+(function () {
+  var nav = document.querySelector(".anchor-nav");
+  if (!nav) return;
+  var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
+  if (!links.length) return;
+  var map = links
+    .map(function (a) { return { a: a, sec: document.getElementById(a.getAttribute("href").slice(1)) }; })
+    .filter(function (m) { return m.sec; });
+  if (!map.length) return;
+
+  function offset() { return nav.getBoundingClientRect().bottom + 8; }
+  function setActive(a) {
+    links.forEach(function (l) { l.classList.toggle("active", l === a); });
+  }
+  function update() {
+    var off = offset();
+    var current = map[0];
+    for (var i = 0; i < map.length; i++) {
+      if (map[i].sec.getBoundingClientRect().top - off <= 1) current = map[i];
+      else break;
+    }
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      current = map[map.length - 1];
+    }
+    setActive(current.a);
+  }
+
+  var ticking = false;
+  window.addEventListener("scroll", function () {
+    if (!ticking) { requestAnimationFrame(function () { update(); ticking = false; }); ticking = true; }
+  }, { passive: true });
+  window.addEventListener("resize", update);
+
+  // Click: set active immediately and smooth-scroll with the fixed-nav offset.
+  links.forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      var sec = document.getElementById(a.getAttribute("href").slice(1));
+      if (!sec) return;
+      e.preventDefault();
+      var y = sec.getBoundingClientRect().top + window.scrollY - offset() + 2;
+      window.scrollTo({ top: y, behavior: "smooth" });
+      setActive(a);
+    });
+  });
+
+  update();
 })();

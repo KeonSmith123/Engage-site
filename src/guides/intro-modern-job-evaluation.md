@@ -1,6 +1,6 @@
 ---
 title: "Introduction to Modern Job Evaluation"
-summary: "Why traditional job evaluation struggles in modern organisations — and what a faster, more transparent, factor-based approach looks like."
+summary: "Why traditional job evaluation struggles in modern organisations, and what a faster, more transparent, factor-based approach looks like."
 category: "Basics"
 readtime: "6 min read"
 order: 1

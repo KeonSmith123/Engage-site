@@ -1,5 +1,5 @@
 /* =====================================================================
-   ENGAGE — DESIGN TOKENS
+   ENGAGE, DESIGN TOKENS
    Engage Job Evaluation · An APAG methodology
    ---------------------------------------------------------------------
    Engage is a sub-brand of Africa People Advisory Group (APAG) and
@@ -17,18 +17,18 @@
 :root{
 
   /* -------------------------------------------------------------------
-     1. BRAND PALETTE — raw values
+     1. BRAND PALETTE, raw values
      ------------------------------------------------------------------- */
 
-  /* APAG connective (alignment to parent brand — APAG CI 2022) */
+  /* APAG connective (alignment to parent brand, APAG CI 2022) */
   --apag-blue:           #0075A0;   /* PRIMARY brand colour (blue-led) */
   --apag-blue-dark:      #005a7a;   /* hover / depth / dark surfaces   */
   --apag-blue-tint:      #e6f1f6;   /* tint panels, highlights         */
-  --apag-green:          #1FA049;   /* ACCENT — checks, secondary CTAs */
+  --apag-green:          #1FA049;   /* ACCENT, checks, secondary CTAs */
   --apag-grey:           #59595C;   /* APAG default text colour        */
   --apag-teal:           #008694;   /* secondary accent                */
 
-  /* APAG secondary set — data viz, tags, never used without primaries */
+  /* APAG secondary set, data viz, tags, never used without primaries */
   --apag-lime:           #99CA47;
   --apag-yellow:         #FFC928;
   --apag-orange:         #EE6C4D;
@@ -40,7 +40,7 @@
   --white:               #ffffff;
 
   /* -------------------------------------------------------------------
-     2. SIGNATURE DEVICE — the brand gradient
+     2. SIGNATURE DEVICE, the brand gradient
      APAG runs blue -> green; Engage lands it on the Engage green so the
      family resemblance is unmistakable but the destination is Engage.
      Use for hero bands, mastheads, footer rules. Tagline/text reversed
@@ -49,7 +49,7 @@
   --gradient-brand: linear-gradient(100deg, var(--apag-blue) 0%, var(--apag-green) 100%);
 
   /* -------------------------------------------------------------------
-     3. SEMANTIC TOKENS — use THESE in components
+     3. SEMANTIC TOKENS, use THESE in components
      ------------------------------------------------------------------- */
   --color-primary:        var(--apag-blue);
   --color-primary-strong: var(--apag-blue-dark);
@@ -75,10 +75,10 @@
   --color-danger:  var(--apag-orange);
 
   /* -------------------------------------------------------------------
-     4b. LEGACY ALIASES — styles.css still references the pre-rebrand
+     4b. LEGACY ALIASES, styles.css still references the pre-rebrand
      --green* names in ~130 places. Rather than touch every call site,
      alias them here to the current blue-led palette so those rules
-     resolve correctly. (--green-dark etc. is a variable NAME only —
+     resolve correctly. (--green-dark etc. is a variable NAME only,
      it now points to blue, matching the rest of the CI.)
      ------------------------------------------------------------------- */
   --green:        var(--apag-blue);
@@ -89,21 +89,21 @@
   /* -------------------------------------------------------------------
      4. TYPOGRAPHY
      Headlines: Helvetica/Arial bold in APAG blue (CI 2022), no web-font load.
-     Body/labels: system sans (Helvetica/Arial family) — aligns to the
+     Body/labels: system sans (Helvetica/Arial family), aligns to the
      APAG CI typeface rule while staying dependency-free.
      ------------------------------------------------------------------- */
   --font-heading: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-body:    'Helvetica Neue', Helvetica, Arial, sans-serif;
 
   /* Type scale (1.250 major-third) */
-  --fs-display: 2.500rem;   /* 40px — hero            */
+  --fs-display: 2.500rem;   /* 40px, hero            */
   --fs-h1:      2.000rem;   /* 32px                   */
   --fs-h2:      1.500rem;   /* 24px                   */
   --fs-h3:      1.250rem;   /* 20px                   */
-  --fs-lead:    1.125rem;   /* 18px — intro paragraph */
+  --fs-lead:    1.125rem;   /* 18px, intro paragraph */
   --fs-body:    1.000rem;   /* 16px                   */
   --fs-small:   0.8125rem;  /* 13px                   */
-  --fs-eyebrow: 0.6875rem;  /* 11px — uppercase label */
+  --fs-eyebrow: 0.6875rem;  /* 11px, uppercase label */
 
   --lh-tight:   1.2;
   --lh-heading: 1.3;
@@ -137,7 +137,7 @@
 }
 
 /* =====================================================================
-   6. BASE ELEMENT DEFAULTS (optional — include in the build reset)
+   6. BASE ELEMENT DEFAULTS (optional, include in the build reset)
    ===================================================================== */
 body{
   font-family: var(--font-body);

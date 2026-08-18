@@ -1,10 +1,10 @@
 /* =====================================================================
-   ENGAGE — STYLES (components & layout)
+   ENGAGE, STYLES (components & layout)
    Extracted verbatim from the approved Chunk 1/2 build.
    Depends on tokens.css. Do not hard-code hex values here.
    ===================================================================== */
 
-/* Engage wordmark logo (nav + footer) — added when the approved logo
+/* Engage wordmark logo (nav + footer), added when the approved logo
    file replaced the interim text wordmark. Selector specificity means
    this applies regardless of the duplicated .nav-logo text rules below. */
 .nav-logo { display: flex; align-items: center; }
@@ -14,7 +14,7 @@ footer img[alt^="Engage"] { height: 40px; width: auto; }
 /* Page hero content was left-aligned within the full-bleed coloured band,
    leaving a lot of empty space on wide screens (per client screenshot
    review). Centering the inner block while keeping its own text
-   left-aligned matches the requested fix, and — like the logo rule above —
+   left-aligned matches the requested fix, and, like the logo rule above,
    this single definition wins over the duplicated .page-hero-inner blocks
    further down the file purely because max-width there never set margins. */
 .page-hero { display: flex; justify-content: center; }
@@ -921,7 +921,7 @@ body { font-family:var(--sans); line-height:1.6; background:white; }
   .main-section { padding: 72px 48px; background: var(--mist); }
   .main-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 420px; gap: 64px; align-items: start; }
 
-  /* LEFT — WHAT TO EXPECT */
+  /* LEFT, WHAT TO EXPECT */
   .expect-block { margin-bottom: 40px; }
   .expect-block h2 { font-family: var(--serif); font-size: 30px; color: var(--color-heading); margin-bottom: 14px; }
   .expect-block p { font-size: 15px; color: var(--slate); line-height: 1.8; margin-bottom: 14px; }
