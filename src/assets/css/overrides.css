@@ -256,10 +256,11 @@ footer {
   .eng-compare-top .compare-image,.eng-compare-top .img-slot.compare-image{min-height:220px;order:-1;}
 }
 .tension-left{display:flex;flex-direction:column;}
-.tension-left .tension-image{margin-top:8px;flex:1;width:100%;object-fit:cover;border-radius:14px;min-height:180px;}
-.tension-left .img-slot.tension-image{margin-top:8px;flex:1;aspect-ratio:auto;min-height:180px;}
+.tension-right{display:flex;flex-direction:column;}
+.tension-right .tension-image{width:100%;height:100%;flex:1;object-fit:cover;border-radius:14px;min-height:320px;}
+.tension-right .img-slot.tension-image{flex:1;aspect-ratio:auto;min-height:320px;}
 @media (max-width: 860px){
-  .tension-left .tension-image,.tension-left .img-slot.tension-image{flex:none;height:220px;}
+  .tension-right .tension-image,.tension-right .img-slot.tension-image{flex:none;height:280px;margin-top:8px;}
 }
 .why-engage-left{display:flex;flex-direction:column;}
 
@@ -769,33 +770,13 @@ footer {
    Tokens only; styles.css untouched.
    --------------------------------------------------------------------- */
 
-/* --- Item 7: spread the "still:" list to span the image height, without
-   stretching each block tall. Blocks stay natural-height and distribute
-   across the column with justify-content; a faint brand-gradient spine
-   threads through the chips so the extra space reads as a deliberate
-   device (echoes the "five grids/five stages" motif elsewhere on the
-   site) instead of a gap. The spine sits behind each li's own background,
-   so it only shows in between blocks, not through them. --- */
-@media (min-width: 861px) {
-  .tension-right { display: flex; flex-direction: column; }
-  .tension-right .eng-still {
-    flex: 1; display: flex; flex-direction: column; justify-content: space-between;
-    position: relative;
-  }
-  .tension-right .eng-still::before {
-    content: "";
-    position: absolute;
-    left: 37px; /* centres on the 38px chip: 18px li padding + 19px chip radius */
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(180deg,
-      var(--apag-blue), var(--apag-teal), var(--apag-green), var(--apag-lime), var(--apag-orange));
-    opacity: .35;
-    z-index: 0;
-  }
-  .tension-right .eng-still li { flex: none; margin-bottom: 0; position: relative; z-index: 1; }
-}
+/* --- Item 7: "still:" list now sits under the intro paragraphs in
+   .tension-left (photo moved to .tension-right, see index.njk), so it
+   just needs a little breathing room above it and between the photo
+   column and itself, natural block height, no stretch needed. --- */
+.tension-left .pain-label { margin-top: 8px; }
+.tension-left .eng-still li { margin-bottom: 12px; }
+.tension-left .eng-still li:last-child { margin-bottom: 0; }
 
 /* --- Item 8: Book a demo, "bring -> leave with" exchange panel + fit grid --- */
 .exchange { position: relative; background: var(--white); border: 1px solid var(--silver);
