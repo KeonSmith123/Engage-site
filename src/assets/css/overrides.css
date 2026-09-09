@@ -770,11 +770,31 @@ footer {
    --------------------------------------------------------------------- */
 
 /* --- Item 7: spread the "still:" list to span the image height, without
-   stretching each block tall — natural-height blocks, distributed gaps --- */
+   stretching each block tall. Blocks stay natural-height and distribute
+   across the column with justify-content; a faint brand-gradient spine
+   threads through the chips so the extra space reads as a deliberate
+   device (echoes the "five grids/five stages" motif elsewhere on the
+   site) instead of a gap. The spine sits behind each li's own background,
+   so it only shows in between blocks, not through them. --- */
 @media (min-width: 861px) {
   .tension-right { display: flex; flex-direction: column; }
-  .tension-right .eng-still { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
-  .tension-right .eng-still li { flex: none; margin-bottom: 0; }
+  .tension-right .eng-still {
+    flex: 1; display: flex; flex-direction: column; justify-content: space-between;
+    position: relative;
+  }
+  .tension-right .eng-still::before {
+    content: "";
+    position: absolute;
+    left: 37px; /* centres on the 38px chip: 18px li padding + 19px chip radius */
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg,
+      var(--apag-blue), var(--apag-teal), var(--apag-green), var(--apag-lime), var(--apag-orange));
+    opacity: .35;
+    z-index: 0;
+  }
+  .tension-right .eng-still li { flex: none; margin-bottom: 0; position: relative; z-index: 1; }
 }
 
 /* --- Item 8: Book a demo, "bring -> leave with" exchange panel + fit grid --- */
