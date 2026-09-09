@@ -265,12 +265,12 @@ window.toggleGridCard = function (card) {
   });
 })();
 
-// 7. Landing: homepage hero explainer (Vimeo click-to-play facade).
-// The player iframe is only injected on click, so the homepage stays
-// fast. The poster is Vimeo's own thumbnail, fetched via oEmbed (works
-// for unlisted /hash links too) so CMS editors never upload a still;
-// if the fetch fails, the brand-gradient box stays as the fallback.
-// Mirrors the webinar embed, but deferred rather than eager.
+// 7. Landing: homepage hero explainer (click-to-play facade, YouTube or
+// legacy Vimeo). The player iframe is only injected on click, so the
+// homepage stays fast. The poster is the provider's own thumbnail so CMS
+// editors never upload a still; if it can't be resolved, the brand-gradient
+// box stays as the fallback. Mirrors the webinar embed, but deferred rather
+// than eager.
 (function () {
   var btn = document.querySelector(".hero-video-play");
   if (!btn) return;
@@ -279,7 +279,15 @@ window.toggleGridCard = function (card) {
   var embed = btn.getAttribute("data-vimeo-embed");
   if (!embed) return;
 
-  if (url) {
+  if (url && /youtu/.test(url)) {
+    var yid = (url.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/) ||
+      url.match(/^([A-Za-z0-9_-]{11})$/) || [])[1];
+    if (yid) {
+      btn.style.backgroundImage =
+        "url('https://img.youtube.com/vi/" + yid + "/hqdefault.jpg')";
+      btn.classList.add("has-thumb");
+    }
+  } else if (url) {
     var api =
       "https://vimeo.com/api/oembed.json?url=" + encodeURIComponent(url) + "&width=900";
     fetch(api)

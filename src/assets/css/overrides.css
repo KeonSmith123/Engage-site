@@ -769,11 +769,12 @@ footer {
    Tokens only; styles.css untouched.
    --------------------------------------------------------------------- */
 
-/* --- Item 7: extend the "still:" list to bottom-align with the image --- */
+/* --- Item 7: spread the "still:" list to span the image height, without
+   stretching each block tall — natural-height blocks, distributed gaps --- */
 @media (min-width: 861px) {
   .tension-right { display: flex; flex-direction: column; }
-  .tension-right .eng-still { flex: 1; display: flex; flex-direction: column; gap: 10px; }
-  .tension-right .eng-still li { flex: 1; margin-bottom: 0; }
+  .tension-right .eng-still { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+  .tension-right .eng-still li { flex: none; margin-bottom: 0; }
 }
 
 /* --- Item 8: Book a demo, "bring -> leave with" exchange panel + fit grid --- */

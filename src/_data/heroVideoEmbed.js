@@ -1,10 +1,19 @@
-// Precomputes the Vimeo player embed src from media.json's heroVideo.
-// This lives in the data cascade (a normal committed file) so index.njk
-// doesn't depend on the vimeoSrc filter in .eleventy.js. Same parsing logic.
+// Precomputes the hero video's player embed src from media.json's heroVideo.
+// Accepts a YouTube URL (preferred) or a legacy Vimeo URL, so this can be
+// flipped between providers without touching index.njk. Lives in the data
+// cascade (a normal committed file) so index.njk doesn't depend on the
+// vimeoSrc/ytId filters in .eleventy.js. Same parsing logic as those filters.
 const media = require("./media.json");
 
+function ytId(input) {
+  const s = String(input).trim();
+  const m =
+    s.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/) ||
+    s.match(/^([A-Za-z0-9_-]{11})$/);
+  return m ? m[1] : "";
+}
+
 function vimeoSrc(input) {
-  if (!input) return "";
   const s = String(input).trim();
   let id = "", hash = "", m;
   if ((m = s.match(/player\.vimeo\.com\/video\/(\d+)/))) {
@@ -24,4 +33,14 @@ function vimeoSrc(input) {
   return src + "dnt=1&title=0&byline=0&portrait=0";
 }
 
-module.exports = vimeoSrc(media.heroVideo);
+function embedSrc(input) {
+  if (!input) return "";
+  const s = String(input).trim();
+  if (/youtu/.test(s)) {
+    const id = ytId(s);
+    if (id) return "https://www.youtube.com/embed/" + id + "?rel=0&modestbranding=1";
+  }
+  return vimeoSrc(s);
+}
+
+module.exports = embedSrc(media.heroVideo);
