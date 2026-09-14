@@ -46,6 +46,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         from: `Engage Job Evaluation <${FROM_EMAIL}>`,
         to: [recipient],
+        reply_to: process.env.RESEND_REPLY_TO || "deon@africapeopleadvisory.com",
         subject: "Here's your Engage guide",
         html: wrapEmail(
           "One idea to keep in mind as you read it",
