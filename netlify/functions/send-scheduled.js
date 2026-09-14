@@ -19,6 +19,7 @@ async function sendEmail(to, subject, html) {
     body: JSON.stringify({
       from: `Engage Job Evaluation <${FROM_EMAIL}>`,
       to: [process.env.RESEND_TO_OVERRIDE || to],
+      reply_to: process.env.RESEND_REPLY_TO || "deon@africapeopleadvisory.com",
       subject,
       html,
     }),
