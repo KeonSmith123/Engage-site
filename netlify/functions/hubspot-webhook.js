@@ -143,6 +143,7 @@ exports.handler = async (event) => {
             body: JSON.stringify({
               from: `Engage Job Evaluation <${FROM_EMAIL}>`,
               to: [process.env.RESEND_TO_OVERRIDE || email],
+              reply_to: process.env.RESEND_REPLY_TO || "deon@africapeopleadvisory.com",
               subject: "Your Engage session is confirmed",
               html: wrapEmail(
                 "A quick note on what to expect and how to prepare",
