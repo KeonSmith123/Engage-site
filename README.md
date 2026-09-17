@@ -185,6 +185,15 @@ whichever delayed email each lead is now due:
 - Demo leads: Email 4 (final follow-up) 5 days after Email 3, if no
   follow-up call has been booked.
 
+All three Resend-sending functions (`hubspot-webhook.js`, `send-scheduled.js`,
+`send-guide.js`) set `reply_to` on every send so a reply to any automated
+email lands with a human, not the sending address. It defaults in code to
+`deon@africapeopleadvisory.com`; override with the `RESEND_REPLY_TO` env
+var in Netlify if that should ever change without a code deploy. (This was
+previously hard-set but dropped somewhere between zip uploads — it's now
+back in all three files and driven by one env var so it can't silently
+go missing again.)
+
 Add `EMAIL_VIDEO_URL` to Netlify's environment variables to control the
 explainer video linked in the demo emails (Email 1 and Email 2) — any
 standard YouTube URL works. It currently defaults in code to

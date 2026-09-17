@@ -25,6 +25,7 @@ exports.handler = async (event) => {
   }
   const RESEND_API_KEY = process.env.RESEND_API_KEY;
   const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+  const REPLY_TO_EMAIL = process.env.RESEND_REPLY_TO || "deon@africapeopleadvisory.com";
   const recipient = process.env.RESEND_TO_OVERRIDE || email;
   if (!RESEND_API_KEY) {
     return {
@@ -46,6 +47,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         from: `Engage Job Evaluation <${FROM_EMAIL}>`,
         to: [recipient],
+        reply_to: REPLY_TO_EMAIL,
         subject: "Here's your Engage guide",
         html: wrapEmail(
           "One idea to keep in mind as you read it",

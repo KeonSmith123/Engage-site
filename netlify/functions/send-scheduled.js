@@ -6,6 +6,8 @@ const { neon } = require("@netlify/neon");
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+// Same default/override as hubspot-webhook.js — keep both in sync.
+const REPLY_TO_EMAIL = process.env.RESEND_REPLY_TO || "deon@africapeopleadvisory.com";
 const SITE_URL = process.env.URL || "https://engage.africapeopleadvisory.com";
 const CALENDAR_LINK = `${SITE_URL}/book-demo/`;
 // Same default/override as hubspot-webhook.js — keep both in sync until
@@ -22,6 +24,7 @@ async function sendEmail(to, subject, html) {
     body: JSON.stringify({
       from: `Engage Job Evaluation <${FROM_EMAIL}>`,
       to: [process.env.RESEND_TO_OVERRIDE || to],
+      reply_to: REPLY_TO_EMAIL,
       subject,
       html,
     }),

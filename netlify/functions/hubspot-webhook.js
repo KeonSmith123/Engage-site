@@ -10,6 +10,9 @@ const HUBSPOT_APP_SECRET = process.env.HUBSPOT_APP_SECRET;
 const HUBSPOT_ACCESS_TOKEN = process.env.HUBSPOT_ACCESS_TOKEN;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+// Where replies to the demo emails should land. Override via Netlify env
+// var if this ever needs to change without a code deploy.
+const REPLY_TO_EMAIL = process.env.RESEND_REPLY_TO || "deon@africapeopleadvisory.com";
 // Explainer video shown in the demo emails. Override via the Netlify env var
 // without a code change once Deon confirms the final asset — this default is
 // the candidate link Keon supplied, pending that confirmation.
@@ -226,6 +229,7 @@ async function sendEmail(to, subject, html) {
     body: JSON.stringify({
       from: `Engage Job Evaluation <${FROM_EMAIL}>`,
       to: [process.env.RESEND_TO_OVERRIDE || to],
+      reply_to: REPLY_TO_EMAIL,
       subject,
       html,
     }),
