@@ -10,6 +10,15 @@ const HUBSPOT_APP_SECRET = process.env.HUBSPOT_APP_SECRET;
 const HUBSPOT_ACCESS_TOKEN = process.env.HUBSPOT_ACCESS_TOKEN;
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
+// Explainer video shown in the demo emails. Override via the Netlify env var
+// without a code change once Deon confirms the final asset — this default is
+// the candidate link Keon supplied, pending that confirmation.
+const EMAIL_VIDEO_URL = process.env.EMAIL_VIDEO_URL || "https://youtu.be/9Wdti17Prtw";
+// A booked session less than this many hours away gets its "what you'll see"
+// email immediately (fired from this webhook) instead of waiting for the
+// next daily scheduled run, which may miss the 1-2-day pre-session window
+// entirely for near-term bookings.
+const NEAR_TERM_HOURS = 48;
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
@@ -129,56 +138,73 @@ exports.handler = async (event) => {
 
       if (RESEND_API_KEY) {
         const already = await sql`
-          SELECT email1_sent_at FROM leads
+          SELECT id, email1_sent_at, email2_sent_at FROM leads
           WHERE email = ${email} AND source = 'demo'
           ORDER BY created_at DESC LIMIT 1
         `;
-        if (!already[0] || !already[0].email1_sent_at) {
-          const resendRes = await fetch("https://api.resend.com/emails", {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${RESEND_API_KEY}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              from: `Engage Job Evaluation <${FROM_EMAIL}>`,
-              to: [process.env.RESEND_TO_OVERRIDE || email],
-              reply_to: process.env.RESEND_REPLY_TO || "deon@africapeopleadvisory.com",
-              subject: "Your Engage session is confirmed",
-              html: wrapEmail(
-                "A quick note on what to expect and how to prepare",
-                `
-                <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(name)},</p>
-                <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Your <strong>Engage Job Evaluation</strong> session is confirmed. Thank you for booking time with us.</p>
-                <p style="margin:0 0 16px 0;color:#0075A0;font-size:17px;line-height:1.6;font-weight:bold;">This will be a working session, not a standard presentation.</p>
-                <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">In the session, we will:</p>
-                <ul style="margin:12px 0 20px 0;padding-left:22px;color:#59595C;font-size:16px;line-height:1.6;">
-                  <li style="margin:0 0 8px 0;padding:0;">evaluate a sample of your roles live</li>
-                  <li style="margin:0 0 8px 0;padding:0;">apply the methodology in real time</li>
-                  <li style="margin:0 0 8px 0;padding:0;">explain how decisions are reached</li>
-                  <li style="margin:0 0 8px 0;padding:0;">show how the outputs translate into grading</li>
-                </ul>
-                <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">To get the most value from the discussion, it would help to have the following available:</p>
-                <ul style="margin:12px 0 20px 0;padding-left:22px;color:#59595C;font-size:16px;line-height:1.6;">
-                  <li style="margin:0 0 8px 0;padding:0;">5–10 role titles</li>
-                  <li style="margin:0 0 8px 0;padding:0;">a basic reporting structure</li>
-                  <li style="margin:0 0 8px 0;padding:0;">any current grading information, if available</li>
-                  <li style="margin:0 0 8px 0;padding:0;">any specific grading or reward concerns you want to explore</li>
-                </ul>
-                ${button(calendarLink, "View your booking")}
-                <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Looking forward to the discussion.</p>
-                <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>Engage Job Evaluation team</strong> &middot; APAG</p>
+        const leadRow = already[0];
+
+        if (!leadRow || !leadRow.email1_sent_at) {
+          const sent = await sendEmail(
+            email,
+            "Your Engage session is confirmed",
+            wrapEmail(
+              "A quick note on what to expect and how to prepare",
               `
-              ),
-            }),
-          });
-          if (resendRes.ok) {
+              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(name)},</p>
+              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Your <strong>Engage Job Evaluation</strong> session is confirmed. Thank you for booking time with us.</p>
+              <p style="margin:0 0 16px 0;color:#0075A0;font-size:17px;line-height:1.6;font-weight:bold;">This will be a working session, not a standard presentation.</p>
+              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">In the session, we will:</p>
+              <ul style="margin:12px 0 20px 0;padding-left:22px;color:#59595C;font-size:16px;line-height:1.6;">
+                <li style="margin:0 0 8px 0;padding:0;">evaluate a sample of your roles live</li>
+                <li style="margin:0 0 8px 0;padding:0;">apply the methodology in real time</li>
+                <li style="margin:0 0 8px 0;padding:0;">explain how decisions are reached</li>
+                <li style="margin:0 0 8px 0;padding:0;">show how the outputs translate into grading</li>
+              </ul>
+              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">To get the most value from the discussion, it would help to have the following available:</p>
+              <ul style="margin:12px 0 20px 0;padding-left:22px;color:#59595C;font-size:16px;line-height:1.6;">
+                <li style="margin:0 0 8px 0;padding:0;">5–10 role titles</li>
+                <li style="margin:0 0 8px 0;padding:0;">a basic reporting structure</li>
+                <li style="margin:0 0 8px 0;padding:0;">any current grading information, if available</li>
+                <li style="margin:0 0 8px 0;padding:0;">any specific grading or reward concerns you want to explore</li>
+              </ul>
+              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Before the session, it's worth watching the short video below explaining the methodology:</p>
+              ${videoBlock(EMAIL_VIDEO_URL, "Watch the Engage methodology explainer")}
+              ${button(calendarLink, "View your booking")}
+              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Looking forward to the discussion.</p>
+              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>Engage Job Evaluation team</strong> &middot; APAG</p>
+            `
+            )
+          );
+          if (sent) {
             await sql`
               UPDATE leads SET email1_sent_at = now()
               WHERE email = ${email} AND source = 'demo'
             `;
-          } else {
-            console.error("Resend error (demo confirmation):", await resendRes.text());
+          }
+        }
+
+        // Same-day / near-term booking fix: the daily scheduled function only
+        // catches sessions that are 1-2 days out at the moment it runs. A
+        // session booked for today or tomorrow can fall through that window
+        // entirely, so send the pre-session email right away instead.
+        const current = await sql`
+          SELECT id, email2_sent_at, meeting_time FROM leads
+          WHERE email = ${email} AND source = 'demo'
+          ORDER BY created_at DESC LIMIT 1
+        `;
+        const row = current[0];
+        if (row && !row.email2_sent_at && row.meeting_time) {
+          const hoursUntil = (new Date(row.meeting_time).getTime() - Date.now()) / 36e5;
+          if (hoursUntil > 0 && hoursUntil <= NEAR_TERM_HOURS) {
+            const sent = await sendEmail(
+              email,
+              "What you'll see in the session",
+              wrapEmail("This is where Engage feels different", preSessionEmailHtml(name))
+            );
+            if (sent) {
+              await sql`UPDATE leads SET email2_sent_at = now() WHERE id = ${row.id}`;
+            }
           }
         }
       }
@@ -189,6 +215,53 @@ exports.handler = async (event) => {
 
   return { statusCode: 200, body: JSON.stringify({ ok: true }) };
 };
+
+async function sendEmail(to, subject, html) {
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: `Engage Job Evaluation <${FROM_EMAIL}>`,
+      to: [process.env.RESEND_TO_OVERRIDE || to],
+      subject,
+      html,
+    }),
+  });
+  if (!res.ok) {
+    console.error(`Resend error sending "${subject}" to ${to}:`, await res.text());
+    return false;
+  }
+  return true;
+}
+
+// Same copy as send-scheduled.js's "What you'll see" email — duplicated
+// rather than shared, matching this codebase's per-function convention, so
+// this file can fire it immediately for near-term bookings without a cross-
+// function import.
+function preSessionEmailHtml(name) {
+  return `
+    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(name)},</p>
+    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Ahead of your session, here's a quick sense of what to expect.</p>
+    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Many job evaluation approaches rely heavily on static job descriptions, complex scoring structures, and specialist interpretation that's hard for others to follow.</p>
+    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Engage is designed to work differently. The emphasis is on:</p>
+    <ul style="margin:12px 0 20px 0;padding-left:22px;color:#59595C;font-size:16px;line-height:1.6;">
+      <li style="margin:0 0 8px 0;padding:0;">direct role understanding</li>
+      <li style="margin:0 0 8px 0;padding:0;">structured judgement</li>
+      <li style="margin:0 0 8px 0;padding:0;">transparent logic</li>
+      <li style="margin:0 0 8px 0;padding:0;">practical application</li>
+      <li style="margin:0 0 8px 0;padding:0;">internal usability over time</li>
+    </ul>
+    <p style="margin:0 0 16px 0;color:#0075A0;font-size:17px;line-height:1.6;font-weight:bold;">Most importantly, you'll be able to see exactly how decisions are being made.</p>
+    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">That matters because transparency is one of the main things that builds trust in job evaluation. During the session, we'll apply the approach to your roles so the discussion stays practical and relevant to your organisation.</p>
+    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">A quick reminder to watch the short video explaining the methodology, if you haven't already:</p>
+    ${videoBlock(EMAIL_VIDEO_URL, "Watch the Engage methodology explainer")}
+    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">See you soon.</p>
+    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>Engage Job Evaluation team</strong> &middot; APAG</p>
+  `;
+}
 
 function wrapEmail(previewText, bodyHtml) {
   return `<!DOCTYPE html>
@@ -230,6 +303,38 @@ function button(href, label) {
   return `<table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:24px 0;">
       <tr><td align="center" bgcolor="#0075A0" style="border-radius:6px;">
         <a href="${href}" target="_blank" style="display:inline-block;padding:14px 30px;font-family:Helvetica,Arial,sans-serif;font-size:16px;font-weight:bold;color:#ffffff;text-decoration:none;border-radius:6px;">${label}</a>
+      </td></tr>
+    </table>`;
+}
+
+// Resolves a YouTube URL (any common format) to its video ID. Same pattern
+// as src/assets/js/main.js's hero-video facade, so the ID-extraction logic
+// stays consistent across the site and the emails.
+function ytId(url) {
+  if (!url) return null;
+  const m = String(url).match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/) ||
+    String(url).match(/^([A-Za-z0-9_-]{11})$/);
+  return m ? m[1] : null;
+}
+
+// Renders a click-to-watch video block for email (a linked YouTube thumbnail
+// — email clients can't autoplay video, so this is the standard pattern).
+// Returns "" if no valid video URL is configured, so the email degrades
+// gracefully rather than showing a broken block.
+function videoBlock(url, label) {
+  const id = ytId(url);
+  if (!id) return "";
+  const watchUrl = `https://youtu.be/${id}`;
+  const thumb = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+  return `
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:20px 0;width:100%;max-width:536px;">
+      <tr><td>
+        <a href="${watchUrl}" target="_blank" style="display:block;text-decoration:none;">
+          <img src="${thumb}" width="536" alt="${escapeHtml(label)}" style="display:block;width:100%;max-width:536px;border-radius:8px;border:1px solid #e2e8ec;">
+        </a>
+        <p style="margin:8px 0 0 0;text-align:center;">
+          <a href="${watchUrl}" target="_blank" style="color:#0075A0;font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;text-decoration:none;">&#9654; ${escapeHtml(label)}</a>
+        </p>
       </td></tr>
     </table>`;
 }

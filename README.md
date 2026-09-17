@@ -168,6 +168,30 @@ Both hooks referenced above are now wired up — they just need real credentials
 Which guides are gated is a per-guide checkbox in Decap CMS (`Gated (require
 email)`) — no code changes needed to flip one on or off.
 
+**Timed follow-ups (Netlify DB + scheduled function)**
+
+`netlify/functions/send-guide.js` and `hubspot-webhook.js` log every lead to
+the `leads` table (Netlify DB, Postgres via `@netlify/neon` — no separate
+setup needed, it's provisioned with the site). `netlify/functions/send-
+scheduled.js` runs once a day (`@daily`, set in `netlify.toml`) and sends
+whichever delayed email each lead is now due:
+
+- Guide leads: Email 2 ("Let's apply this to your roles") at day 5.
+- Demo leads: Email 2 ("What you'll see"), normally 1–2 days before the
+  session — but if the session is booked less than 48 hours out,
+  `hubspot-webhook.js` sends this one immediately instead, since the daily
+  check could otherwise miss a same-day or next-day booking entirely.
+- Demo leads: Email 3 ("Next steps") within 24 hours after the session.
+- Demo leads: Email 4 (final follow-up) 5 days after Email 3, if no
+  follow-up call has been booked.
+
+Add `EMAIL_VIDEO_URL` to Netlify's environment variables to control the
+explainer video linked in the demo emails (Email 1 and Email 2) — any
+standard YouTube URL works. It currently defaults in code to
+`https://youtu.be/9Wdti17Prtw`, which is a candidate link pending
+confirmation from Deon at APAG; set the env var once the final video is
+confirmed rather than editing the function files.
+
 ---
 
 Built by **WorkInFlow** · info@workinflow.co.za · workinflow.co.za

@@ -8,6 +8,9 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 const SITE_URL = process.env.URL || "https://engage.africapeopleadvisory.com";
 const CALENDAR_LINK = `${SITE_URL}/book-demo/`;
+// Same default/override as hubspot-webhook.js — keep both in sync until
+// Deon confirms the final explainer video and this becomes a fixed value.
+const EMAIL_VIDEO_URL = process.env.EMAIL_VIDEO_URL || "https://youtu.be/9Wdti17Prtw";
 
 async function sendEmail(to, subject, html) {
   const res = await fetch("https://api.resend.com/emails", {
@@ -19,7 +22,6 @@ async function sendEmail(to, subject, html) {
     body: JSON.stringify({
       from: `Engage Job Evaluation <${FROM_EMAIL}>`,
       to: [process.env.RESEND_TO_OVERRIDE || to],
-      reply_to: process.env.RESEND_REPLY_TO || "deon@africapeopleadvisory.com",
       subject,
       html,
     }),
@@ -75,6 +77,32 @@ function button(href, label) {
     </table>`;
 }
 
+// Same helpers as hubspot-webhook.js — see that file for the full comment.
+function ytId(url) {
+  if (!url) return null;
+  const m = String(url).match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/) ||
+    String(url).match(/^([A-Za-z0-9_-]{11})$/);
+  return m ? m[1] : null;
+}
+
+function videoBlock(url, label) {
+  const id = ytId(url);
+  if (!id) return "";
+  const watchUrl = `https://youtu.be/${id}`;
+  const thumb = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+  return `
+    <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:20px 0;width:100%;max-width:536px;">
+      <tr><td>
+        <a href="${watchUrl}" target="_blank" style="display:block;text-decoration:none;">
+          <img src="${thumb}" width="536" alt="${escapeHtml(label)}" style="display:block;width:100%;max-width:536px;border-radius:8px;border:1px solid #e2e8ec;">
+        </a>
+        <p style="margin:8px 0 0 0;text-align:center;">
+          <a href="${watchUrl}" target="_blank" style="color:#0075A0;font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;text-decoration:none;">&#9654; ${escapeHtml(label)}</a>
+        </p>
+      </td></tr>
+    </table>`;
+}
+
 exports.config = { schedule: "@daily" };
 
 exports.handler = async () => {
@@ -125,6 +153,9 @@ exports.handler = async () => {
   }
 
   // --- Workflow 2, Email 2: demo leads, meeting 1-2 days away ---
+  // Near-term bookings (meeting <48h away at the moment they're booked) are
+  // already handled immediately by hubspot-webhook.js, so this only ever
+  // catches leads who booked further ahead and have now entered the window.
   const preSession = await sql`
     SELECT id, email, name FROM leads
     WHERE source = 'demo'
@@ -152,6 +183,8 @@ exports.handler = async () => {
         </ul>
         <p style="margin:0 0 16px 0;color:#0075A0;font-size:17px;line-height:1.6;font-weight:bold;">Most importantly, you'll be able to see exactly how decisions are being made.</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">That matters because transparency is one of the main things that builds trust in job evaluation. During the session, we'll apply the approach to your roles so the discussion stays practical and relevant to your organisation.</p>
+        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">A quick reminder to watch the short video explaining the methodology, if you haven't already:</p>
+        ${videoBlock(EMAIL_VIDEO_URL, "Watch the Engage methodology explainer")}
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">See you soon.</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>Engage Job Evaluation team</strong> &middot; APAG</p>
       `
