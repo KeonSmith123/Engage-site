@@ -17,6 +17,9 @@
   },
   "_hubspot_note": "Paste the real HubSpot Meetings link here (e.g. https://meetings.hubspot.com/yourname/demo). Leave empty to show the placeholder scheduler box.",
   "hubspotMeetingUrl": "https://meetings.hubspot.com/deon-de-swardt",
+  "_whatsapp_note": "wa.me link to Deon's WhatsApp, with a pre-filled greeting. Leave whatsappUrl empty to hide the WhatsApp button/links site-wide.",
+  "whatsappNumber": "+27 82 467 1459",
+  "whatsappUrl": "https://wa.me/27824671459?text=Hi%2C%20I%27m%20interested%20in%20the%20Engage%20methodology",
   "nav": [
     { "label": "Home", "url": "/" },
     { "label": "Overview", "url": "/overview/" },

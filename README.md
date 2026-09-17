@@ -192,6 +192,23 @@ standard YouTube URL works. It currently defaults in code to
 confirmation from Deon at APAG; set the env var once the final video is
 confirmed rather than editing the function files.
 
+**WhatsApp link**
+
+`src/_data/site.json` has `whatsappNumber` / `whatsappUrl` (a `wa.me` link
+with a pre-filled greeting, pointing at Deon's WhatsApp). It shows up two
+places:
+
+- A floating button (bottom-right, on every page) — `partials/whatsapp-
+  button.njk`, included in `layouts/base.njk`.
+- A "Prefer WhatsApp? Message us" line under the scheduler card on
+  `book-demo.njk`, as an alternative for anyone who'd rather message than
+  self-serve book.
+
+Leave `whatsappUrl` empty in `site.json` to hide it site-wide (both spots
+check `{% if site.whatsappUrl %}`). To change the number or message,
+rebuild the `wa.me` link: `https://wa.me/<countrycode+number, no +/spaces>
+?text=<url-encoded message>`.
+
 ---
 
 Built by **WorkInFlow** · info@workinflow.co.za · workinflow.co.za
