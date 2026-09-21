@@ -21,7 +21,7 @@ Strong job evaluation decisions depend on the quality of the inputs used to eval
 
 - how it compares with other roles in the organisation
 
-One of the biggest weaknesses in traditional job evaluation is over-reliance on indirect or incomplete information. Engage is designed to reduce that risk by combining structured evaluation logic with direct role knowledge and organisational context.
+One of the biggest weaknesses in traditional job evaluation is over-reliance on indirect or incomplete information. engage is designed to reduce that risk by combining structured evaluation logic with direct role knowledge and organisational context.
 
 This checklist is intended to help organisations review whether they have the right information available before evaluating or re-evaluating a role.
 
@@ -103,7 +103,7 @@ A role cannot be evaluated well in isolation. Its place in the organisation matt
 
 Job descriptions can be useful, but they should not be treated as the only source of truth.
 
-Engage is clear that role descriptions are helpful as a reference, but not critical, and that a solid knowledge of the role is needed even where job descriptions are incomplete or absent.
+engage is clear that role descriptions are helpful as a reference, but not critical, and that a solid knowledge of the role is needed even where job descriptions are incomplete or absent.
 
 ### 3.1 Quality of the document
 

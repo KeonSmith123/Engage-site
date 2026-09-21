@@ -19,6 +19,6 @@ approach: |-
 outcome: |-
   The client now has a scalable organisational structure, aligned job titles, and a clear grading framework that provides a strong platform for growth. The work created greater clarity around roles, established a practical basis for local market benchmarking, and positioned the organisation to implement the outcomes at employee level as part of the next phase of support.
 quote: |-
-  Engage provided valuable insights that helped us better assess and grade roles while gaining a clearer understanding of their overall impact on the business. The strategic job grading approach has also streamlined future work on job descriptions, as several of the grading components used within Engage can naturally be leveraged when drafting job descriptions. Overall, the process was intuitive, well-structured, and easy to follow.
+  engage provided valuable insights that helped us better assess and grade roles while gaining a clearer understanding of their overall impact on the business. The strategic job grading approach has also streamlined future work on job descriptions, as several of the grading components used within engage can naturally be leveraged when drafting job descriptions. Overall, the process was intuitive, well-structured, and easy to follow.
 quoteAuthor: ""
 ---

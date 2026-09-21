@@ -834,42 +834,45 @@ footer {
 }
 
 /* =====================================================================
-   WHATSAPP FLOATING BUTTON (Sept 2026, WorkInFlow)
-   Site-wide floating action button linking to Deon's WhatsApp (wa.me),
-   included in base.njk so it persists on every page. Hidden entirely
-   if site.whatsappUrl is empty (see the .njk partial). Styled with the
-   brand green token rather than WhatsApp's own brand green, to stay
-   consistent with APAG CI.
+   WHATSAPP NAV BUTTON (Sept 2026, WorkInFlow)
+   Was a site-wide floating action button; moved into the header, right
+   of the engage logo, per Keon's request. Rendered via header.njk
+   (wrapped with .nav-logo in .nav-logo-group) so it persists on every
+   page. Hidden entirely if site.whatsappUrl is empty (see the .njk
+   partial). Styled with the brand green token rather than WhatsApp's
+   own brand green, to stay consistent with APAG CI.
    ===================================================================== */
-.whatsapp-float {
-  position: fixed;
-  right: 22px;
-  bottom: 22px;
-  z-index: 200;
-  width: 56px;
-  height: 56px;
+.nav-logo-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.whatsapp-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   background: var(--apag-green, #1FA049);
   color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 6px 20px rgba(31,160,73,0.35), 0 2px 6px rgba(17,30,40,0.15);
   text-decoration: none;
-  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+  transition: transform .18s ease, background .18s ease;
 }
-.whatsapp-float:hover {
-  transform: translateY(-3px);
+.whatsapp-nav svg { width: 20px; height: 20px; }
+.whatsapp-nav:hover {
   background: var(--apag-green-dark, #148038);
-  box-shadow: 0 10px 26px rgba(31,160,73,0.42), 0 4px 10px rgba(17,30,40,0.18);
+  transform: translateY(-2px);
 }
-.whatsapp-float:focus-visible {
+.whatsapp-nav:focus-visible {
   outline: 3px solid var(--apag-blue, #0075A0);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 @media (max-width: 560px) {
-  .whatsapp-float { right: 16px; bottom: 16px; width: 50px; height: 50px; }
-  .whatsapp-float svg { width: 24px; height: 24px; }
+  .nav-logo-group { gap: 10px; }
+  .whatsapp-nav { width: 32px; height: 32px; }
+  .whatsapp-nav svg { width: 17px; height: 17px; }
 }
 
 /* ---- Book a demo: "prefer WhatsApp" link under the scheduler card ---- */
@@ -892,4 +895,65 @@ footer {
   background: #fff;
 }
 .whatsapp-inline svg { width: 22px; height: 22px; flex-shrink: 0; color: var(--apag-green, #1FA049); }
+
+/* =====================================================================
+   BOOK A DEMO: RECAPTCHA PRE-GATE (Sept 2026, WorkInFlow)
+   Sits inside the existing #hubspot-meetings / .form-body (28px padding
+   already applied there, so no extra card chrome needed here). Only
+   rendered when site.hubspotMeetingUrl is set — see book-demo.njk.
+   ===================================================================== */
+.demo-gate-intro {
+  margin: 0 0 18px;
+  font-size: 14px;
+  color: var(--apag-grey, #59595C);
+  line-height: 1.5;
+}
+.demo-gate-label {
+  display: block;
+  font-size: 13px;
+  color: var(--apag-grey, #59595C);
+  margin-bottom: 4px;
+}
+.demo-gate-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.demo-gate-input:focus {
+  outline: none;
+  border-color: var(--apag-blue, #0075A0);
+  box-shadow: 0 0 0 3px rgba(0,117,160,0.15);
+}
+.demo-gate-error {
+  font-size: 13px;
+  color: #c0392b;
+  margin: 0 0 12px;
+}
+.demo-gate-submit {
+  width: 100%;
+  background: var(--apag-blue, #0075A0);
+  color: #fff;
+  border: none;
+  padding: 12px 0;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.demo-gate-submit:hover { background: #005f80; }
+.demo-gate-submit:disabled { opacity: 0.65; cursor: default; }
+.demo-gate-fallback { margin-top: 16px; }
+.demo-gate-legal {
+  font-size: 11px;
+  color: #9a9a9a;
+  text-align: center;
+  margin: 16px 0 0;
+}
+.demo-gate-legal a { color: #9a9a9a; text-decoration: underline; }
 .whatsapp-inline strong { color: var(--apag-blue, #0075A0); }

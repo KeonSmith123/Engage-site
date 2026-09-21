@@ -45,10 +45,10 @@ exports.handler = async (event) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: `Engage Job Evaluation <${FROM_EMAIL}>`,
+        from: `engage Job Evaluation <${FROM_EMAIL}>`,
         to: [recipient],
         reply_to: REPLY_TO_EMAIL,
-        subject: "Here's your Engage guide",
+        subject: "Here's your engage guide",
         html: wrapEmail(
           "One idea to keep in mind as you read it",
           `
@@ -66,7 +66,7 @@ exports.handler = async (event) => {
           </ul>
           <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">That's why many organisations start revisiting job evaluation only after the framework has already become harder to trust.</p>
           <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Over the next few days, we'll share a few short ideas on why this happens, what organisations are doing differently, and what a more modern approach can look like in practice.</p>
-          <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>Engage Job Evaluation team</strong> &middot; APAG</p>
+          <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>engage Job Evaluation team</strong> &middot; APAG</p>
         `
         ),
       }),
@@ -104,7 +104,7 @@ function wrapEmail(previewText, bodyHtml) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Engage</title>
+<title>engage</title>
 </head>
 <body style="margin:0;padding:0;background-color:#f4f7f9;">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">${previewText}</div>
@@ -113,16 +113,17 @@ function wrapEmail(previewText, bodyHtml) {
     <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0"
            style="max-width:600px;width:100%;background-color:#ffffff;border:1px solid #e2e8ec;border-radius:10px;overflow:hidden;">
       <tr><td style="background-color:#0075A0;padding:22px 32px;">
-        <span style="font-family:Helvetica,Arial,sans-serif;font-size:20px;font-weight:bold;color:#ffffff;letter-spacing:.3px;">Engage</span><span style="font-family:Helvetica,Arial,sans-serif;font-size:20px;color:#cfe7f0;"> Job Evaluation</span>
+        <span style="font-family:Helvetica,Arial,sans-serif;font-size:20px;font-weight:bold;color:#ffffff;letter-spacing:.3px;">engage</span><span style="font-family:Helvetica,Arial,sans-serif;font-size:20px;color:#cfe7f0;"> Job Evaluation</span>
       </td></tr>
       <tr><td style="height:4px;background-color:#1FA049;font-size:0;line-height:0;">&nbsp;</td></tr>
       <tr><td style="padding:32px;font-family:Helvetica,Arial,sans-serif;">
         ${bodyHtml}
       </td></tr>
       <tr><td style="padding:22px 32px;background-color:#f4f7f9;border-top:1px solid #e2e8ec;">
-        <p style="margin:0 0 6px 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#8a9299;line-height:1.5;">Engage Job Evaluation is a methodology by Africa People Advisory Group (APAG).</p>
+        <p style="margin:0 0 6px 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#8a9299;line-height:1.5;">engage Job Evaluation is a methodology by Africa People Advisory Group (APAG).</p>
+        <p style="margin:0 0 6px 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#a7adb2;line-height:1.5;">If this email is not relevant, please ignore this email.</p>
         <p style="margin:0;font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#a7adb2;line-height:1.5;">
-          You are receiving this because you requested information from Engage.
+          You are receiving this because you requested information from engage.
           <a href="mailto:info@workinflow.co.za?subject=Unsubscribe" style="color:#8a9299;text-decoration:underline;">Unsubscribe</a>.
         </p>
       </td></tr>

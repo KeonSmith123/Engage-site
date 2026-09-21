@@ -150,12 +150,12 @@ exports.handler = async (event) => {
         if (!leadRow || !leadRow.email1_sent_at) {
           const sent = await sendEmail(
             email,
-            "Your Engage session is confirmed",
+            "Your engage session is confirmed",
             wrapEmail(
               "A quick note on what to expect and how to prepare",
               `
               <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(name)},</p>
-              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Your <strong>Engage Job Evaluation</strong> session is confirmed. Thank you for booking time with us.</p>
+              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Your <strong>engage Job Evaluation</strong> session is confirmed. Thank you for booking time with us.</p>
               <p style="margin:0 0 16px 0;color:#0075A0;font-size:17px;line-height:1.6;font-weight:bold;">This will be a working session, not a standard presentation.</p>
               <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">In the session, we will:</p>
               <ul style="margin:12px 0 20px 0;padding-left:22px;color:#59595C;font-size:16px;line-height:1.6;">
@@ -172,10 +172,10 @@ exports.handler = async (event) => {
                 <li style="margin:0 0 8px 0;padding:0;">any specific grading or reward concerns you want to explore</li>
               </ul>
               <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Before the session, it's worth watching the short video below explaining the methodology:</p>
-              ${videoBlock(EMAIL_VIDEO_URL, "Watch the Engage methodology explainer")}
+              ${videoBlock(EMAIL_VIDEO_URL, "Watch the engage methodology explainer")}
               ${button(calendarLink, "View your booking")}
               <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Looking forward to the discussion.</p>
-              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>Engage Job Evaluation team</strong> &middot; APAG</p>
+              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>engage Job Evaluation team</strong> &middot; APAG</p>
             `
             )
           );
@@ -203,7 +203,7 @@ exports.handler = async (event) => {
             const sent = await sendEmail(
               email,
               "What you'll see in the session",
-              wrapEmail("This is where Engage feels different", preSessionEmailHtml(name))
+              wrapEmail("This is where engage feels different", preSessionEmailHtml(name))
             );
             if (sent) {
               await sql`UPDATE leads SET email2_sent_at = now() WHERE id = ${row.id}`;
@@ -227,7 +227,7 @@ async function sendEmail(to, subject, html) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: `Engage Job Evaluation <${FROM_EMAIL}>`,
+      from: `engage Job Evaluation <${FROM_EMAIL}>`,
       to: [process.env.RESEND_TO_OVERRIDE || to],
       reply_to: REPLY_TO_EMAIL,
       subject,
@@ -250,7 +250,7 @@ function preSessionEmailHtml(name) {
     <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(name)},</p>
     <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Ahead of your session, here's a quick sense of what to expect.</p>
     <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Many job evaluation approaches rely heavily on static job descriptions, complex scoring structures, and specialist interpretation that's hard for others to follow.</p>
-    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Engage is designed to work differently. The emphasis is on:</p>
+    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">engage is designed to work differently. The emphasis is on:</p>
     <ul style="margin:12px 0 20px 0;padding-left:22px;color:#59595C;font-size:16px;line-height:1.6;">
       <li style="margin:0 0 8px 0;padding:0;">direct role understanding</li>
       <li style="margin:0 0 8px 0;padding:0;">structured judgement</li>
@@ -261,9 +261,9 @@ function preSessionEmailHtml(name) {
     <p style="margin:0 0 16px 0;color:#0075A0;font-size:17px;line-height:1.6;font-weight:bold;">Most importantly, you'll be able to see exactly how decisions are being made.</p>
     <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">That matters because transparency is one of the main things that builds trust in job evaluation. During the session, we'll apply the approach to your roles so the discussion stays practical and relevant to your organisation.</p>
     <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">A quick reminder to watch the short video explaining the methodology, if you haven't already:</p>
-    ${videoBlock(EMAIL_VIDEO_URL, "Watch the Engage methodology explainer")}
+    ${videoBlock(EMAIL_VIDEO_URL, "Watch the engage methodology explainer")}
     <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">See you soon.</p>
-    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>Engage Job Evaluation team</strong> &middot; APAG</p>
+    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>engage Job Evaluation team</strong> &middot; APAG</p>
   `;
 }
 
@@ -274,7 +274,7 @@ function wrapEmail(previewText, bodyHtml) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Engage</title>
+<title>engage</title>
 </head>
 <body style="margin:0;padding:0;background-color:#f4f7f9;">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;">${previewText}</div>
@@ -283,16 +283,17 @@ function wrapEmail(previewText, bodyHtml) {
     <table role="presentation" width="600" cellspacing="0" cellpadding="0" border="0"
            style="max-width:600px;width:100%;background-color:#ffffff;border:1px solid #e2e8ec;border-radius:10px;overflow:hidden;">
       <tr><td style="background-color:#0075A0;padding:22px 32px;">
-        <span style="font-family:Helvetica,Arial,sans-serif;font-size:20px;font-weight:bold;color:#ffffff;letter-spacing:.3px;">Engage</span><span style="font-family:Helvetica,Arial,sans-serif;font-size:20px;color:#cfe7f0;"> Job Evaluation</span>
+        <span style="font-family:Helvetica,Arial,sans-serif;font-size:20px;font-weight:bold;color:#ffffff;letter-spacing:.3px;">engage</span><span style="font-family:Helvetica,Arial,sans-serif;font-size:20px;color:#cfe7f0;"> Job Evaluation</span>
       </td></tr>
       <tr><td style="height:4px;background-color:#1FA049;font-size:0;line-height:0;">&nbsp;</td></tr>
       <tr><td style="padding:32px;font-family:Helvetica,Arial,sans-serif;">
         ${bodyHtml}
       </td></tr>
       <tr><td style="padding:22px 32px;background-color:#f4f7f9;border-top:1px solid #e2e8ec;">
-        <p style="margin:0 0 6px 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#8a9299;line-height:1.5;">Engage Job Evaluation is a methodology by Africa People Advisory Group (APAG).</p>
+        <p style="margin:0 0 6px 0;font-family:Helvetica,Arial,sans-serif;font-size:13px;color:#8a9299;line-height:1.5;">engage Job Evaluation is a methodology by Africa People Advisory Group (APAG).</p>
+        <p style="margin:0 0 6px 0;font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#a7adb2;line-height:1.5;">If this email is not relevant, please ignore this email.</p>
         <p style="margin:0;font-family:Helvetica,Arial,sans-serif;font-size:12px;color:#a7adb2;line-height:1.5;">
-          You are receiving this because you requested information from Engage.
+          You are receiving this because you requested information from engage.
           <a href="mailto:info@workinflow.co.za?subject=Unsubscribe" style="color:#8a9299;text-decoration:underline;">Unsubscribe</a>.
         </p>
       </td></tr>

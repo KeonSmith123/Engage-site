@@ -1,4 +1,4 @@
-// Engage Job Evaluation, site script.
+// engage Job Evaluation, site script.
 // The SPA showPage() logic from the demo is intentionally gone; routing
 // is now real pages. This stays minimal.
 
@@ -110,7 +110,7 @@ window.toggleFaq = function (el) {
   });
 })();
 
-// 3b. Overview: Engage-vs-traditional comparison accordion.
+// 3b. Overview: engage-vs-traditional comparison accordion.
 window.toggleCompare = function (el) {
   var box = el.closest(".eng-compare");
   if (!box) return;
@@ -308,7 +308,7 @@ window.toggleGridCard = function (card) {
     iframe.src = embed + "&autoplay=1";
     iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
     iframe.setAttribute("allowfullscreen", "");
-    iframe.setAttribute("title", "Engage, 60-second explainer");
+    iframe.setAttribute("title", "engage, 60-second explainer");
     frame.appendChild(iframe);
     frame.classList.add("is-playing");
   });
@@ -364,4 +364,155 @@ window.toggleGridCard = function (card) {
   });
 
   update();
+})();
+
+// 9. Book a demo: reCAPTCHA v3 pre-gate in front of the HubSpot calendar.
+// Same shape as section 3's guide gate: id-based lookups, fetch to a
+// Netlify Function, toggle an error element. v3 runs invisibly; a low
+// score falls back to a visible v2 checkbox rather than blocking outright,
+// since this form exists to capture demo bookings, not to lock people out.
+(function () {
+  var RECAPTCHA_SITE_KEY = "6LfwL8ctAAAAALvz7H0Nfg3sKams5rmH9HlnQcvg";
+
+  var gateForm = document.getElementById("demo-gate-form");
+  if (!gateForm) return; // only present on book-demo when hubspotMeetingUrl is set
+
+  var gate = document.getElementById("demo-gate");
+  var calendarEl = document.getElementById("demo-gate-calendar");
+  var errorEl = document.getElementById("demo-gate-error");
+  var submitBtn = document.getElementById("demo-gate-submit");
+  var fallbackEl = document.getElementById("demo-gate-fallback");
+  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  function showError(message) {
+    errorEl.textContent = message;
+    errorEl.style.display = "block";
+  }
+  function clearError() {
+    errorEl.style.display = "none";
+  }
+  function setLoading(isLoading) {
+    submitBtn.disabled = isLoading;
+    submitBtn.textContent = isLoading ? "Checking…" : "See available times";
+  }
+
+  function loadScript(src) {
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement("script");
+      s.src = src;
+      s.onload = resolve;
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+  // Loaded once per page view, tied to the site key.
+  var recaptchaReady = loadScript(
+    "https://www.google.com/recaptcha/api.js?render=" + RECAPTCHA_SITE_KEY
+  );
+
+  function revealCalendar() {
+    gate.style.display = "none";
+    calendarEl.style.display = "block";
+
+    // Built fresh at reveal time rather than hidden on page load, so
+    // HubSpot's embed script always measures a visible container.
+    var iframeContainer = document.createElement("div");
+    iframeContainer.className = "meetings-iframe-container";
+    iframeContainer.setAttribute(
+      "data-src",
+      calendarEl.getAttribute("data-hubspot-url") + "?embed=true"
+    );
+    calendarEl.appendChild(iframeContainer);
+
+    var embedScript = document.createElement("script");
+    embedScript.type = "text/javascript";
+    embedScript.src = "https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js";
+    document.body.appendChild(embedScript);
+  }
+
+  function verifyToken(token, action) {
+    return fetch("/.netlify/functions/verify-recaptcha", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token: token, action: action }),
+    }).then(function (res) { return res.json(); });
+  }
+
+  function renderFallbackChallenge() {
+    // v3 returned a low score: ask for a visible v2 check as a second
+    // chance rather than rejecting the booking outright.
+    fallbackEl.style.display = "block";
+    fallbackEl.innerHTML = "";
+    var widget = document.createElement("div");
+    widget.className = "g-recaptcha";
+    widget.setAttribute("data-sitekey", RECAPTCHA_SITE_KEY);
+    widget.setAttribute("data-callback", "__demoGateFallbackSuccess");
+    fallbackEl.appendChild(widget);
+
+    if (!window.__demoGateV2Loaded) {
+      window.__demoGateV2Loaded = true;
+      loadScript("https://www.google.com/recaptcha/api.js");
+    }
+
+    window.__demoGateFallbackSuccess = function (v2Token) {
+      setLoading(true);
+      fetch("/.netlify/functions/verify-recaptcha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ secondFactorToken: v2Token }),
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          setLoading(false);
+          if (data.success) {
+            revealCalendar();
+          } else {
+            showError("That didn't verify, please try the checkbox again.");
+          }
+        })
+        .catch(function () {
+          setLoading(false);
+          showError("Something went wrong verifying that. Please try again.");
+        });
+    };
+  }
+
+  gateForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    clearError();
+
+    var name = document.getElementById("demo-gate-name").value.trim();
+    var email = document.getElementById("demo-gate-email").value.trim();
+    var company = document.getElementById("demo-gate-company").value.trim();
+
+    if (!name || !emailRe.test(email) || !company) {
+      showError("Fill in all three fields, with a valid email, to continue.");
+      return;
+    }
+
+    setLoading(true);
+
+    recaptchaReady
+      .then(function () {
+        return new Promise(function (resolve) {
+          grecaptcha.ready(function () {
+            grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "book_demo" }).then(resolve);
+          });
+        });
+      })
+      .then(function (token) { return verifyToken(token, "book_demo"); })
+      .then(function (data) {
+        setLoading(false);
+        if (data.success && !data.lowScore) {
+          revealCalendar();
+        } else {
+          renderFallbackChallenge();
+        }
+      })
+      .catch(function () {
+        setLoading(false);
+        showError("Something went wrong. Please try again.");
+      });
+  });
 })();

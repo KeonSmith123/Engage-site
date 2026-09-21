@@ -1,6 +1,6 @@
 ---
 title: "Methodology Guide"
-summary: "How Engage works end to end: the five decision grids, what each one measures, and how grid outcomes convert into defensible grades."
+summary: "How engage works end to end: the five decision grids, what each one measures, and how grid outcomes convert into defensible grades."
 category: "Methodology"
 readtime: "8 min read"
 order: 2
@@ -9,17 +9,17 @@ draft: false
 ---
 *Job evaluation, rebuilt for modern organisations*
 
-## What is Engage?
+## What is engage?
 
-Engage Job Evaluation is a modern factor-based job evaluation methodology and tool designed to help organisations evaluate roles in a way that is practical, transparent, and defensible.
+engage Job Evaluation is a modern factor-based job evaluation methodology and tool designed to help organisations evaluate roles in a way that is practical, transparent, and defensible.
 
 It was built to respond to the reality that many organisations no longer operate in stable, static environments. Roles evolve quickly. Structures shift. Accountability changes. Traditional job evaluation methods often struggle to keep pace.
 
-Engage gives organisations a more modern way to evaluate roles by focusing on the content and design of the role, rather than relying too heavily on job descriptions or specialist interpretation. It allows organisations to create a clearer, more consistent view of role size and grading across the business.
+engage gives organisations a more modern way to evaluate roles by focusing on the content and design of the role, rather than relying too heavily on job descriptions or specialist interpretation. It allows organisations to create a clearer, more consistent view of role size and grading across the business.
 
-## Why organisations use Engage
+## Why organisations use engage
 
-Organisations use Engage when they need a job evaluation approach that is:
+Organisations use engage when they need a job evaluation approach that is:
 
 - easier to explain to leaders and employees
 
@@ -31,7 +31,7 @@ Organisations use Engage when they need a job evaluation approach that is:
 
 - strong enough to support fair pay, governance, and benchmarking
 
-Job evaluation should create a common language for role size, support analysis of role and pay relativities, enable comparison with the external market, and help define a logical structure for grades and career progression. Engage is designed to do exactly that.
+Job evaluation should create a common language for role size, support analysis of role and pay relativities, enable comparison with the external market, and help define a logical structure for grades and career progression. engage is designed to do exactly that.
 
 ## Why traditional approaches often struggle
 
@@ -49,11 +49,11 @@ That can create several problems:
 
 - the logic becomes harder for the organisation to follow openly and confidently
 
-Engage was designed as a response to these challenges. It supports a more inclusive and transparent process by bringing knowledgeable people into the evaluation and reducing over-reliance on static documentation.
+engage was designed as a response to these challenges. It supports a more inclusive and transparent process by bringing knowledgeable people into the evaluation and reducing over-reliance on static documentation.
 
-## How Engage works
+## How engage works
 
-At its core, Engage evaluates each role across five decision grids. These five grids create a structured view of the size and complexity of the role:
+At its core, engage evaluates each role across five decision grids. These five grids create a structured view of the size and complexity of the role:
 
 - **Technical:** Looks at the knowledge required by the role and how that knowledge is applied.
 
@@ -67,9 +67,9 @@ At its core, Engage evaluates each role across five decision grids. These five g
 
 For some flexible or person-related assignments, Influence can be used as an alternate grid to Impact.
 
-## What Engage considers when grading
+## What engage considers when grading
 
-Engage is built on one core principle: evaluate the role, not the person.
+engage is built on one core principle: evaluate the role, not the person.
 
 That means the methodology focuses on:
 
@@ -97,7 +97,7 @@ This creates a more disciplined and objective basis for grading.
 
 ## A practical and transparent process
 
-Engage is designed to be used in an open, dialogue-based process involving knowledgeable people from the business.
+engage is designed to be used in an open, dialogue-based process involving knowledgeable people from the business.
 
 Depending on the organisation, implementation can involve:
 
@@ -119,17 +119,17 @@ Once a role has been evaluated across the five grids, the combined output is pro
 
 The resulting grades can be aligned with internal grading structures, globally recognised systems, or other agreed grading systems.
 
-This means Engage does not force organisations into a single grading language. It provides a modern evaluation logic that can still connect to the grading platform the organisation already uses or prefers.
+This means engage does not force organisations into a single grading language. It provides a modern evaluation logic that can still connect to the grading platform the organisation already uses or prefers.
 
 ## What clients receive
 
-A typical Engage project can provide:
+A typical engage project can provide:
 
 - a fully evaluated job grid
 
 - aligned grades across roles and job families
 
-- access to the Engage platform
+- access to the engage platform
 
 - trained facilitators or committee members
 
@@ -139,13 +139,13 @@ A typical Engage project can provide:
 
 Additional support can also include job title alignment, implementation support, grade movement reports, and job evaluation policy development.
 
-## Why Engage matters
+## Why engage matters
 
 Job evaluation is not only about ranking jobs. Done well, it helps organisations create internal fairness, support external competitiveness, build more defensible reward structures, compare roles consistently, enable benchmarking, and strengthen pay governance.
 
-## Engage at a glance
+## engage at a glance
 
-Engage is:
+engage is:
 
 - modern
 
@@ -163,7 +163,7 @@ Engage is:
 
 - suitable for evolving organisations
 
-Engage helps organisations:
+engage helps organisations:
 
 - evaluate roles consistently
 
@@ -177,4 +177,4 @@ Engage helps organisations:
 
 ## Next step
 
-Want to see how Engage would evaluate roles in your organisation? Book a practical working session and experience the methodology using your own roles.
+Want to see how engage would evaluate roles in your organisation? Book a practical working session and experience the methodology using your own roles.

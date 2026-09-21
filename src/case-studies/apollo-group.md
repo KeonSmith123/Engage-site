@@ -9,7 +9,7 @@ sectorTag: "financial"
 meta: "800 employees · 200 roles · Two-week in-country engagement"
 logo: ""
 abstract: |-
-  This large financial services group across Kenya and Uganda engaged Engage to strengthen grading, improve consistency, and align reward. Over a two-week in-country engagement we trained a local committee, graded around 200 roles, secured CEO sign-off, and supported a full implementation and communication campaign.
+  This large financial services group across Kenya and Uganda engaged engage to strengthen grading, improve consistency, and align reward. Over a two-week in-country engagement we trained a local committee, graded around 200 roles, secured CEO sign-off, and supported a full implementation and communication campaign.
 context: |-
   This large financial services organisation operates across Kenya and Uganda and employs approximately 800 people. The client engaged us to support a broad job evaluation exercise as part of a wider effort to strengthen grading, improve internal consistency, and align reward structures across the organisation.
 challenge: |-

@@ -211,7 +211,7 @@ Review cycle: Every two years or earlier if required
 
 [Client Name] is undertaking a structured job evaluation process to support internal equity, organisational clarity, and alignment with market practice.
 
-To support this, the organisation will use the Engage Job Evaluation Methodology, a modern factor-based approach that evaluates the contribution, complexity, accountability, and impact of roles in a structured and transparent manner. The methodology focuses on the role itself, rather than the person occupying the role.
+To support this, the organisation will use the engage Job Evaluation Methodology, a modern factor-based approach that evaluates the contribution, complexity, accountability, and impact of roles in a structured and transparent manner. The methodology focuses on the role itself, rather than the person occupying the role.
 
 To ensure appropriate governance, consistency, and long-term sustainability, [Client Name] will establish a Job Evaluation Committee (JEC). The Committee will work with the implementation partner during the project phase and will progressively build the internal capability required to assume custodianship of the methodology after project close-out.
 
