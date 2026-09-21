@@ -272,6 +272,36 @@ window.toggleGridCard = function (card) {
 // box stays as the fallback. Mirrors the webinar embed, but deferred rather
 // than eager.
 (function () {
+  // YouTube serves several thumbnail sizes; maxresdefault (1280x720) only
+  // exists for videos uploaded in HD, and 404s to a tiny 120x90 grey
+  // placeholder rather than failing outright, so we probe it with a real
+  // Image() load and check its width before trusting it. Falls through to
+  // sddefault (640x480), then the original hqdefault (480x360) as the
+  // last resort, so it always ends up with the best size that exists.
+  function setBestYouTubeThumb(btn, yid) {
+    var sizes = ["maxresdefault", "sddefault", "hqdefault"];
+
+    function tryNext(i) {
+      if (i >= sizes.length) return;
+      var src = "https://img.youtube.com/vi/" + yid + "/" + sizes[i] + ".jpg";
+      var probe = new Image();
+      probe.onload = function () {
+        // A missing maxresdefault/sddefault still loads, but as a
+        // 120x90 placeholder — anything wider means it's the real thing.
+        if (probe.naturalWidth > 120 || i === sizes.length - 1) {
+          btn.style.backgroundImage = "url('" + src + "')";
+          btn.classList.add("has-thumb");
+        } else {
+          tryNext(i + 1);
+        }
+      };
+      probe.onerror = function () { tryNext(i + 1); };
+      probe.src = src;
+    }
+
+    tryNext(0);
+  }
+
   var btn = document.querySelector(".hero-video-play");
   if (!btn) return;
 
@@ -283,9 +313,7 @@ window.toggleGridCard = function (card) {
     var yid = (url.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/) ||
       url.match(/^([A-Za-z0-9_-]{11})$/) || [])[1];
     if (yid) {
-      btn.style.backgroundImage =
-        "url('https://img.youtube.com/vi/" + yid + "/hqdefault.jpg')";
-      btn.classList.add("has-thumb");
+      setBestYouTubeThumb(btn, yid);
     }
   } else if (url) {
     var api =
