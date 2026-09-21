@@ -1,0 +1,69 @@
+---
+layout: layouts/base.njk
+title: "Insights"
+description: "Practical insights on modern job evaluation, methodology, checklists, governance, and ready-to-adapt templates from the engage team."
+permalink: /guides/
+---
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="/">Home</a><span>/</span>Insights</div>
+    <div class="eyebrow">Practical insights</div>
+    <h1>Insights for modern <em>job evaluation.</em></h1>
+    <p class="lead">Field-tested guidance from the engage team, the methodology explained, readiness checklists, governance discipline, and templates you can adapt for your own organisation.</p>
+  </div>
+</div>
+
+<section class="cases-section">
+  <div class="section-inner">
+    <div class="insights-tabs" role="tablist" aria-label="Insight categories">
+      <button class="insights-tab active" id="tab-guides" role="tab" aria-selected="true" aria-controls="panel-guides" onclick="showInsights('guides')">Guides</button>
+      <button class="insights-tab" id="tab-webinars" role="tab" aria-selected="false" aria-controls="panel-webinars" onclick="showInsights('webinars')">Webinars</button>
+    </div>
+
+    <div class="insights-panel" id="panel-guides" role="tabpanel" aria-labelledby="tab-guides">
+      <div class="insights-grid">
+        {%- for g in collections.guide %}
+        <a class="insight-card guide-card" href="{{ g.url }}">
+          <div class="insight-tag">{{ g.data.category }}{% if g.data.gated %} &middot; Gated{% endif %}</div>
+          <h4>{{ g.data.title }}</h4>
+          <p>{{ g.data.summary }}</p>
+          <div class="guide-card-foot">
+            <span>{{ g.data.readtime }}</span>
+            {% if g.data.gated %}<span class="guide-lock">Email required</span>{% endif %}
+          </div>
+        </a>
+        {%- endfor %}
+      </div>
+    </div>
+
+    <div class="insights-panel" id="panel-webinars" role="tabpanel" aria-labelledby="tab-webinars" hidden>
+      {%- if collections.webinar.length %}
+      <div class="insights-grid">
+        {%- for w in collections.webinar %}
+        {%- set wid = w.data.videoId %}
+        <a class="insight-card webinar-card" href="{{ w.url }}">
+          <div class="webinar-thumb"{% if wid %} style="background-image:url('https://i.ytimg.com/vi/{{ wid }}/hqdefault.jpg')"{% endif %}>
+            <span class="webinar-play" aria-hidden="true"></span>
+          </div>
+          <div class="webinar-card-body">
+            <div class="insight-tag">{{ w.data.category or "Webinar" }}</div>
+            <h4>{{ w.data.title }}</h4>
+            <p>{{ w.data.summary }}</p>
+          </div>
+        </a>
+        {%- endfor %}
+      </div>
+      {%- else %}
+      <p class="insights-empty">Webinars are coming soon.</p>
+      {%- endif %}
+    </div>
+  </div>
+</section>
+
+<section class="demo-cta" style="background:#005a7a;">
+  <div class="section-inner" style="text-align:center;">
+    <h2 style="color:white;">Prefer to see it live?</h2>
+    <p style="color:rgba(255,255,255,0.8);max-width:560px;margin:14px auto 28px;">Book a working session and we&rsquo;ll grade a handful of your real roles using the engage methodology.</p>
+    <a class="btn-primary" href="/book-demo/">Book a demo</a>
+  </div>
+</section>

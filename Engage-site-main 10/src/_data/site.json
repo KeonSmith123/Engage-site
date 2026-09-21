@@ -1,0 +1,33 @@
+{
+  "name": "engage Job Evaluation",
+  "tagline": "Fast & flexible job evaluation",
+  "endorsement": "An APAG methodology",
+  "_url_note": "PLACEHOLDER subdomain, confirm with APAG before launch (DNS pending).",
+  "url": "https://engage.africapeopleadvisory.com",
+  "parent": {
+    "name": "Africa People Advisory Group",
+    "short": "APAG",
+    "url": "https://africapeopleadvisory.com"
+  },
+  "builder": {
+    "name": "WorkInFlow",
+    "email": "info@workinflow.co.za",
+    "phone": "084 377 2351",
+    "url": "https://workinflow.co.za"
+  },
+  "_hubspot_note": "Paste the real HubSpot Meetings link here (e.g. https://meetings.hubspot.com/yourname/demo). Leave empty to show the placeholder scheduler box.",
+  "hubspotMeetingUrl": "https://meetings.hubspot.com/deon-de-swardt",
+  "_whatsapp_note": "wa.me link to Deon's WhatsApp, with a pre-filled greeting. Leave whatsappUrl empty to hide the WhatsApp button/links site-wide.",
+  "whatsappNumber": "+27 82 467 1459",
+  "whatsappUrl": "https://wa.me/27824671459?text=Hi%2C%20I%27m%20interested%20in%20the%20Engage%20methodology",
+  "nav": [
+    { "label": "Home", "url": "/" },
+    { "label": "Overview", "url": "/overview/" },
+    { "label": "How it works", "url": "/how-it-works/" },
+    { "label": "The process", "url": "/the-process/" },
+    { "label": "Case studies", "url": "/case-studies/" },
+    { "label": "Insights", "url": "/guides/" },
+    { "label": "FAQ", "url": "/faq/" },
+    { "label": "Book a demo", "url": "/book-demo/", "cta": true }
+  ]
+}

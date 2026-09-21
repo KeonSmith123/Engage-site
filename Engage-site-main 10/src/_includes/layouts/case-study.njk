@@ -1,0 +1,28 @@
+---
+layout: layouts/base.njk
+---
+<section class="cs-detail-section">
+  <div class="cs-detail-wrap">
+    <div class="breadcrumb cs-breadcrumb"><a href="/">Home</a><span>/</span><a href="/case-studies/">Case studies</a><span>/</span>{{ title }}</div>
+    <article class="modal cs-modal">
+      <div class="modal-hero">
+        <div class="modal-region">{{ region }}{% if sector %} &middot; {{ sector }}{% endif %}</div>
+        <div class="modal-client">{{ title }}</div>
+        {% if meta %}<div class="modal-meta">{{ meta }}</div>{% endif %}
+      </div>
+      {% if image %}<img class="cs-image" src="{{ image }}" alt="{{ title }}"/>{% else %}<div class="img-slot ratio-wide"><div class="img-slot-label"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.8"/><path d="m21 15-5-5L5 21"/></svg>Photo slot &middot; ready for a licensed image</div></div>{% endif %}
+      <div class="modal-body">
+        {% if abstract %}<p class="cs-abstract">{{ abstract }}</p>{% endif %}
+        {% if context %}<div class="modal-section"><h3>Context</h3><p>{{ context }}</p></div>{% endif %}
+        {% if challenge %}<div class="modal-section"><h3>Business challenge</h3><p>{{ challenge }}</p></div>{% endif %}
+        {% if approach %}<div class="modal-section"><h3>Our approach</h3><p>{{ approach }}</p></div>{% endif %}
+        {% if outcome %}<div class="modal-section"><h3>Outcome</h3><div class="modal-outcome">{{ outcome }}</div></div>{% endif %}
+        {% if quote %}<div class="modal-section"><h3>In the client&rsquo;s words</h3><div class="modal-quote">{{ quote }}{% if quoteAuthor %}<cite>{{ quoteAuthor }}</cite>{% endif %}</div></div>{% endif %}
+      </div>
+      <div class="modal-cta">
+        <a class="btn-primary" href="/book-demo/">Book a demo</a>
+        <a class="btn-ghost-sm" href="/case-studies/">Back to case studies</a>
+      </div>
+    </article>
+  </div>
+</section>

@@ -1,0 +1,17 @@
+{
+  "name": "engage-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Engage Job Evaluation — marketing & conversion site for APAG. Built by WorkInFlow.",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve",
+    "clean": "rm -rf _site"
+  },
+  "dependencies": {
+    "@netlify/neon": "^0.1.2"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6"
+  }
+}

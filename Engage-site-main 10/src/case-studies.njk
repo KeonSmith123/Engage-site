@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+title: "Case studies"
+description: "How organisations across Africa use engage, from an 80-role org redesign delivered in a week to a management team graded proactively ahead of growth."
+permalink: /case-studies/
+---
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <div class="breadcrumb"><a href="/">Home</a><span>/</span>Case studies</div>
+    <div class="eyebrow">Proof in practice</div>
+    <h1>engage in the <em>real world.</em></h1>
+    <p class="lead">From an 80-role organisational redesign delivered in a single week to a nine-role management team graded with intent, see how organisations across Africa put engage to work.</p>
+  </div>
+</div>
+
+<section class="cases-section">
+  <div class="section-inner">
+    <div class="cases-grid">
+      {%- for cs in collections.caseStudy %}
+      <a class="case-card" href="{{ cs.url }}">
+        <div class="case-card-top">
+          {% if cs.data.logo %}
+          <div class="cs-card-logo"><img src="{{ cs.data.logo }}" alt="{{ cs.data.title }} logo"></div>
+          {% endif %}
+          <div class="case-region">{{ cs.data.region }}{% if cs.data.sector %} &middot; {{ cs.data.sector }}{% endif %}</div>
+          <div class="case-client">{{ cs.data.title }}</div>
+          {% if cs.data.meta %}<div class="case-meta">{{ cs.data.meta }}</div>{% endif %}
+        </div>
+        <div class="case-card-body">
+          <span class="case-tag">{{ cs.data.sector }}</span>
+          <p class="case-summary">{{ cs.data.abstract }}</p>
+        </div>
+        <span class="case-cta">Read case study <span>&rarr;</span></span>
+      </a>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
