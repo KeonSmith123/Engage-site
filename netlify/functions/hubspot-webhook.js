@@ -22,6 +22,9 @@ const EMAIL_VIDEO_URL = process.env.EMAIL_VIDEO_URL || "https://youtu.be/9Wdti17
 // next daily scheduled run, which may miss the 1-2-day pre-session window
 // entirely for near-term bookings.
 const NEAR_TERM_HOURS = 48;
+// Demo emails are signed off by the person running the sessions (CR-01 1.5).
+// Override via Netlify env var without a code deploy.
+const DEMO_SIGNOFF_NAME = process.env.DEMO_SIGNOFF_NAME || "Deon de Swardt";
 
 exports.handler = async (event) => {
   if (event.httpMethod !== "POST") {
@@ -70,8 +73,15 @@ exports.handler = async (event) => {
   }
 
   const sql = neon();
+  // company column added in CR-01; idempotent, so safe on every cold start
+  // even if migration 0002 has already been applied.
+  try {
+    await sql`ALTER TABLE leads ADD COLUMN IF NOT EXISTS company TEXT`;
+  } catch (e) {
+    console.error("Could not ensure leads.company column:", e.message);
+  }
   const siteUrl = process.env.URL || "https://engage.africapeopleadvisory.com";
-  const calendarLink = `${siteUrl}/book-demo/`;
+  const sessionLink = `${siteUrl}/book-demo/#session-guidelines`;
 
   for (const evt of events) {
     if (evt.subscriptionType !== "contact.propertyChange") continue;
@@ -82,7 +92,7 @@ exports.handler = async (event) => {
 
     try {
       const contactRes = await fetch(
-        `https://api.hubapi.com/crm/v3/objects/contacts/${contactId}?properties=email,firstname,lastname`,
+        `https://api.hubapi.com/crm/v3/objects/contacts/${contactId}?properties=email,firstname,lastname,company`,
         { headers: { Authorization: `Bearer ${HUBSPOT_ACCESS_TOKEN}` } }
       );
       if (!contactRes.ok) {
@@ -95,6 +105,8 @@ exports.handler = async (event) => {
         [contact.properties.firstname, contact.properties.lastname]
           .filter(Boolean)
           .join(" ") || "there";
+      const greetName = contact.properties.firstname || firstName(name);
+      const company = contact.properties.company || null;
 
       if (!email) {
         console.error("Contact has no email, skipping:", contactId);
@@ -129,13 +141,14 @@ exports.handler = async (event) => {
       if (existing.length > 0) {
         await sql`
           UPDATE leads
-          SET meeting_time = ${meetingTime}, name = ${name}
+          SET meeting_time = ${meetingTime}, name = ${name},
+              company = COALESCE(company, ${company})
           WHERE id = ${existing[0].id}
         `;
       } else {
         await sql`
-          INSERT INTO leads (email, name, source, meeting_time)
-          VALUES (${email}, ${name}, 'demo', ${meetingTime})
+          INSERT INTO leads (email, name, source, meeting_time, company)
+          VALUES (${email}, ${name}, 'demo', ${meetingTime}, ${company})
         `;
       }
 
@@ -154,7 +167,7 @@ exports.handler = async (event) => {
             wrapEmail(
               "A quick note on what to expect and how to prepare",
               `
-              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(name)},</p>
+              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(greetName)},</p>
               <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Your <strong>engage Job Evaluation</strong> session is confirmed. Thank you for booking time with us.</p>
               <p style="margin:0 0 16px 0;color:#0075A0;font-size:17px;line-height:1.6;font-weight:bold;">This will be a working session, not a standard presentation.</p>
               <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">In the session, we will:</p>
@@ -173,9 +186,9 @@ exports.handler = async (event) => {
               </ul>
               <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Before the session, it's worth watching the short video below explaining the methodology:</p>
               ${videoBlock(EMAIL_VIDEO_URL, "Watch the engage methodology explainer")}
-              ${button(calendarLink, "View your booking")}
+              ${button(sessionLink, "What happens in the session")}
               <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Looking forward to the discussion.</p>
-              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>engage Job Evaluation team</strong> &middot; APAG</p>
+              <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>${escapeHtml(DEMO_SIGNOFF_NAME)}</strong><br>engage Job Evaluation &middot; APAG</p>
             `
             )
           );
@@ -203,7 +216,7 @@ exports.handler = async (event) => {
             const sent = await sendEmail(
               email,
               "What you'll see in the session",
-              wrapEmail("This is where engage feels different", preSessionEmailHtml(name))
+              wrapEmail("This is where engage feels different", preSessionEmailHtml(greetName))
             );
             if (sent) {
               await sql`UPDATE leads SET email2_sent_at = now() WHERE id = ${row.id}`;
@@ -263,8 +276,15 @@ function preSessionEmailHtml(name) {
     <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">A quick reminder to watch the short video explaining the methodology, if you haven't already:</p>
     ${videoBlock(EMAIL_VIDEO_URL, "Watch the engage methodology explainer")}
     <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">See you soon.</p>
-    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>engage Job Evaluation team</strong> &middot; APAG</p>
+    <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>${escapeHtml(DEMO_SIGNOFF_NAME)}</strong><br>engage Job Evaluation &middot; APAG</p>
   `;
+}
+
+// Greeting name: first word of the full name only ("Deon de Swardt" ->
+// "Deon"). Change request CR-01 (1.7).
+function firstName(fullName) {
+  const first = String(fullName || "").trim().split(/\s+/)[0];
+  return first || "there";
 }
 
 function wrapEmail(previewText, bodyHtml) {

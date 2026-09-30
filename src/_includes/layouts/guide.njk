@@ -16,10 +16,11 @@ layout: layouts/base.njk
     <div class="guide-gate" id="guide-gate">
       <span class="guide-lock">Gated guide</span>
       <h3>Read the full guide</h3>
-      <p>Enter your name and work email and we&rsquo;ll send &ldquo;{{ title }}&rdquo; straight to your inbox.</p>
+      <p>Enter your details and we&rsquo;ll send &ldquo;{{ title }}&rdquo; straight to your inbox.</p>
       <form class="gate-form" id="gate-form" data-guide-title="{{ title }}" data-guide-slug="{{ page.fileSlug }}" style="text-align:left;max-width:360px;margin:0 auto;">
         <div class="field"><label for="gate-name">Full name</label><input id="gate-name" name="name" type="text" required></div>
         <div class="field"><label for="gate-email">Work email</label><input id="gate-email" name="email" type="email" required></div>
+        <div class="field"><label for="gate-company">Company</label><input id="gate-company" name="company" type="text" autocomplete="organization" required></div>
         <p class="gate-error" id="gate-error" style="display:none;color:#b3261e;font-size:12px;margin:-8px 0 12px;"></p>
         <button type="submit" class="btn-primary" id="gate-submit" style="width:100%;">Send me the guide</button>
       </form>

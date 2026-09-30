@@ -74,9 +74,11 @@ window.toggleFaq = function (el) {
     e.preventDefault();
     var name = document.getElementById("gate-name").value.trim();
     var email = document.getElementById("gate-email").value.trim();
+    var companyEl = document.getElementById("gate-company");
+    var company = companyEl ? companyEl.value.trim() : "";
 
-    if (!name || !emailRe.test(email)) {
-      errorEl.textContent = "Please enter your name and a valid email address.";
+    if (!name || !emailRe.test(email) || (companyEl && !company)) {
+      errorEl.textContent = "Please enter your name, a valid email address and your company.";
       errorEl.style.display = "block";
       return;
     }
@@ -91,6 +93,7 @@ window.toggleFaq = function (el) {
       body: JSON.stringify({
         name: name,
         email: email,
+        company: company,
         guideTitle: form.getAttribute("data-guide-title"),
         guideSlug: form.getAttribute("data-guide-slug"),
       }),
@@ -411,6 +414,10 @@ window.toggleGridCard = function (card) {
   var submitBtn = document.getElementById("demo-gate-submit");
   var fallbackEl = document.getElementById("demo-gate-fallback");
   var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // Details from this step, reused to prefill HubSpot's booking form (so
+  // nobody types their name twice) and sent with the verify call so the
+  // company is recorded against the lead.
+  var lead = { name: "", email: "", company: "" };
 
   function showError(message) {
     errorEl.textContent = message;
@@ -447,9 +454,17 @@ window.toggleGridCard = function (card) {
     // HubSpot's embed script always measures a visible container.
     var iframeContainer = document.createElement("div");
     iframeContainer.className = "meetings-iframe-container";
+    // HubSpot Meetings accepts firstName / lastName / email as query
+    // params and prefills its own form with them.
+    var parts = lead.name.split(/\s+/);
+    var params = "embed=true" +
+      "&firstName=" + encodeURIComponent(parts[0] || "") +
+      "&lastName=" + encodeURIComponent(parts.slice(1).join(" ")) +
+      "&email=" + encodeURIComponent(lead.email);
+    var baseUrl = calendarEl.getAttribute("data-hubspot-url");
     iframeContainer.setAttribute(
       "data-src",
-      calendarEl.getAttribute("data-hubspot-url") + "?embed=true"
+      baseUrl + (baseUrl.indexOf("?") === -1 ? "?" : "&") + params
     );
     calendarEl.appendChild(iframeContainer);
 
@@ -463,7 +478,7 @@ window.toggleGridCard = function (card) {
     return fetch("/.netlify/functions/verify-recaptcha", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: token, action: action }),
+      body: JSON.stringify({ token: token, action: action, lead: lead }),
     }).then(function (res) { return res.json(); });
   }
 
@@ -488,7 +503,7 @@ window.toggleGridCard = function (card) {
       fetch("/.netlify/functions/verify-recaptcha", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ secondFactorToken: v2Token }),
+        body: JSON.stringify({ secondFactorToken: v2Token, lead: lead }),
       })
         .then(function (res) { return res.json(); })
         .then(function (data) {
@@ -513,11 +528,17 @@ window.toggleGridCard = function (card) {
     var name = document.getElementById("demo-gate-name").value.trim();
     var email = document.getElementById("demo-gate-email").value.trim();
     var company = document.getElementById("demo-gate-company").value.trim();
+    var agreeEl = document.getElementById("demo-gate-agree");
 
     if (!name || !emailRe.test(email) || !company) {
       showError("Fill in all three fields, with a valid email, to continue.");
       return;
     }
+    if (agreeEl && !agreeEl.checked) {
+      showError("Please confirm you have read the session guidelines to continue.");
+      return;
+    }
+    lead = { name: name, email: email, company: company };
 
     setLoading(true);
 

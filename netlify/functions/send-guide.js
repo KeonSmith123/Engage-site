@@ -1,5 +1,5 @@
 // Netlify Function: send-guide
-// Receives { name, email, guideTitle, guideSlug } from a guide gate form,
+// Receives { name, email, company, guideTitle, guideSlug } from a guide gate form,
 // sends the guide via Resend, and logs the lead to Netlify DB so the
 // scheduled follow-up function (send-scheduled.js) can pick it up later.
 const { neon } = require("@netlify/neon");
@@ -20,6 +20,7 @@ exports.handler = async (event) => {
   const email = (payload.email || "").trim();
   const guideTitle = (payload.guideTitle || "the guide").trim();
   const guideSlug = (payload.guideSlug || "").trim();
+  const company = (payload.company || "").trim().slice(0, 200) || null;
   if (!name || !EMAIL_RE.test(email)) {
     return { statusCode: 400, body: JSON.stringify({ error: "A valid name and email are required." }) };
   }
@@ -52,7 +53,7 @@ exports.handler = async (event) => {
         html: wrapEmail(
           "One idea to keep in mind as you read it",
           `
-          <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(name)},</p>
+          <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(firstName(name))},</p>
           <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Here's the resource you requested:</p>
           ${button(guideUrl, "Download your guide (PDF)")}
           <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">As you go through it, there's one idea worth keeping in mind:</p>
@@ -80,9 +81,11 @@ exports.handler = async (event) => {
     console.log("DB URL present:", !!process.env.NETLIFY_DATABASE_URL);
     try {
       const sql = neon();
+      // company column added in CR-01; idempotent.
+      await sql`ALTER TABLE leads ADD COLUMN IF NOT EXISTS company TEXT`;
       const result = await sql`
-        INSERT INTO leads (email, name, source, guide_slug, email1_sent_at)
-        VALUES (${email}, ${name}, 'guide', ${guideSlug}, now())
+        INSERT INTO leads (email, name, source, guide_slug, email1_sent_at, company)
+        VALUES (${email}, ${name}, 'guide', ${guideSlug}, now(), ${company})
         RETURNING id
       `;
       console.log("Lead inserted successfully, id:", result[0] ? result[0].id : "unknown");
@@ -96,6 +99,13 @@ exports.handler = async (event) => {
     return { statusCode: 500, body: JSON.stringify({ error: "Unexpected server error." }) };
   }
 };
+
+// Greeting name: first word of the full name only ("Deon de Swardt" ->
+// "Deon"). Change request CR-01 (1.7).
+function firstName(fullName) {
+  const first = String(fullName || "").trim().split(/\s+/)[0];
+  return first || "there";
+}
 
 function wrapEmail(previewText, bodyHtml) {
   return `<!DOCTYPE html>

@@ -13,6 +13,9 @@ const CALENDAR_LINK = `${SITE_URL}/book-demo/`;
 // Same default/override as hubspot-webhook.js — keep both in sync until
 // Deon confirms the final explainer video and this becomes a fixed value.
 const EMAIL_VIDEO_URL = process.env.EMAIL_VIDEO_URL || "https://youtu.be/9Wdti17Prtw";
+// Demo emails are signed off by the person running the sessions (CR-01 1.5).
+// Override via Netlify env var without a code deploy.
+const DEMO_SIGNOFF_NAME = process.env.DEMO_SIGNOFF_NAME || "Deon de Swardt";
 
 async function sendEmail(to, subject, html) {
   const res = await fetch("https://api.resend.com/emails", {
@@ -34,6 +37,13 @@ async function sendEmail(to, subject, html) {
     return false;
   }
   return true;
+}
+
+// Greeting name: first word of the full name only ("Deon de Swardt" ->
+// "Deon"). Change request CR-01 (1.7).
+function firstName(fullName) {
+  const first = String(fullName || "").trim().split(/\s+/)[0];
+  return first || "there";
 }
 
 function wrapEmail(previewText, bodyHtml) {
@@ -133,7 +143,7 @@ exports.handler = async () => {
       wrapEmail(
         "The fastest way to assess fit is to see the approach in practice",
         `
-        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(lead.name)},</p>
+        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(firstName(lead.name))},</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">If the guide raised questions about how this would apply in your organisation, the most useful next step is usually a practical one.</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">The easiest way to understand whether a job evaluation approach works isn't only to read about it — it's to see it applied to your own roles.</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">In a short engage working session, we can:</p>
@@ -174,7 +184,7 @@ exports.handler = async () => {
       wrapEmail(
         "This is where engage feels different",
         `
-        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(lead.name)},</p>
+        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(firstName(lead.name))},</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Ahead of your session, here's a quick sense of what to expect.</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Many job evaluation approaches rely heavily on static job descriptions, complex scoring structures, and specialist interpretation that's hard for others to follow.</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">engage is designed to work differently. The emphasis is on:</p>
@@ -190,7 +200,7 @@ exports.handler = async () => {
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">A quick reminder to watch the short video explaining the methodology, if you haven't already:</p>
         ${videoBlock(EMAIL_VIDEO_URL, "Watch the engage methodology explainer")}
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">See you soon.</p>
-        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>engage Job Evaluation team</strong> &middot; APAG</p>
+        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>${escapeHtml(DEMO_SIGNOFF_NAME)}</strong><br>engage Job Evaluation &middot; APAG</p>
       `
       )
     );
@@ -215,7 +225,7 @@ exports.handler = async () => {
       wrapEmail(
         "A few observations and the most practical next move",
         `
-        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(lead.name)},</p>
+        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(firstName(lead.name))},</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Thank you again for the session. It was useful to work through your roles and see the context more clearly.</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">What you saw in the session is exactly how the methodology would be applied at broader scale across the organisation.</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">From here, the most practical next step is usually one of the following:</p>
@@ -227,7 +237,7 @@ exports.handler = async () => {
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">For organisations that want initial support, followed by internal adoption over time.</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">If you'd like to explore which route makes most sense for your organisation, we can schedule a follow-up discussion.</p>
         ${button(CALENDAR_LINK, "Book a follow-up call")}
-        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>engage Job Evaluation team</strong> &middot; APAG</p>
+        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>${escapeHtml(DEMO_SIGNOFF_NAME)}</strong><br>engage Job Evaluation &middot; APAG</p>
       `
       )
     );
@@ -252,7 +262,7 @@ exports.handler = async () => {
       wrapEmail(
         "Happy to continue the conversation if the timing is right",
         `
-        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(lead.name)},</p>
+        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Hi ${escapeHtml(firstName(lead.name))},</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">I wanted to follow up on the engage session, in case it's been difficult to come back to.</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">In many cases, these discussions sit alongside broader questions around:</p>
         <ul style="margin:12px 0 20px 0;padding-left:22px;color:#59595C;font-size:16px;line-height:1.6;">
@@ -265,7 +275,7 @@ exports.handler = async () => {
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">If this is still something you're reviewing, we'd be very happy to continue the conversation and look at the most practical next step for your environment. If the timing isn't right, that's absolutely fine as well.</p>
         <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">If useful, you can book a short follow-up conversation here:</p>
         ${button(CALENDAR_LINK, "Book a follow-up conversation")}
-        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>engage Job Evaluation team</strong> &middot; APAG</p>
+        <p style="margin:0 0 16px 0;color:#59595C;font-size:16px;line-height:1.6;">Regards,<br><strong>${escapeHtml(DEMO_SIGNOFF_NAME)}</strong><br>engage Job Evaluation &middot; APAG</p>
       `
       )
     );

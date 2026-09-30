@@ -957,3 +957,28 @@ footer {
 }
 .demo-gate-legal a { color: #9a9a9a; text-decoration: underline; }
 .whatsapp-inline strong { color: var(--apag-blue, #0075A0); }
+
+/* =====================================================================
+   BOOK A DEMO: SESSION GUIDELINES TICK BOX (Sept 2026, WorkInFlow)
+   Change request CR-01 (1.1). Sits between the company field and the
+   error line in the reCAPTCHA pre-gate.
+   ===================================================================== */
+.demo-gate-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 2px 0 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--apag-grey, #59595C);
+  cursor: pointer;
+}
+.demo-gate-check input {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  accent-color: var(--apag-blue, #0075A0);
+}
+.demo-gate-check a { color: var(--apag-blue, #0075A0); text-decoration: underline; }
+#session-guidelines { scroll-margin-top: 96px; }
