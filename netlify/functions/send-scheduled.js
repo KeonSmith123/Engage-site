@@ -103,14 +103,10 @@ function videoBlock(url, label) {
   const id = ytId(url);
   if (!id) return "";
   const watchUrl = `https://youtu.be/${id}`;
-  const thumb = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
   return `
     <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:20px 0;width:100%;max-width:536px;">
       <tr><td>
-        <a href="${watchUrl}" target="_blank" style="display:block;text-decoration:none;">
-          <img src="${thumb}" width="536" alt="${escapeHtml(label)}" style="display:block;width:100%;max-width:536px;border-radius:8px;border:1px solid #e2e8ec;">
-        </a>
-        <p style="margin:8px 0 0 0;text-align:center;">
+        <p style="margin:0;text-align:center;">
           <a href="${watchUrl}" target="_blank" style="color:#0075A0;font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;text-decoration:none;">&#9654; ${escapeHtml(label)}</a>
         </p>
       </td></tr>

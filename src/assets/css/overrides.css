@@ -982,3 +982,12 @@ footer {
 }
 .demo-gate-check a { color: var(--apag-blue, #0075A0); text-decoration: underline; }
 #session-guidelines { scroll-margin-top: 96px; }
+
+
+/* ===== CR-02 (Oct 2026): The Process "What you leave with" cards =====
+   The description span was inline with 0 4px padding, so its first line sat
+   4px right of the wrapped lines. Make it a block with no side padding. */
+.receive-item span { display: block; padding: 0; }
+
+/* ===== CR-02: homepage CTA email field — invalid state ===== */
+.demo-cta .demo-form input:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }

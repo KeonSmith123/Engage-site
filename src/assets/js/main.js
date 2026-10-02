@@ -565,3 +565,21 @@ window.toggleGridCard = function (card) {
       });
   });
 })();
+
+
+/* ===== CR-02 (Oct 2026): homepage "Book a demo" email hand-off =====
+   The homepage CTA form now submits (GET) to /book-demo/?email=...
+   Here we prefill the gate's email field and move focus to the name field. */
+(function () {
+  var emailInput = document.getElementById("demo-gate-email");
+  if (!emailInput || !window.URLSearchParams) return;
+  var email = "";
+  try { email = new URLSearchParams(window.location.search).get("email") || ""; } catch (e) { return; }
+  email = email.trim();
+  if (!email) return;
+  if (!emailInput.value) emailInput.value = email;
+  var nameInput = document.getElementById("demo-gate-name");
+  if (nameInput && !nameInput.value) {
+    try { nameInput.focus({ preventScroll: true }); } catch (e) { nameInput.focus(); }
+  }
+})();

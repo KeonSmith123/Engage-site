@@ -342,22 +342,19 @@ function ytId(url) {
   return m ? m[1] : null;
 }
 
-// Renders a click-to-watch video block for email (a linked YouTube thumbnail
-// — email clients can't autoplay video, so this is the standard pattern).
+// Renders a click-to-watch video link for email. CR-02: the linked thumbnail
+// was removed — when a mail client blocks images it showed the alt text in an
+// empty box above the duplicate text link, so only the text link remains.
 // Returns "" if no valid video URL is configured, so the email degrades
 // gracefully rather than showing a broken block.
 function videoBlock(url, label) {
   const id = ytId(url);
   if (!id) return "";
   const watchUrl = `https://youtu.be/${id}`;
-  const thumb = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
   return `
     <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin:20px 0;width:100%;max-width:536px;">
       <tr><td>
-        <a href="${watchUrl}" target="_blank" style="display:block;text-decoration:none;">
-          <img src="${thumb}" width="536" alt="${escapeHtml(label)}" style="display:block;width:100%;max-width:536px;border-radius:8px;border:1px solid #e2e8ec;">
-        </a>
-        <p style="margin:8px 0 0 0;text-align:center;">
+        <p style="margin:0;text-align:center;">
           <a href="${watchUrl}" target="_blank" style="color:#0075A0;font-family:Helvetica,Arial,sans-serif;font-size:14px;font-weight:bold;text-decoration:none;">&#9654; ${escapeHtml(label)}</a>
         </p>
       </td></tr>
