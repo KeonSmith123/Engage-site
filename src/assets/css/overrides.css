@@ -1,303 +1,993 @@
-/* ==========================================================================
-   Per-client overrides.
-   Rules: tokens only (var(--...)), no hex values. Add each change as a
-   labelled chunk with the date and the change-request number if there is one.
-   ========================================================================== */
-
-/* --- CapeX-01 · 2026-10-04 · Type: Poppins headings, mono labels --- */
-h1, h2, h3 { font-weight: 800; letter-spacing: -0.02em; }
-h3, .h3 { font-weight: 700; letter-spacing: -0.01em; }
-.eyebrow { letter-spacing: 0.18em; }
-.mono { font-family: var(--font-mono); letter-spacing: 0.06em; }
-.optional { font-style: normal; font-weight: 400; color: var(--muted); }
-.hl { color: var(--brand); }
-.btn { font-weight: 700; min-height: 48px; }
-.btn-accent { background: var(--accent); border-color: var(--accent); }
-.btn-accent:hover { background: var(--dark); border-color: var(--dark); }
-
-/* --- CapeX-02 · 2026-10-04 · Navy header with logo pill --- */
-.site-header { background: var(--dark); border-bottom: 1px solid var(--on-dark-line); }
-.brand { background: var(--logo-pill); border-radius: var(--radius-sm); padding: 4px 10px; display: flex; }
-.brand img { height: 34px; width: auto; }
-.nav-toggle-bar, .nav-toggle-bar::before, .nav-toggle-bar::after { background: var(--on-dark); }
-.site-nav { background: var(--dark); border-bottom-color: var(--on-dark-line); }
-.site-nav li a { color: var(--on-dark-muted); font-weight: 600; }
-.site-nav li a:hover, .site-nav a[aria-current="page"] { color: var(--on-dark); }
-.site-nav a[aria-current="page"] { box-shadow: inset 0 -2px 0 var(--highlight-on-dark); }
-.nav-actions { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
-.nav-wa { color: var(--mint-on-dark); font-weight: 700; text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
-.nav-wa:hover { color: var(--on-dark); }
-@media (min-width: 900px) {
-  .site-nav ul { gap: 1.25rem; }
-  .site-nav li a { font-size: 0.97rem; }
+/* =====================================================================
+   ENGAGE, OVERRIDES
+   Neutralises the demo's SPA splash-screen body rule for the
+   multipage (Eleventy) context. Loaded last.
+   ===================================================================== */
+/* ------------------------------------------------------------------
+   Port corrections (SPA -> multipage)
+   The source stylesheet carries the demo's splash-screen <body> rule
+   (green background, flex-centered, 100vh). In a multipage site that
+   would break every page, so we reset <body> back to a normal document
+   flow here. Loaded last so it wins cleanly without editing the
+   approved design CSS.
+   ------------------------------------------------------------------ */
+body {
+  background: #ffffff !important;
+  display: block !important;
+  min-height: 0 !important;
+  padding: 0 !important;
 }
-@media (min-width: 900px) and (max-width: 1120px) { .nav-wa { display: none; } }
 
-/* --- CapeX-03 · 2026-10-04 · Dark heroes and bands --- */
-.hero, .page-hero.dark, .band-dark { background: linear-gradient(160deg, var(--dark), var(--dark-deep)); color: var(--on-dark); border: 0; }
-.hero h1, .page-hero.dark h1, .band-dark h2, .band-dark h3 { color: var(--on-dark); }
-.hero .eyebrow, .page-hero.dark .eyebrow, .band-dark .eyebrow { color: var(--highlight-on-dark); }
-.hero .lead, .page-hero.dark .lead, .band-dark .lead, .band-dark p { color: var(--on-dark-muted); }
-.hero .hl, .page-hero.dark .hl, .band-dark .hl { color: var(--highlight-on-dark); }
-.hero a:not(.btn), .band-dark a:not(.btn), .page-hero.dark a:not(.btn) { color: var(--highlight-on-dark); }
-.hero-grid { gap: 3rem; }
-.hero-note { font-size: 0.95rem; color: var(--on-dark-muted); margin-top: 1rem; }
-.btn-outline-light { background: transparent; color: var(--on-dark); border-color: var(--on-dark-line); }
-.btn-outline-light:hover { background: var(--on-dark-fill); color: var(--on-dark); border-color: var(--on-dark); }
-.page-hero.dark { padding: calc(var(--section) * 0.9) 0; }
-.page-hero .hero-grid { align-items: center; }
-.section-cream { background: var(--cream); }
-.stripe { height: 6px; background: var(--gradient-brand); }
-.rides .hero .eyebrow, .rides .hl-mint { color: var(--mint-on-dark); }
-
-/* --- CapeX-04 · 2026-10-04 · Photos --- */
-.photo { margin: 0; position: relative; border-radius: var(--radius); overflow: hidden; background: var(--dark); }
-.photo img { width: 100%; height: 100%; object-fit: cover; }
-.photo figcaption { position: absolute; left: 1rem; right: 1rem; bottom: 1rem; background: var(--scrim); color: var(--on-dark); border-radius: var(--radius-sm); padding: 0.7rem 1rem; font-size: 0.95rem; width: fit-content; max-width: calc(100% - 2rem); }
-.ratio-16-10 { aspect-ratio: 16 / 10; }
-.ratio-5-4 { aspect-ratio: 5 / 4; }
-.ratio-21-8 { aspect-ratio: 21 / 8; }
-.ratio-3-2 { aspect-ratio: 3 / 2; }
-.photo-grid { display: grid; gap: 1rem; }
-.photo-grid .photo { min-height: 240px; }
-@media (min-width: 900px) {
-  .photo-grid { grid-template-columns: 1.15fr 1fr; grid-template-rows: 1fr 1fr; min-height: 480px; }
-  .photo-grid .photo:first-child { grid-row: span 2; }
+/* The demo hid the nav until the splash dismissed. There is no splash
+   in the static site, so the fixed top nav is always visible. */
+nav {
+  display: flex !important;
 }
-@media (max-width: 719px) { .ratio-21-8 { aspect-ratio: 16 / 9; } }
 
-/* --- CapeX-05 · 2026-10-04 · Phone and Live Ops mock-ups (pure HTML/CSS, no fake screenshots) --- */
-.phone { max-width: 320px; margin: 0 auto; background: var(--dark-deep); border-radius: 40px; padding: 12px; box-shadow: var(--shadow-lg); border: 1px solid var(--on-dark-line); }
-.phone-screen { background: var(--bg); color: var(--ink); border-radius: 30px; padding: 22px 18px; display: grid; gap: 12px; }
-.phone-label { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; color: var(--muted); }
-.phone-title { font-family: var(--font-head); font-weight: 700; font-size: 1.2rem; margin: 0; }
-.phone-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; font-size: 0.92rem; }
-.phone-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.phone-code { background: var(--dark); color: var(--on-dark); border-radius: 14px; padding: 14px; text-align: center; }
-.phone-code strong { display: block; font-family: var(--font-mono); font-size: 2.2rem; letter-spacing: 0.3em; color: var(--highlight-on-dark); }
-.phone-code span { font-size: 0.8rem; color: var(--on-dark-muted); }
-.pill { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 3px 10px; font-size: 0.8rem; font-weight: 700; background: var(--brand-soft); color: var(--brand); }
-.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); display: inline-block; }
-.dot.late { background: var(--late); }
-.liveops { background: var(--dark); color: var(--on-dark); border-radius: var(--radius); padding: 1.5rem; display: grid; gap: 0.9rem; box-shadow: var(--shadow-lg); }
-.liveops-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
-.liveops-stats div { background: var(--on-dark-fill); border: 1px solid var(--on-dark-line); border-radius: var(--radius-sm); padding: 0.7rem; }
-.liveops-stats strong { display: block; font-family: var(--font-head); font-size: 1.6rem; line-height: 1.1; }
-.liveops-stats span, .liveops-trip small { color: var(--on-dark-muted); font-size: 0.85rem; }
-.liveops-trip { display: flex; justify-content: space-between; gap: 0.75rem; align-items: center; border-top: 1px solid var(--on-dark-line); padding-top: 0.75rem; }
-.liveops-trip b { display: block; }
-
-/* --- CapeX-06 · 2026-10-04 · Proof strip, steps, chips, ticks --- */
-.proof { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
-.proof div { border-left: 3px solid var(--brand); padding: 0.25rem 0 0.25rem 0.9rem; }
-.proof strong { display: block; font-family: var(--font-head); font-size: 1.5rem; line-height: 1.2; }
-.proof span { color: var(--muted); font-size: 0.95rem; }
-.steps { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); counter-reset: step; }
-.step { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.4rem; }
-.step-num { font-family: var(--font-mono); font-weight: 600; color: var(--brand); font-size: 0.85rem; letter-spacing: 0.08em; margin-bottom: 0.4rem; }
-.step h3 { font-size: 1.1rem; margin-bottom: 0.3rem; }
-.step p { color: var(--muted); margin: 0; font-size: 0.97rem; }
-.band-dark .step { background: var(--on-dark-fill); border-color: var(--on-dark-line); }
-.band-dark .step-num { color: var(--highlight-on-dark); }
-.band-dark .step p { color: var(--on-dark-muted); }
-.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
-.chip { border: 1px solid var(--on-dark-line); border-radius: 999px; padding: 0.3rem 0.9rem; font-size: 0.95rem; }
-.ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
-.ticks li { padding-left: 1.7rem; position: relative; }
-.ticks li::before { content: ""; position: absolute; left: 0; top: 0.45em; width: 0.95rem; height: 0.55rem; border-left: 3px solid var(--accent); border-bottom: 3px solid var(--accent); transform: rotate(-45deg); }
-.band-dark .ticks li::before { border-color: var(--mint-on-dark); }
-.card-label { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; margin-bottom: 0.5rem; }
-.card-more { font-weight: 700; text-decoration: none; display: inline-flex; min-height: 44px; align-items: center; }
-.card.feature { background: var(--dark); color: var(--on-dark); border-color: var(--dark); }
-.card.feature h3 { color: var(--on-dark); }
-.card.feature p { color: var(--on-dark-muted); }
-.card.feature .card-label { color: var(--highlight-on-dark); }
-.card.feature a { color: var(--highlight-on-dark); }
-.card.muted-card { background: var(--surface); box-shadow: none; }
-.placeholder { background: var(--warn-bg); color: var(--warn-ink); border-radius: 4px; padding: 0 4px; font-weight: 600; font-size: 0.92em; }
-.notice { background: var(--warn-bg); color: var(--warn-ink); border-radius: var(--radius-sm); padding: 0.8rem 1rem; font-weight: 700; }
-
-/* --- CapeX-07 · 2026-10-04 · Pricing, FAQ, quote band --- */
-.price { font-family: var(--font-head); font-weight: 800; font-size: 2rem; line-height: 1.1; margin: 0.25rem 0 0.75rem; }
-.price small { font-size: 0.95rem; font-weight: 600; color: var(--muted); }
-.card.feature .price small { color: var(--on-dark-muted); }
-.example { width: 100%; border-collapse: collapse; }
-.example td { padding: 0.65rem 0; border-bottom: 1px solid var(--line); }
-.example td:last-child { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
-.faq { max-width: 820px; }
-.faq details { border-bottom: 1px solid var(--line); padding: 0.9rem 0; }
-.faq summary { font-weight: 700; cursor: pointer; min-height: 32px; display: flex; align-items: center; }
-.faq details p { margin: 0.5rem 0 0; color: var(--muted); }
-.quote-band .split { align-items: start; }
-.quote-band .card { color: var(--ink); }
-.contact-lines { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 0.4rem; }
-.cta-band { background: var(--dark); }
-
-/* --- CapeX-08 · 2026-10-04 · Footer --- */
-.site-footer { background: var(--dark-deep); color: var(--on-dark-muted); border: 0; padding-top: 0; }
-.footer-stripe { height: 6px; background: var(--gradient-brand); margin-bottom: 3rem; }
-.site-footer a { color: var(--on-dark-muted); text-decoration: none; }
-.site-footer a:hover { color: var(--on-dark); text-decoration: underline; }
-.site-footer .muted { color: var(--on-dark-muted); }
-.footer-head { color: var(--on-dark); }
-.footer-logo-pill { display: inline-flex; background: var(--logo-pill); border-radius: var(--radius-sm); padding: 6px 12px; margin-bottom: 0.75rem; }
-.footer-logo { height: 34px; width: auto; margin: 0; }
-.footer-strap { letter-spacing: 0.3em; font-size: 0.8rem; font-weight: 500; color: var(--on-dark); }
-.footer-base { border-top-color: var(--on-dark-line); }
-
-/* --- CapeX-09 · 2026-10-04 · Forms: selects and full-width detail fields --- */
-.field select { appearance: auto; }
-.field-full { grid-column: 1 / -1; }
-.lead-form .btn { width: 100%; }
-@media (min-width: 520px) { .lead-form .btn { width: auto; } }
-
-/* --- CapeX-10 · 2026-10-04 · Light cards inside dark sections keep dark text --- */
-:is(.hero, .page-hero.dark, .band-dark) .card:not(.feature) { color: var(--ink); }
-:is(.hero, .page-hero.dark, .band-dark) .card:not(.feature) :is(h2, h3) { color: var(--ink); }
-:is(.hero, .page-hero.dark, .band-dark) .card:not(.feature) p:not(.form-error) { color: var(--muted); }
-:is(.hero, .page-hero.dark, .band-dark) .card:not(.feature) .form-success p { color: var(--ink); }
-:is(.hero, .page-hero.dark, .band-dark) .card:not(.feature) a:not(.btn) { color: var(--brand); }
-
-/* --- CapeX-11 · 2026-10-04 · Real app screenshots in phone and browser frames --- */
-.shot { margin: 0; display: grid; gap: 0.75rem; justify-items: center; }
-.shot figcaption { font-size: 0.92rem; color: var(--muted); text-align: center; max-width: 30ch; }
-:is(.hero, .page-hero.dark, .band-dark) .shot figcaption { color: var(--on-dark-muted); }
-.shot-phone { width: 100%; max-width: 300px; border: 10px solid var(--dark-deep); border-radius: 38px; overflow: hidden; background: var(--dark-deep); box-shadow: var(--shadow-lg); }
-.shot-phone img { width: 100%; height: auto; display: block; border-radius: 28px; }
-.hero .shot-phone { max-width: 320px; outline: 1px solid var(--on-dark-line); }
-.shot-browser { width: 100%; border-radius: var(--radius); overflow: hidden; background: var(--bg); box-shadow: var(--shadow-lg); border: 1px solid var(--line); }
-.shot-browser::before { content: ""; display: block; height: 28px; background: var(--surface); border-bottom: 1px solid var(--line);
-  background-image: radial-gradient(circle at 16px 14px, var(--line) 5px, transparent 6px), radial-gradient(circle at 34px 14px, var(--line) 5px, transparent 6px), radial-gradient(circle at 52px 14px, var(--line) 5px, transparent 6px); }
-.shot-browser img { width: 100%; height: auto; display: block; }
-.shots { display: grid; gap: 2rem 1.5rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); align-items: start; margin-top: 2rem; }
-.shots .shot-phone { max-width: 260px; }
-.shot-note { font-size: 0.8rem; color: var(--muted); margin-top: 0.75rem; }
-:is(.band-dark) .shot-note { color: var(--on-dark-muted); }
-.shot-card { width: 100%; max-width: 440px; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-lg); background: var(--bg); }
-.shot-card img { width: 100%; height: auto; display: block; }
-.split > * { min-width: 0; }
-.liveops-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.liveops-stats strong { overflow-wrap: anywhere; }
-@media (max-width: 520px) { .liveops-stats strong { font-size: 1.15rem; } }
-
-/* --- CapeX-12 · 2026-10-05 · Homepage v2 draft (intro, story, doors) --- */
-.draft-flag { background: var(--warn-bg); color: var(--warn-ink); text-align: center; font-weight: 700; font-size: 0.9rem; padding: 0.4rem; }
-.intro-hero { position: relative; color: var(--on-dark); background: var(--dark-deep); overflow: hidden; }
-.intro-hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.38; }
-.intro-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--dark-deep) 0%, transparent 85%); }
-.intro-hero-inner { position: relative; z-index: 1; padding-top: clamp(4rem, 10vw, 8rem); padding-bottom: clamp(4rem, 10vw, 8rem); max-width: var(--maxw); }
-.intro-hero h1 { color: var(--on-dark); max-width: 16ch; font-size: clamp(2.4rem, 5vw + 1rem, 4.2rem); line-height: 1.05; }
-.intro-hero .eyebrow, .intro-hero .hl { color: var(--highlight-on-dark); }
-.intro-hero .lead { color: var(--on-dark-muted); max-width: 58ch; }
-.story p { color: var(--muted); }
-.story h2 { color: var(--ink); }
-.story-sign { margin-top: 1.5rem; }
-.timeline { border-left: 3px solid var(--line); padding-left: 1.5rem; display: grid; gap: 1.6rem; }
-.tl-item { display: grid; grid-template-columns: 4.5rem 1fr; gap: 1rem; position: relative; }
-.tl-item::before { content: ""; position: absolute; left: calc(-1.5rem - 9px); top: 0.35rem; width: 15px; height: 15px; border-radius: 50%; background: var(--bg); border: 3px solid var(--brand); }
-.tl-item.now::before { background: var(--accent); border-color: var(--accent); }
-.tl-year { font-family: var(--font-mono); font-weight: 600; color: var(--brand); }
-.tl-item p { margin: 0.2rem 0 0; color: var(--muted); }
-.door-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); }
-.door { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; text-decoration: none; color: var(--ink); background: var(--bg); box-shadow: var(--shadow); transition: transform 0.15s, border-color 0.15s; }
-.door:hover { transform: translateY(-3px); border-color: var(--brand); color: var(--ink); }
-.door img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
-.door-body { padding: 1.25rem; display: grid; gap: 0.35rem; }
-.door-body h3, .door-body p { margin: 0; }
-.door-body p:not(.card-label) { color: var(--muted); }
-.quote { margin: 0; }
-.quote p { font-family: var(--font-head); font-weight: 600; font-size: 1.15rem; line-height: 1.45; }
-
-/* --- CapeX-13 · 2026-10-12 · Rides: readable fine print on navy hero --- */
-.hero .hero-grid > div:first-child .fine-print { color: var(--on-dark-muted); }
-
-/* --- CapeX-14 · 2026-10-12 · Homepage: offer cards (2 columns, each with its own buttons) and quote labels --- */
-.offer-grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@media (max-width: 760px) { .offer-grid { grid-template-columns: 1fr; } }
-.offer { display: flex; flex-direction: column; min-width: 0; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg); box-shadow: var(--shadow); }
-.offer-img { display: block; width: 100%; aspect-ratio: 16 / 7; object-fit: cover; }
-.offer-body { flex: 1; display: flex; flex-direction: column; gap: 0.6rem; padding: 1.5rem; }
-.offer-body h3, .offer-body p { margin: 0; }
-.offer-body h3 a { color: var(--ink); text-decoration: none; }
-.offer-body h3 a:hover { color: var(--brand); text-decoration: underline; }
-.offer-body > p:not(.card-label) { color: var(--muted); }
-.offer-body .ticks { margin: 0.25rem 0 0; font-size: 0.97rem; }
-.offer-actions { margin-top: auto; padding-top: 0.9rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
-.quote p.card-label { font-family: var(--font-mono); font-size: 0.75rem; font-weight: 500; line-height: 1.4; }
-
-/* --- CapeX-15 · 2026-10-12 · Staff transport: six driver rules in an even 3 x 2 grid --- */
-.steps-6 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-@media (max-width: 860px) { .steps-6 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 520px) { .steps-6 { grid-template-columns: 1fr; } }
-
-/* --- CapeX-16 · 2026-10-12 · Promos: offer bar under the header and an optional corner pop-up --- */
-.promo-bar { background: var(--brand); color: #fff; }
-.promo-bar-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 0.6rem; padding-bottom: 0.6rem; }
-.promo-bar p { margin: 0; font-weight: 600; font-size: 0.95rem; }
-.promo-bar a { color: #fff; text-decoration: underline; white-space: nowrap; }
-.promo-close { flex: none; background: transparent; border: 0; color: inherit; font-size: 1.5rem; line-height: 1; width: 44px; height: 44px; cursor: pointer; border-radius: 50%; }
-.promo-close:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
-.promo-pop { position: fixed; right: 1rem; bottom: calc(1rem + env(safe-area-inset-bottom, 0px)); z-index: 60; max-width: min(360px, calc(100vw - 2rem)); }
-.promo-pop-card { position: relative; background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow-lg); padding: 1.25rem 1.25rem 1.25rem; display: grid; gap: 0.6rem; }
-.promo-pop-card .promo-close { position: absolute; top: 0.25rem; right: 0.25rem; color: var(--muted); }
-.promo-pop-title { font-family: var(--font-head); font-weight: 700; margin: 0; padding-right: 2rem; }
-.promo-pop-card p { margin: 0; }
-@media (prefers-reduced-motion: no-preference) { .promo-pop:not([hidden]) { animation: promo-in 0.25s ease-out; } }
-@keyframes promo-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-
-/* --- CapeX-17 · 2026-10-12 · Convoi OS: "coming soon" note inside a module card --- */
-.module-soon { margin: 1rem 0 0; padding-top: 0.9rem; border-top: 1px dashed var(--line); font-size: 0.93rem; color: var(--muted); }
-.module-soon b { color: var(--ink); }
-
-/* --- CapeX-18 · 2026-10-12 · Convoi OS page: light product hero, fleet tabs, feature rows, before/after, early access tooltip --- */
-.cv-hero { background: linear-gradient(180deg, var(--cream) 0%, var(--bg) 100%); padding-top: clamp(3rem, 7vw, 5.5rem); overflow: hidden; }
-.cv-hero-copy { max-width: 46rem; }
-.cv-hero h1 { color: var(--ink); text-wrap: balance; }
-.cv-hero .lead { color: var(--muted); }
-.cv-hero-visual { position: relative; margin-top: 2.5rem; padding-right: clamp(0px, 8vw, 120px); padding-bottom: 2rem; }
-.cv-hero-visual .shot-browser { box-shadow: var(--shadow-lg); }
-.cv-hero-phone.shot-phone { position: absolute; right: 0; bottom: 0; width: clamp(120px, 18vw, 220px); max-width: none; }
-@media (max-width: 640px) { .cv-hero-visual { padding-right: 0; } .cv-hero-phone.shot-phone { display: none; } }
-.cv-tabs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
-.cv-tab { font: inherit; font-weight: 600; padding: 0.65rem 1.1rem; min-height: 44px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
-.cv-tab[aria-selected="true"] { background: var(--dark); border-color: var(--dark); color: var(--on-dark); }
-.cv-tab:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-.cv-panel { display: grid; gap: 2rem; align-items: center; background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(1.25rem, 3vw, 2.25rem); box-shadow: var(--shadow); }
-.cv-panel + .cv-panel { margin-top: 1rem; }
-@media (min-width: 860px) { .cv-panel { grid-template-columns: 1.1fr 1fr; } }
-.cv-panel h3 { margin-top: 0; }
-.cv-panel-shot { margin: 0; display: flex; justify-content: center; }
-.cv-panel-shot > img { max-height: 420px; width: auto; max-width: 100%; border-radius: var(--radius-sm); box-shadow: var(--shadow-lg); }
-.cv-panel-shot .shot-phone { max-width: 220px; }
-.cv-modules { margin: 1.25rem 0 0; font-family: var(--font-mono); font-size: 0.8rem; letter-spacing: 0.04em; color: var(--brand); }
-.cv-soon { margin: 1rem 0 0; padding: 0.75rem 1rem; border-radius: var(--radius-sm); background: var(--brand-soft); font-size: 0.95rem; }
-.cv-rows { display: grid; gap: clamp(3rem, 7vw, 5.5rem); }
-.cv-row { display: grid; gap: 2rem; align-items: center; }
-@media (min-width: 900px) {
-  .cv-row { grid-template-columns: 1fr 1fr; }
-  .cv-row-wide { grid-template-columns: 0.8fr 1.4fr; }
-  .cv-row-flip .cv-row-copy { order: 2; }
-  .cv-row-flip.cv-row-wide { grid-template-columns: 1.4fr 0.8fr; }
+/* =====================================================================
+   MOBILE NAV, hamburger menu (25 July 2026, WorkInFlow)
+   The site previously had zero responsive handling for the top nav,
+   .nav-links was an unconditional flex row with 7 items, which either
+   overflows or wraps on phone widths. This adds a standard hamburger
+   toggle below 860px (matching the breakpoint already used for the
+   image-slot sections added this week), driven by main.js.
+   ===================================================================== */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 110;
 }
-.cv-row-copy h2 { text-wrap: balance; }
-.cv-row-shot { margin: 0; display: flex; justify-content: center; min-width: 0; }
-.cv-row-shot .shot-card { max-width: 380px; }
-.cv-phones { gap: 1.25rem; }
-.cv-phones .shot-phone { max-width: 220px; }
-.cv-phones .shot-phone:nth-child(2) { margin-top: 3rem; }
-.cv-ba { display: grid; gap: 1rem; }
-@media (min-width: 760px) { .cv-ba { grid-template-columns: 1fr 1fr; } }
-.cv-ba-col { border-radius: var(--radius); padding: 1.5rem; }
-.cv-before { background: var(--surface); border: 1px dashed var(--line); color: var(--muted); }
-.cv-before ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.6rem; }
-.cv-after { background: var(--dark); color: var(--on-dark); }
-.cv-after .card-label { color: var(--highlight-on-dark); }
-.cv-after .ticks li::before { border-color: var(--mint-on-dark); }
-.cv-early { display: grid; gap: 2rem; align-items: center; }
-@media (min-width: 900px) { .cv-early { grid-template-columns: 1fr 1fr; } }
-.tip { position: relative; display: inline-block; vertical-align: middle; margin-left: 0.35rem; }
-.tip-btn { width: 22px; height: 22px; border-radius: 50%; border: 1px solid currentColor; background: transparent; color: inherit; font: 700 0.75rem/1 var(--font-body); cursor: help; padding: 0; }
-.tip-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-.tip-text { position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translateX(-50%); width: max-content; max-width: min(260px, 80vw); background: var(--dark); color: var(--on-dark); font: 500 0.85rem/1.4 var(--font-body); letter-spacing: 0; text-transform: none; padding: 0.6rem 0.75rem; border-radius: var(--radius-sm); box-shadow: var(--shadow-lg); opacity: 0; visibility: hidden; transition: opacity 0.15s; z-index: 5; pointer-events: none; }
-.tip:hover .tip-text, .tip-btn:focus + .tip-text { opacity: 1; visibility: visible; }
-.cv-data strong { font-size: 1.1rem; }
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--apag-grey, #59595C);
+  border-radius: 1px;
+  transition: transform .25s ease, opacity .2s ease;
+}
+.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 860px) {
+  nav { padding: 0 20px !important; }
+  .nav-toggle { display: flex !important; }
+  .nav-links {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+    background: #fff;
+    border-bottom: 1px solid var(--border, #dfe3e6);
+    box-shadow: 0 12px 24px rgba(17,30,40,0.08);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .3s ease;
+  }
+  .nav-links.open {
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+  }
+  .nav-links li { width: 100%; }
+  .nav-links a {
+    display: block;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--border, #dfe3e6);
+    font-size: 16px;
+  }
+  .nav-links .nav-cta {
+    display: block;
+    margin: 16px 24px;
+    text-align: center;
+  }
+}
+
+
+/* Keep the dark footer full-bleed regardless of the demo's section
+   padding rules. */
+footer {
+  width: 100%;
+}
+
+
+/* =====================================================================
+   CHUNK 3, GUIDES & CASE STUDIES (additive)
+   Collection hubs reuse existing card/grid classes; these rules add the
+   detail-page prose, the guide gate, and small card/detail helpers.
+   All colours come through the design tokens.
+   ===================================================================== */
+
+/* ---- Guide detail: readable prose column ---- */
+.guide-section { padding: 56px 32px 72px; background: var(--white); }
+.guide-wrap { max-width: 760px; margin: 0 auto; }
+.guide-body > :first-child { margin-top: 0; }
+.guide-body h2 { font-family: var(--serif); font-size: 24px; color: var(--color-heading); margin: 38px 0 14px; line-height: 1.3; }
+.guide-body h3 { font-family: var(--serif); font-size: 19px; color: var(--color-heading); margin: 28px 0 10px; line-height: 1.35; }
+.guide-body p { font-size: 16px; color: var(--slate); line-height: 1.75; margin: 0 0 16px; }
+.guide-body ul, .guide-body ol { margin: 0 0 18px; padding-left: 22px; }
+.guide-body li { font-size: 16px; color: var(--slate); line-height: 1.7; margin-bottom: 8px; }
+.guide-body strong { color: var(--ink); font-weight: 600; }
+.guide-body em { font-style: italic; }
+.guide-body a { color: var(--green); text-decoration: underline; }
+.guide-body blockquote { border-left: 3px solid var(--green); padding-left: 16px; margin: 0 0 18px; color: var(--slate); font-style: italic; }
+.guide-body table { width: 100%; border-collapse: collapse; margin: 18px 0 26px; font-size: 14px; }
+.guide-body th, .guide-body td { border: 1px solid var(--silver); padding: 10px 12px; text-align: left; vertical-align: top; line-height: 1.6; }
+.guide-body th { background: var(--green-light); color: var(--green-dark); font-weight: 600; }
+.guide-body hr { border: none; border-top: 1px solid var(--silver); margin: 28px 0; }
+
+/* ---- Guide gate (gated entries; real form wired in lead-automation phase) ---- */
+.guide-gate { max-width: 620px; margin: 8px auto; background: var(--mist); border: 1px solid var(--silver); border-radius: 10px; padding: 36px 32px; text-align: center; }
+.guide-gate h3 { font-family: var(--serif); font-size: 22px; color: var(--color-heading); margin-bottom: 8px; }
+.guide-gate p { color: var(--slate); font-size: 15px; line-height: 1.7; margin: 0 auto 20px; max-width: 460px; }
+.gate-form-ph { border: 1px dashed var(--silver); border-radius: 8px; padding: 18px; color: var(--slate); font-size: 13px; background: var(--white); }
+.guide-lock { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green-dark); background: var(--green-light); padding: 4px 10px; border-radius: 999px; }
+
+/* ---- Guides hub: make insight-card clickable + pin a footer row ---- */
+.guide-card { display: flex; flex-direction: column; height: 100%; color: var(--ink); text-decoration: none; }
+.guide-card p { flex: 1; }
+.guide-card-foot { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--silver); display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--slate); }
+
+/* ---- Case-study detail: render the approved modal card as a static page ---- */
+.cs-detail-section { background: var(--mist); padding: 40px 24px 72px; }
+.cs-detail-wrap { max-width: 820px; margin: 0 auto; }
+.cs-breadcrumb { font-size: 12px; color: var(--slate); margin-bottom: 18px; }
+.cs-breadcrumb a { color: var(--green); text-decoration: none; }
+.cs-breadcrumb span { margin: 0 8px; color: var(--silver); }
+.cs-modal { margin: 0 auto; max-width: 820px; box-shadow: var(--shadow-card); }
+.cs-abstract { font-size: 17px; color: var(--ink); line-height: 1.7; margin-bottom: 28px; font-weight: 500; }
+
+/* =====================================================================
+   CONTENT-LIGHTENING COMPONENTS  ·  v3  ·  23 June 2026 (WorkInFlow)
+   New light-page components introduced when the heavy prose sections
+   on The Process and How It Works were converted to a stepper and to
+   grid cards, plus the homepage compact process strip. All built on the
+   clean semantic tokens in tokens.css (APAG CI). Scoped to avoid the
+   dark homepage .grid-card / .step styles in styles.css.
+   ===================================================================== */
+
+/* --- The Process: vertical connected stepper --- */
+.stepper { list-style: none; margin: 0; padding: 0; }
+.stepper .step { position: relative; display: grid; grid-template-columns: 56px 1fr; gap: 20px; padding: 0 0 28px; border: 0; }
+.stepper .step:last-child { padding-bottom: 0; }
+.stepper .step::before { content: ""; position: absolute; left: 27px; top: 50px; bottom: -2px; width: 2px; background: var(--border); }
+.stepper .step:last-child::before { display: none; }
+.stepper .step-num { width: 56px; height: 56px; border-radius: 50%; background: var(--apag-blue-tint); border: 2px solid var(--color-primary); color: var(--color-primary); display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 700; flex-shrink: 0; position: relative; z-index: 1; }
+.stepper .step-body { padding-top: 5px; }
+.stepper .step-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; }
+.stepper .step-head h3 { font-size: 19px; font-weight: 700; color: var(--color-heading); margin: 0; }
+.stepper .step-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--apag-green); background: rgba(31,160,73,0.10); border-radius: 100px; padding: 3px 10px; }
+.stepper .step-body p { font-size: 15px; color: var(--color-text); line-height: 1.65; margin: 0; max-width: 62ch; }
+
+/* --- How It Works: five grid cards (light) --- */
+.grids-section .grid-cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 0; }
+.grids-section .grid-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px 18px; display: flex; flex-direction: column; }
+.grids-section .grid-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.grids-section .grid-card-num { font-size: 26px; font-weight: 700; color: var(--color-primary); line-height: 1; }
+.grids-section .grid-card:nth-child(1) .grid-card-num { color: var(--apag-blue); }
+.grids-section .grid-card:nth-child(2) .grid-card-num { color: var(--apag-teal); }
+.grids-section .grid-card:nth-child(3) .grid-card-num { color: var(--apag-green); }
+.grids-section .grid-card:nth-child(4) .grid-card-num { color: var(--apag-orange); }
+.grids-section .grid-card:nth-child(5) .grid-card-num { color: var(--apag-blue-dark); }
+.grids-section .grid-card-badge { font-size: 9px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 8px; border-radius: 100px; white-space: nowrap; }
+.grids-section .grid-card-badge.skills { color: var(--color-primary); background: var(--apag-blue-tint); }
+.grids-section .grid-card-badge.context { color: var(--apag-green); background: rgba(31,160,73,0.10); }
+.grids-section .grid-card h3 { font-size: 16px; font-weight: 700; color: var(--color-heading); margin: 0 0 6px; }
+.grids-section .grid-card p { font-size: 13px; color: var(--color-text); line-height: 1.55; margin: 0; }
+@media (max-width: 900px) { .grids-section .grid-cards { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .grids-section .grid-cards { grid-template-columns: 1fr; } }
+
+/* --- Homepage: compact process strip --- */
+.process-strip { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; margin: 32px 0 0; padding: 0; }
+.process-strip li { display: flex; align-items: center; gap: 10px; background: var(--surface-alt); border: 1px solid var(--border); border-radius: 100px; padding: 9px 18px 9px 9px; font-size: 14px; font-weight: 600; color: var(--color-heading); }
+.process-strip .ps-num { width: 26px; height: 26px; border-radius: 50%; background: var(--color-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+@media (max-width: 700px) { .process-strip { flex-direction: column; align-items: stretch; } }
+
+/* --- Shared: inline section links / depth pointers --- */
+.section-link { margin-top: 24px; margin-bottom: 0; }
+.section-link a { font-size: 14px; font-weight: 600; color: var(--color-primary); text-decoration: none; }
+.section-link a:hover { color: var(--color-link-hover); }
+.stepper-more { margin-top: 28px; font-size: 14px; color: var(--color-text); }
+.stepper-more a { color: var(--color-primary); font-weight: 600; text-decoration: none; }
+.stepper-more a:hover { text-decoration: underline; }
+
+/* =====================================================================
+   DEPTH & IMAGE-SLOT PASS  ·  v4  ·  23 June 2026 (WorkInFlow)
+   Adds dimensional cues (brand gradient bands, card elevation, outline
+   icons) and a reusable image-slot component + slots ready for real
+   licensed photography. All token-based / APAG CI compliant.
+   ===================================================================== */
+
+/* --- Brand gradient on the dark bands (blue -> hint of green) --- */
+.hero { background: linear-gradient(135deg, #004c6b 0%, #0075A0 58%, #1a8f48 165%) !important; }
+.page-hero { background: linear-gradient(135deg, #004c6b 0%, #0075A0 62%, #1a8f48 180%) !important; }
+.demo-cta { background: linear-gradient(120deg, #0075A0 0%, #128a4f 120%) !important; }
+
+/* --- Card elevation + lift on hover (replaces flat hairline feel) --- */
+.diff-card, .case-card, .model-card, .matters-card,
+.grids-section .grid-card, .receive-item {
+  box-shadow: 0 1px 2px rgba(17,30,40,0.04), 0 10px 26px rgba(17,30,40,0.06);
+  transition: box-shadow .18s ease, transform .18s ease;
+}
+.diff-card:hover, .case-card:hover, .model-card:hover,
+.grids-section .grid-card:hover {
+  box-shadow: 0 2px 4px rgba(17,30,40,0.06), 0 16px 38px rgba(17,30,40,0.10);
+  transform: translateY(-3px);
+}
+.stepper .step { border-radius: 12px; transition: background .18s ease; padding-left: 4px; }
+
+/* --- Outline icons on the four differentiators --- */
+.diff-card { position: relative; }
+.diff-icon { display: inline-flex; width: 44px; height: 44px; border-radius: 10px;
+  align-items: center; justify-content: center; margin-bottom: 16px;
+  background: var(--apag-blue-tint); color: var(--color-primary); }
+.diff-icon svg { width: 22px; height: 22px; stroke: currentColor; fill: none;
+  stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.diff-card:nth-child(2) .diff-icon { background: rgba(31,160,73,0.10); color: var(--apag-green); }
+.diff-card:nth-child(3) .diff-icon { background: rgba(0,134,148,0.10); color: var(--apag-teal); }
+.diff-card:nth-child(4) .diff-icon { background: rgba(238,108,77,0.10); color: var(--apag-orange); }
+.diff-card:nth-child(1) { border-top-color: var(--apag-blue); }
+.diff-card:nth-child(2) { border-top-color: var(--apag-green); }
+.diff-card:nth-child(3) { border-top-color: var(--apag-teal); }
+.diff-card:nth-child(4) { border-top-color: var(--apag-orange); }
+
+/* --- Reusable image slot (placeholder until real photography is added) --- */
+.img-slot { position: relative; border-radius: 14px; overflow: hidden;
+  background: linear-gradient(135deg, #eef3f6 0%, #e3edf0 100%);
+  border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; }
+.img-slot.ratio-wide { aspect-ratio: 16 / 9; }
+.img-slot.ratio-photo { aspect-ratio: 4 / 3; }
+.img-slot.ratio-portrait { aspect-ratio: 3 / 4; }
+.eng-compare-top .compare-image{width:100%;height:100%;min-height:280px;object-fit:cover;border-radius:14px;}
+.eng-compare-top .img-slot.compare-image{aspect-ratio:auto;height:100%;min-height:280px;}
+@media (max-width: 860px){
+  .eng-compare-top{grid-template-columns:1fr !important;}
+  .eng-compare-top .compare-image,.eng-compare-top .img-slot.compare-image{min-height:220px;order:-1;}
+}
+.tension-left{display:flex;flex-direction:column;}
+.tension-right{display:flex;flex-direction:column;}
+.tension-right .tension-image{width:100%;height:100%;flex:1;object-fit:cover;border-radius:14px;min-height:320px;}
+.tension-right .img-slot.tension-image{flex:1;aspect-ratio:auto;min-height:320px;}
+@media (max-width: 860px){
+  .tension-right .tension-image,.tension-right .img-slot.tension-image{flex:none;height:280px;margin-top:8px;}
+}
+.why-engage-left{display:flex;flex-direction:column;}
+
+.img-slot-label { display: flex; flex-direction: column; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: #7d9aa8; text-align: center; padding: 16px; }
+.img-slot-label svg { width: 34px; height: 34px; stroke: #9bb3bf; fill: none; stroke-width: 1.5; }
+.cs-image, .slot-filled { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
+.cs-image { margin: 0 0 4px; max-height: 360px; }
+
+/* --- Admin-editable page images (set via Site images in the CMS) --- */
+.hero.has-image {
+  background: linear-gradient(135deg, rgba(0,76,107,0.85) 0%, rgba(0,117,160,0.80) 58%, rgba(26,143,72,0.78) 165%), var(--hero-img) center/cover no-repeat !important;
+}
+.page-hero.has-image {
+  background: linear-gradient(135deg, rgba(0,76,107,0.88) 0%, rgba(0,117,160,0.82) 62%, rgba(26,143,72,0.80) 180%), var(--hero-img) center/cover no-repeat !important;
+}
+.page-photo { display: block; width: 100%; max-height: 340px; object-fit: cover; border-radius: 14px; }
+.page-image { max-width: 1100px; margin: 0 auto; padding: 40px 32px 0; }
+.demo-image { margin-bottom: 28px; }
+
+
+/* =====================================================================
+   CHUNK 5, NATIVE INFOGRAPHIC COMPONENTS + COMPARISON ACCORDION
+   (WorkInFlow · replaces the client's static PNG infographics with
+   responsive, accessible, CMS-editable components.)
+   All colour comes through the APAG CI tokens in tokens.css. Full
+   palette used as data-device accents; blue/green/grey stay dominant.
+   ===================================================================== */
+
+/* ---- shared bits ---- */
+.eng-eyebrow{font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--apag-blue);margin-bottom:14px;}
+.eng-h2{font-size:34px;color:var(--apag-grey);margin:0 0 12px;line-height:1.2;}
+.eng-rule{width:64px;height:4px;border-radius:2px;background:var(--gradient-brand);margin:0 0 32px;}
+.eng-lead{font-size:16px;line-height:1.75;color:var(--apag-grey);max-width:720px;}
+
+/* ---- A. Benefit list (Overview → "Why organisations choose Engage") ---- */
+.eng-benefits{list-style:none;margin:0;padding:0;}
+.eng-benefits li{display:flex;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--silver);font-size:15px;color:var(--apag-grey);line-height:1.5;}
+.eng-benefits li:last-child{border-bottom:0;}
+.eng-benefits .chip{width:30px;height:30px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.eng-benefits .chip svg{width:15px;height:15px;stroke:#fff;stroke-width:2.4;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.eng-benefits li:nth-child(1) .chip{background:var(--apag-blue);}
+.eng-benefits li:nth-child(2) .chip{background:var(--apag-teal);}
+.eng-benefits li:nth-child(3) .chip{background:var(--apag-green);}
+.eng-benefits li:nth-child(4) .chip{background:var(--apag-lime);}
+.eng-benefits li:nth-child(5) .chip{background:var(--apag-orange);}
+.eng-benefits li:nth-child(6) .chip{background:var(--apag-yellow);}
+
+/* ---- B. Difference grid (Overview → "What makes Engage different") ---- */
+.eng-diffgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.eng-diffgrid .card{position:relative;background:#fff;border:1px solid var(--silver);border-radius:12px;
+  padding:30px 30px 30px 32px;overflow:hidden;transition:transform .18s ease,box-shadow .18s ease;}
+.eng-diffgrid .card::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;}
+.eng-diffgrid .card:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(0,0,0,0.08);}
+.eng-diffgrid .card-head{display:flex;align-items:center;gap:16px;margin-bottom:14px;}
+.eng-diffgrid .badge{width:52px;height:52px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.eng-diffgrid .badge svg{width:26px;height:26px;stroke:#fff;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.eng-diffgrid .card h3{font-size:20px;color:var(--apag-grey);margin:0;line-height:1.25;}
+.eng-diffgrid .card p{font-size:15px;line-height:1.7;color:var(--apag-grey);margin:0;}
+.eng-diffgrid .c1::before{background:var(--apag-blue);}  .eng-diffgrid .c1 .badge{background:var(--apag-blue);}
+.eng-diffgrid .c2::before{background:var(--apag-teal);}  .eng-diffgrid .c2 .badge{background:var(--apag-teal);}
+.eng-diffgrid .c3::before{background:var(--apag-green);} .eng-diffgrid .c3 .badge{background:var(--apag-green);}
+.eng-diffgrid .c4::before{background:var(--apag-lime);}  .eng-diffgrid .c4 .badge{background:var(--apag-lime);}
+
+/* ---- C. Comparison accordion (Overview → "Engage vs traditional") ---- */
+.eng-compare .in-short{font-size:15px;line-height:1.75;max-width:760px;color:var(--apag-grey);margin:0 0 24px;
+  padding:16px 20px;background:#fff;border-left:3px solid var(--apag-green);border-radius:0 6px 6px 0;}
+.eng-compare .in-short strong{color:var(--apag-blue);}
+.eng-compare .toggle{display:inline-flex;align-items:center;gap:10px;background:var(--gradient-brand);color:#fff;border:none;
+  font-family:var(--font-body,'Helvetica Neue',Helvetica,Arial,sans-serif);font-size:14px;font-weight:600;
+  padding:13px 22px;border-radius:6px;cursor:pointer;box-shadow:0 2px 8px rgba(0,117,160,0.25);transition:filter .15s,box-shadow .15s;}
+.eng-compare .toggle:hover{filter:brightness(1.06);box-shadow:0 4px 14px rgba(0,117,160,0.32);}
+.eng-compare .toggle .chev{transition:transform .25s;font-size:12px;}
+.eng-compare.open .toggle .chev{transform:rotate(180deg);}
+.eng-compare .panel{overflow:hidden;max-height:0;transition:max-height .45s ease;}
+.eng-compare.open .panel{max-height:4000px;}
+.eng-compare .panel-pad{padding-top:28px;}
+.eng-compare .tbl-wrap{overflow-x:auto;background:#fff;border:1px solid var(--silver);border-radius:8px;}
+.eng-compare table{width:100%;min-width:680px;border-collapse:collapse;}
+.eng-compare thead td{background:#005a7a;padding:16px 24px;font-size:12px;font-weight:600;text-transform:uppercase;
+  letter-spacing:0.08em;color:rgba(255,255,255,0.55);}
+.eng-compare thead td.eng{color:var(--apag-green);}
+.eng-compare tbody tr{border-top:1px solid var(--silver);}
+.eng-compare td{padding:16px 24px;font-size:14px;line-height:1.55;vertical-align:top;}
+.eng-compare td.area{font-weight:600;color:var(--apag-grey);background:var(--mist);width:190px;border-left:4px solid var(--apag-blue);}
+.eng-compare td.eng{color:#005a7a;background:#f5f9fb;}
+.eng-compare td.trad{color:var(--apag-grey);}
+.eng-compare tbody tr:nth-child(1) .area{border-left-color:var(--apag-blue);}
+.eng-compare tbody tr:nth-child(2) .area{border-left-color:var(--apag-teal);}
+.eng-compare tbody tr:nth-child(3) .area{border-left-color:var(--apag-green);}
+.eng-compare tbody tr:nth-child(4) .area{border-left-color:var(--apag-lime);}
+.eng-compare tbody tr:nth-child(5) .area{border-left-color:var(--apag-yellow);}
+.eng-compare tbody tr:nth-child(6) .area{border-left-color:var(--apag-orange);}
+.eng-compare tbody tr:nth-child(7) .area{border-left-color:var(--apag-blue);}
+.eng-compare tbody tr:nth-child(8) .area{border-left-color:var(--apag-teal);}
+.eng-compare tbody tr:nth-child(9) .area{border-left-color:var(--apag-green);}
+.eng-compare .prose{max-width:760px;margin:36px 0 0;}
+.eng-compare .prose h3{font-size:19px;color:var(--apag-blue);margin:28px 0 8px;display:flex;align-items:center;gap:10px;}
+.eng-compare .prose h3::before{content:"";width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.eng-compare .prose .p1 h3::before{background:var(--apag-teal);}
+.eng-compare .prose .p2 h3::before{background:var(--apag-orange);}
+.eng-compare .prose .p3 h3::before{background:var(--apag-green);}
+.eng-compare .prose p{font-size:15px;line-height:1.75;color:var(--apag-grey);margin:0;}
+
+/* ---- D. "Still" list (Landing → traditional pain points) ---- */
+.eng-still{list-style:none;margin:0;padding:0;}
+.eng-still li{display:flex;align-items:center;gap:16px;padding:14px 18px;margin-bottom:10px;border-radius:8px;
+  background:var(--mist);border-left:4px solid var(--apag-blue);font-size:15px;color:var(--apag-grey);line-height:1.5;}
+.eng-still li:last-child{margin-bottom:0;}
+.eng-still .chip{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.eng-still .chip svg{width:19px;height:19px;stroke:#fff;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.eng-still li:nth-child(1){border-left-color:var(--apag-blue);}   .eng-still li:nth-child(1) .chip{background:var(--apag-blue);}
+.eng-still li:nth-child(2){border-left-color:var(--apag-teal);}   .eng-still li:nth-child(2) .chip{background:var(--apag-teal);}
+.eng-still li:nth-child(3){border-left-color:var(--apag-green);}  .eng-still li:nth-child(3) .chip{background:var(--apag-green);}
+.eng-still li:nth-child(4){border-left-color:var(--apag-lime);}   .eng-still li:nth-child(4) .chip{background:var(--apag-lime);}
+.eng-still li:nth-child(5){border-left-color:var(--apag-orange);} .eng-still li:nth-child(5) .chip{background:var(--apag-orange);}
+
+@media(max-width:720px){
+  .eng-h2{font-size:26px;}
+  .eng-diffgrid{grid-template-columns:1fr;gap:16px;}
+}
+
+
+/* ---- E. Trust band + client carousel (Landing) ---- */
+@keyframes engFadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+.trust-fade { opacity:0; animation:engFadeUp .6s ease forwards; }
+.carousel-arrow { border-radius:50%; transition:background .15s ease, color .15s ease; }
+.carousel-arrow:hover { background:var(--mist); color:var(--apag-blue); }
+
+/* =====================================================================
+   CHUNK 6, PAGE HERO REDESIGN (site-wide)  ·  24 July 2026 (WorkInFlow)
+   v2, client picked "Option A" from the HTML preview (split layout,
+   divider instead of a white card) with two amendments: the divider
+   sits at the true horizontal centre of the band (equal 1fr/1fr
+   columns, not the earlier 1.15/0.85 split), and the lead paragraph is
+   set larger to close the dead space between it and the heading. Also
+   bumped the eyebrow size per client note ("should be larger in
+   proportion to the rest"). Applies to every page that uses
+   .page-hero (Overview, How It Works, The Process, Case Studies,
+   Guides, FAQ, Book a Demo). This block is the authoritative
+   definition, it loads last, after the several legacy duplicate
+   .page-hero rules ported from the single-file demo, so it wins the
+   cascade without needing to hunt down every earlier occurrence in
+   styles.css.
+   ===================================================================== */
+.page-hero { padding: 44px 48px 40px; }
+.page-hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas: "crumb crumb" "eyebrow eyebrow" "heading lead" "extra extra";
+  column-gap: 48px;
+  row-gap: 0;
+  align-items: center;
+  max-width: 1180px !important;
+  margin: 0 auto;
+}
+.page-hero-inner > .breadcrumb { grid-area: crumb; margin-bottom: 20px; }
+.page-hero-inner > .eyebrow {
+  grid-area: eyebrow;
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.page-hero-inner > h1 { grid-area: heading; margin-bottom: 0; align-self: center; }
+.page-hero-inner > .lead {
+  grid-area: lead;
+  align-self: center;
+  max-width: none;
+  margin-bottom: 0;
+  background: transparent;
+  border-left: 1px solid rgba(255,255,255,0.2);
+  padding-left: 36px;
+  color: rgba(255,255,255,0.86);
+  font-size: 19px;
+  line-height: 1.68;
+}
+.page-hero-inner > .hero-stats,
+.page-hero-inner > .hero-meta { grid-area: extra; margin-top: 28px; }
+
+@media (max-width: 900px) {
+  .page-hero-inner {
+    grid-template-columns: 1fr;
+    grid-template-areas: "crumb" "eyebrow" "heading" "lead" "extra";
+  }
+  .page-hero-inner > .lead {
+    margin-top: 22px;
+    border-left: none;
+    padding-left: 0;
+    font-size: 17px;
+  }
+}
+
+/* =====================================================================
+   CHUNK 7, CLOSING CTA BAND REDESIGN  ·  24 July 2026 (WorkInFlow)
+   Client picked "Option B" from the HTML preview: text block on the
+   left, buttons on the right, single row instead of a tall stacked
+   block. Also bumped the supporting paragraph so it reads more
+   prominently (was a faded, easy-to-miss line). Applies to
+   The Process and How It Works, which both use .cta-section. The
+   Overview page's equivalent band is hand-styled inline (ported from
+   the demo, not using this class) and was updated to match directly
+   in overview.njk. This block loads last, after the legacy duplicate
+   .cta-section rules in styles.css, so it wins the cascade cleanly.
+   ===================================================================== */
+.cta-section { padding: 44px 48px; }
+.cta-section-inner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "eyebrow actions" "heading actions" "text actions";
+  align-items: center;
+  column-gap: 40px;
+  row-gap: 6px;
+  text-align: left;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+.cta-section .eyebrow { grid-area: eyebrow; text-align: left; margin: 0; }
+.cta-section h2 { grid-area: heading; text-align: left; margin: 0; max-width: 560px; }
+.cta-section p {
+  grid-area: text;
+  text-align: left;
+  margin: 0;
+  max-width: 520px;
+  font-size: 17px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.92);
+}
+.cta-section .cta-actions { grid-area: actions; display: flex; gap: 12px; flex-shrink: 0; margin: 0; }
+
+@media (max-width: 900px) {
+  .cta-section-inner {
+    grid-template-columns: 1fr;
+    grid-template-areas: "eyebrow" "heading" "text" "actions";
+    text-align: center;
+  }
+  .cta-section .eyebrow,
+  .cta-section h2,
+  .cta-section p { text-align: center; margin-left: auto; margin-right: auto; }
+  .cta-section .cta-actions { justify-content: center; margin-top: 20px; }
+}
+
+@media (max-width: 900px) {
+  .overview-cta-row {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: "eyebrow" "heading" "text" "actions" !important;
+    text-align: center !important;
+    justify-items: center;
+  }
+  .overview-cta-row > div:last-child { justify-content: center !important; margin-top: 16px; }
+}
+
+/* =====================================================================
+   CHUNK 8, HOMEPAGE HERO / FRAMEWORK STRIP / DEMO CTA  ·  25 July 2026
+   (WorkInFlow). Client-approved HTML preview, built into the live site:
+   1) homepage .hero, eyebrow, heading, paragraph and buttons sized up.
+   2) .framework strip, split into two columns by a centre divider,
+      one CTA button on each side, larger type.
+   3) .demo-cta ("Grade up to 5 of your roles"), heading left-aligned
+      instead of centred, divider down the middle, paragraph + booking
+      form moved to the right column.
+   ===================================================================== */
+
+/* --- 1. Homepage hero --- */
+.hero-eyebrow { font-size: 13px; font-weight: 700; margin-bottom: 22px; }
+.hero h1 { font-size: 62px; line-height: 1.08; margin-bottom: 24px; }
+.hero-sub { font-size: 19px; line-height: 1.65; margin-bottom: 36px; max-width: 480px; }
+.hero .btn-primary,
+.hero .btn-ghost { padding: 17px 36px; font-size: 17px; }
+.hero .btn-ghost { font-weight: 600; }
+
+/* --- 2. Framework strip --- */
+.framework-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 56px;
+  align-items: center;
+}
+.framework-left { border-right: 1px solid rgba(255,255,255,0.2); padding-right: 56px; }
+.framework-right { padding-left: 0; }
+.framework .section-eyebrow { font-size: 13px; font-weight: 700; margin-bottom: 16px; }
+.framework h2 { font-size: 32px; margin-bottom: 22px; }
+.framework .lead { font-size: 18px; line-height: 1.65; margin-bottom: 22px; }
+
+@media (max-width: 900px) {
+  .framework-grid { grid-template-columns: 1fr; }
+  .framework-left {
+    border-right: none; padding-right: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 32px; margin-bottom: 32px;
+  }
+}
+
+/* --- 3. Demo CTA ("Grade up to 5 of your roles") --- */
+.demo-cta { text-align: left; padding: 64px 48px; }
+.demo-cta-grid {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 56px;
+  align-items: center;
+}
+.demo-cta-left { border-right: 1px solid rgba(255,255,255,0.22); padding-right: 56px; }
+.demo-cta-right { padding-left: 0; }
+.demo-cta h2 { margin: 0; max-width: none; font-size: 32px; }
+.demo-cta p { margin: 0 0 22px; max-width: none; text-align: left; }
+.demo-cta .demo-form { margin: 0; max-width: 420px; }
+.demo-cta .demo-note { margin-top: 12px; }
+
+@media (max-width: 900px) {
+  .demo-cta-grid { grid-template-columns: 1fr; }
+  .demo-cta-left {
+    border-right: none; padding-right: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.22);
+    padding-bottom: 28px; margin-bottom: 28px;
+  }
+}
+
+/* =====================================================================
+   CHUNK 9, MOBILE RESPONSIVE PASS  ·  25 July 2026 (WorkInFlow)
+   Full-site audit found a number of two/three/four-column grids with
+   no breakpoint at all, they were built and approved at desktop width
+   only. This closes those gaps. Two tiers used consistently with the
+   breakpoints already established elsewhere in this file: 900px for
+   "stack to one column" on paired sections, and an additional 560px
+   step for card grids of 3+ so tablets get 2-up before phones get 1-up.
+   ===================================================================== */
+
+/* ---- Footer: 3-column -> stacked on every page, no exceptions ---- */
+@media (max-width: 900px) {
+  footer { grid-template-columns: 1fr !important; gap: 32px !important; padding: 40px 24px !important; }
+}
+
+/* ---- Homepage: "many job evaluation systems" problem/list split ---- */
+@media (max-width: 860px) {
+  .tension-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* ---- Homepage + The Process: differentiator cards ---- */
+@media (max-width: 560px) {
+  .diff-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ---- Homepage: case study preview cards ---- */
+@media (max-width: 900px) { .case-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (max-width: 560px) { .case-grid { grid-template-columns: 1fr !important; } }
+
+/* ---- Case Studies page: full card grid ---- */
+@media (max-width: 900px) { .cases-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (max-width: 560px) { .cases-grid { grid-template-columns: 1fr !important; } }
+
+/* ---- Homepage + Guides page: insight/guide card grid ---- */
+@media (max-width: 900px) { .insights-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (max-width: 560px) { .insights-grid { grid-template-columns: 1fr !important; } }
+
+/* ---- Overview page: "Why Engage exists" text + benefits list ---- */
+@media (max-width: 900px) {
+  .why-engage-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* ---- Overview page: "Engage evaluates / does not evaluate" pair ---- */
+@media (max-width: 700px) {
+  .evaluates-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+}
+
+/* ---- How It Works: role-not-person intro (text + principle list) ---- */
+@media (max-width: 900px) {
+  .intro-inner { grid-template-columns: 1fr !important; gap: 36px !important; }
+}
+
+/* ---- How It Works: two-pillars cards ---- */
+@media (max-width: 700px) {
+  .pillars-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ---- How It Works: measured unit size (text + bar chart) ---- */
+@media (max-width: 900px) {
+  .mus-inner { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* ---- How It Works: what Engage evaluates / does not, two columns ---- */
+@media (max-width: 700px) {
+  .yesno-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+}
+
+/* ---- The Process: overview text + principle list ---- */
+@media (max-width: 900px) {
+  .overview-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+/* ---- The Process: "what you leave with" deliverables ---- */
+@media (max-width: 900px) { .receive-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+@media (max-width: 560px) { .receive-grid { grid-template-columns: 1fr !important; } }
+
+/* ---- Book a Demo: main content + fixed-width form card ----
+   .main-inner was a fixed 1fr/420px split with no fallback, on a
+   360-400px phone that 420px column alone is wider than the viewport,
+   which forces the whole page to scroll horizontally. Stacking this
+   is the single highest-impact fix in this pass after the nav. */
+@media (max-width: 900px) {
+  .main-inner { grid-template-columns: 1fr !important; gap: 40px !important; }
+}
+@media (max-width: 600px) {
+  .for-grid { grid-template-columns: 1fr !important; }
+}
+
+/* ---- Homepage hero: headline + video placeholder ----
+   No breakpoint existed at all for the main .hero grid, the first
+   thing a phone visitor sees was two ~180px-wide squeezed columns
+   with a 540px min-height forcing a lot of empty scroll. */
+@media (max-width: 900px) {
+  .hero {
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+    padding: 64px 24px 40px !important;
+    gap: 36px !important;
+  }
+}
+
+/* ---- Client logo carousel: arrows sit closer on narrow screens ---- */
+@media (max-width: 560px) {
+  .client-carousel-section { padding: 40px 16px 48px !important; }
+}
+
+/* ---- Insights hub: Guides / Webinars sub-tabs + webinar cards + video embed ---- */
+/* Uses tokens.css variables only (avoids the legacy --green aliasing in styles.css). */
+.insights-tabs { display: flex; gap: 10px; margin: 0 0 26px; flex-wrap: wrap; }
+.insights-tab {
+  appearance: none; cursor: pointer; font: inherit; font-weight: 700; font-size: 14px;
+  padding: 9px 20px; border-radius: 999px; border: 1px solid var(--apag-blue);
+  background: #fff; color: var(--apag-blue); transition: background .15s, color .15s;
+}
+.insights-tab:hover { background: var(--apag-blue-tint); }
+.insights-tab.active { background: var(--apag-blue); color: #fff; }
+.insights-panel[hidden] { display: none; }
+.insights-empty { color: var(--apag-grey); font-size: 15px; padding: 20px 0; }
+
+/* Webinar cards (share the .insight-card base, but lead with a video thumbnail) */
+.webinar-card {
+  padding: 0; overflow: hidden; text-decoration: none; color: var(--apag-grey);
+  display: flex; flex-direction: column;
+}
+.webinar-thumb {
+  position: relative; aspect-ratio: 16 / 9; background-size: cover; background-position: center;
+  background-color: #0a2a38; border-bottom: 1px solid var(--border);
+}
+.webinar-play {
+  position: absolute; inset: 0; margin: auto; width: 54px; height: 54px; border-radius: 50%;
+  background: rgba(0,117,160,0.92); box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  transition: transform .15s, background .15s;
+}
+.webinar-play::before {
+  content: ""; position: absolute; top: 50%; left: 54%; transform: translate(-50%,-50%);
+  border-style: solid; border-width: 10px 0 10px 17px; border-color: transparent transparent transparent #fff;
+}
+.webinar-card:hover .webinar-play { transform: scale(1.08); background: var(--apag-green); }
+.webinar-card-body { padding: 18px 22px 22px; }
+.webinar-card-body h4 { font-family: var(--font-heading); font-size: 17px; color: var(--color-heading); margin: 8px 0 7px; line-height: 1.3; }
+.webinar-card-body p { font-size: 13px; color: var(--apag-grey); line-height: 1.6; margin: 0; }
+
+/* Responsive 16:9 video embed on the webinar detail page */
+.video-embed {
+  position: relative; width: 100%; aspect-ratio: 16 / 9; border-radius: 8px; overflow: hidden;
+  background: #000; box-shadow: 0 10px 30px rgba(0,0,0,0.12); margin: 0 auto;
+}
+.video-embed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.webinar-body { margin-top: 26px; }
+.video-missing { color: var(--apag-grey); font-style: italic; padding: 24px; text-align: center; border: 1px dashed var(--border); border-radius: 8px; }
+
+/* =====================================================================
+   CHUNK, Homepage hero explainer video (Vimeo click-to-play facade)
+   ---------------------------------------------------------------------
+   Replaces the static .hero-video placeholder with a poster + play
+   button that only injects the Vimeo <iframe> on click, so the homepage
+   LCP stays fast. The poster is Vimeo's own thumbnail (fetched via
+   oEmbed in main.js, block 7); if that fetch fails, the brand-gradient
+   box shows through as a graceful fallback. .hero-video base styling
+   (aspect-ratio, border, radius) is inherited from styles.css, this
+   chunk only adds the facade layer. tokens.css variables only.
+   ===================================================================== */
+.hero-video { position: relative; overflow: hidden; }
+.hero-video-play {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 12px; padding: 0; border: 0; cursor: pointer;
+  background: transparent center / cover no-repeat; color: var(--white);
+}
+.hero-video-play::after {
+  content: ""; position: absolute; inset: 0;
+  background: rgba(4, 40, 55, 0.32); transition: background .15s ease;
+}
+.hero-video-play.has-thumb::after { background: rgba(4, 40, 55, 0.40); }
+.hero-video-play:hover::after { background: rgba(4, 40, 55, 0.22); }
+.hero-video-play .play-btn,
+.hero-video-play .video-label { position: relative; z-index: 1; }
+.hero-video-play .play-btn { transition: transform .15s ease; }
+.hero-video-play:hover .play-btn { transform: scale(1.06); }
+.hero-video-play .video-label { color: rgba(255, 255, 255, 0.92); font-weight: 600; }
+.hero-video-play:focus-visible { outline: 3px solid var(--apag-green); outline-offset: 3px; }
+.hero-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.hero-video.is-playing .hero-video-play { display: none; }
+
+
+/* =====================================================================
+   WORKINFLOW UPDATES (Aug 2026), appended per house convention.
+   Tokens only; styles.css untouched.
+   --------------------------------------------------------------------- */
+
+/* --- Item 7: "still:" list now sits under the intro paragraphs in
+   .tension-left (photo moved to .tension-right, see index.njk), so it
+   just needs a little breathing room above it and between the photo
+   column and itself, natural block height, no stretch needed. --- */
+.tension-left .pain-label { margin-top: 8px; }
+.tension-left .eng-still li { margin-bottom: 12px; }
+.tension-left .eng-still li:last-child { margin-bottom: 0; }
+
+/* --- Item 8: Book a demo, "bring -> leave with" exchange panel + fit grid --- */
+.exchange { position: relative; background: var(--white); border: 1px solid var(--silver);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-card); overflow: hidden; }
+.exchange::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gradient-brand); }
+.exchange-grid { display: grid; grid-template-columns: 1fr 58px 1fr; }
+.ex-side { padding: 30px 30px 32px; }
+.ex-leave { background: var(--apag-blue-tint); }
+.ex-label { display: flex; align-items: center; gap: 9px; font-size: 12px; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--apag-blue); margin-bottom: 6px; }
+.ex-label svg { width: 16px; height: 16px; flex-shrink: 0; }
+.ex-sub { font-size: 12px; color: var(--apag-grey); margin: 0 0 18px; }
+.ex-list { list-style: none; margin: 0; padding: 0; }
+.ex-list li { display: flex; gap: 12px; align-items: flex-start; font-size: 14px; line-height: 1.5;
+  padding: 11px 0; border-bottom: 1px solid rgba(89,89,92,.10); }
+.ex-list li:last-child { border-bottom: none; padding-bottom: 0; }
+.ex-bring .ex-list li { color: var(--apag-grey); }
+.ex-leave .ex-list li { color: var(--apag-blue-dark); }
+.ex-bring .mk { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; border-radius: 4px;
+  border: 1.5px solid var(--silver); background: var(--white); }
+.ex-leave .mk { width: 16px; height: 16px; flex-shrink: 0; margin-top: 1px; border-radius: 50%;
+  background: var(--apag-green); display: flex; align-items: center; justify-content: center; }
+.ex-leave .mk svg { width: 10px; height: 10px; stroke: var(--white); fill: none; }
+.ex-seam { position: relative; }
+.ex-seam::before { content: ""; position: absolute; top: 26px; bottom: 26px; left: 50%; width: 2px;
+  transform: translateX(-50%); background: linear-gradient(180deg, var(--apag-blue), var(--apag-green));
+  opacity: .5; }
+.ex-node { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 40px;
+  height: 40px; border-radius: 50%; background: var(--white); border: 2px solid var(--apag-blue);
+  box-shadow: var(--shadow-card); display: flex; align-items: center; justify-content: center; z-index: 2; }
+.ex-node svg { width: 18px; height: 18px; stroke: var(--apag-blue); fill: none; transition: transform .2s ease; }
+
+.fit { margin-top: 44px; }
+.fit h2 { font-family: var(--font-heading); font-size: 24px; font-weight: 700; color: var(--apag-blue);
+  margin: 0 0 6px; line-height: 1.3; }
+.fit .fit-lead { font-size: 14px; color: var(--apag-grey); margin: 0 0 22px; }
+.fit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.fit-item { display: flex; gap: 12px; align-items: flex-start; background: var(--white);
+  border: 1px solid var(--silver); border-left: 3px solid var(--apag-blue-tint);
+  border-radius: var(--radius-md); padding: 15px 16px; font-size: 14px; line-height: 1.45;
+  color: var(--apag-grey); transition: border-color .16s ease, box-shadow .16s ease, transform .16s ease; }
+.fit-item:hover { border-left-color: var(--apag-blue); box-shadow: var(--shadow-card);
+  transform: translateY(-1px); }
+.fit-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--apag-blue); flex-shrink: 0;
+  margin-top: 5px; box-shadow: 0 0 0 4px var(--apag-blue-tint); }
+
+@media (max-width: 720px) {
+  .exchange-grid { grid-template-columns: 1fr; }
+  .ex-seam { height: 58px; }
+  .ex-seam::before { top: 50%; bottom: auto; left: 26px; right: 26px; width: auto; height: 2px;
+    transform: translateY(-50%); background: linear-gradient(90deg, var(--apag-blue), var(--apag-green)); }
+  .ex-node svg { transform: rotate(90deg); }
+  .fit-grid { grid-template-columns: 1fr; }
+}
+
+/* =====================================================================
+   WHATSAPP NAV BUTTON (Sept 2026, WorkInFlow)
+   Was a site-wide floating action button; moved into the header, right
+   of the engage logo, per Keon's request. Rendered via header.njk
+   (wrapped with .nav-logo in .nav-logo-group) so it persists on every
+   page. Hidden entirely if site.whatsappUrl is empty (see the .njk
+   partial). Styled with the brand green token rather than WhatsApp's
+   own brand green, to stay consistent with APAG CI.
+   ===================================================================== */
+.nav-logo-group {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.whatsapp-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--apag-green, #1FA049);
+  color: #fff;
+  text-decoration: none;
+  transition: transform .18s ease, background .18s ease;
+}
+.whatsapp-nav svg { width: 20px; height: 20px; }
+.whatsapp-nav:hover {
+  background: var(--apag-green-dark, #148038);
+  transform: translateY(-2px);
+}
+.whatsapp-nav:focus-visible {
+  outline: 3px solid var(--apag-blue, #0075A0);
+  outline-offset: 2px;
+}
+@media (max-width: 560px) {
+  .nav-logo-group { gap: 10px; }
+  .whatsapp-nav { width: 32px; height: 32px; }
+  .whatsapp-nav svg { width: 17px; height: 17px; }
+}
+
+/* ---- Book a demo: "prefer WhatsApp" link under the scheduler card ---- */
+.whatsapp-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: var(--mist, #f5f7f8);
+  border: 1px solid var(--silver, #dfe3e6);
+  font-size: 14px;
+  color: var(--apag-grey, #59595C);
+  text-decoration: none;
+  transition: border-color .15s ease, background .15s ease;
+}
+.whatsapp-inline:hover {
+  border-color: var(--apag-green, #1FA049);
+  background: #fff;
+}
+.whatsapp-inline svg { width: 22px; height: 22px; flex-shrink: 0; color: var(--apag-green, #1FA049); }
+
+/* =====================================================================
+   BOOK A DEMO: RECAPTCHA PRE-GATE (Sept 2026, WorkInFlow)
+   Sits inside the existing #hubspot-meetings / .form-body (28px padding
+   already applied there, so no extra card chrome needed here). Only
+   rendered when site.hubspotMeetingUrl is set — see book-demo.njk.
+   ===================================================================== */
+.demo-gate-intro {
+  margin: 0 0 18px;
+  font-size: 14px;
+  color: var(--apag-grey, #59595C);
+  line-height: 1.5;
+}
+.demo-gate-label {
+  display: block;
+  font-size: 13px;
+  color: var(--apag-grey, #59595C);
+  margin-bottom: 4px;
+}
+.demo-gate-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+.demo-gate-input:focus {
+  outline: none;
+  border-color: var(--apag-blue, #0075A0);
+  box-shadow: 0 0 0 3px rgba(0,117,160,0.15);
+}
+.demo-gate-error {
+  font-size: 13px;
+  color: #c0392b;
+  margin: 0 0 12px;
+}
+.demo-gate-submit {
+  width: 100%;
+  background: var(--apag-blue, #0075A0);
+  color: #fff;
+  border: none;
+  padding: 12px 0;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.demo-gate-submit:hover { background: #005f80; }
+.demo-gate-submit:disabled { opacity: 0.65; cursor: default; }
+.demo-gate-fallback { margin-top: 16px; }
+.demo-gate-legal {
+  font-size: 11px;
+  color: #9a9a9a;
+  text-align: center;
+  margin: 16px 0 0;
+}
+.demo-gate-legal a { color: #9a9a9a; text-decoration: underline; }
+.whatsapp-inline strong { color: var(--apag-blue, #0075A0); }
+
+/* =====================================================================
+   BOOK A DEMO: SESSION GUIDELINES TICK BOX (Sept 2026, WorkInFlow)
+   Change request CR-01 (1.1). Sits between the company field and the
+   error line in the reCAPTCHA pre-gate.
+   ===================================================================== */
+.demo-gate-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 2px 0 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--apag-grey, #59595C);
+  cursor: pointer;
+}
+.demo-gate-check input {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  accent-color: var(--apag-blue, #0075A0);
+}
+.demo-gate-check a { color: var(--apag-blue, #0075A0); text-decoration: underline; }
+#session-guidelines { scroll-margin-top: 96px; }
+
+
+/* ===== CR-02 (Oct 2026): The Process "What you leave with" cards =====
+   The description span was inline with 0 4px padding, so its first line sat
+   4px right of the wrapped lines. Make it a block with no side padding. */
+.receive-item span { display: block; padding: 0; }
+
+/* ===== CR-02: homepage CTA email field — invalid state ===== */
+.demo-cta .demo-form input:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }

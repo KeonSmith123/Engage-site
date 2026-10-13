@@ -1,52 +1,31 @@
-<!doctype html>
-<html lang="{{ site.lang }}">
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  {% set pageTitle = (title + " | " + site.name) if title and page.url != "/" else (site.name + " | " + site.tagline) %}
-  {% set pageDesc = description or site.description %}
-  <title>{{ pageTitle }}</title>
-  <meta name="description" content="{{ pageDesc }}">
-  <link rel="canonical" href="{{ page.url | absoluteUrl(site.url) }}">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="{{ pageTitle }}">
-  <meta property="og:description" content="{{ pageDesc }}">
-  <meta property="og:url" content="{{ page.url | absoluteUrl(site.url) }}">
-  <meta property="og:image" content="{{ site.shareImage | absoluteUrl(site.url) }}">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/favicon.png" type="image/png" sizes="96x96">
-  <link rel="apple-touch-icon" href="/favicon.png">
-  <meta name="theme-color" content="#1E2444">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&amp;family=Barlow:wght@400;500;600;700&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap">
-  {% if noindex %}<meta name="robots" content="noindex">{% endif %}
-
+  <title>{% if title %}{{ title }} &middot; {% endif %}{{ site.name }}</title>
+  <meta name="description" content="{% if description %}{{ description }}{% else %}{{ site.tagline }}. {{ site.endorsement }}.{% endif %}">
   <link rel="stylesheet" href="/assets/css/tokens.css">
   <link rel="stylesheet" href="/assets/css/styles.css">
   <link rel="stylesheet" href="/assets/css/overrides.css">
-
-  {% if site.features.analytics and site.analytics.ga4 %}{% include "partials/analytics.njk" %}{% endif %}
 </head>
-<body class="page-{{ page.fileSlug or 'home' }}">
-  <a class="skip-link" href="#main">Skip to content</a>
+<body>
   {% include "partials/header.njk" %}
-  {% include "partials/promos.njk" %}
-
-  <main id="main">
+  <main>
     {{ content | safe }}
   </main>
-
   {% include "partials/footer.njk" %}
-
+  <script src="/assets/js/main.js"></script>
+  <!-- Netlify Identity: powers admin (/admin) login + invite acceptance -->
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   <script>
-    window.WIF = {
-      recaptcha: {{ { "enabled": site.features.recaptcha, "siteKey": site.recaptcha.siteKey, "v2SiteKey": site.recaptcha.v2SiteKey } | dump | safe }},
-      booking: {{ { "enabled": site.features.booking, "provider": site.booking.provider } | dump | safe }}
-    };
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", function (user) {
+        if (!user) {
+          window.netlifyIdentity.on("login", function () { document.location.href = "/admin/"; });
+        }
+      });
+    }
   </script>
-  {% if site.features.recaptcha and site.recaptcha.siteKey %}{% include "partials/recaptcha.njk" %}{% endif %}
-  <script src="/assets/js/main.js" defer></script>
 </body>
 </html>

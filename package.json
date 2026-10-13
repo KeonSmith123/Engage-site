@@ -1,21 +1,17 @@
 {
-  "name": "workinflow-site-starter",
+  "name": "engage-site",
   "version": "1.0.0",
   "private": true,
-  "description": "WorkInFlow website starter: Eleventy + Decap CMS + Netlify, with optional leads database (Supabase or Neon), email, booking, reCAPTCHA and a leads dashboard.",
+  "description": "Engage Job Evaluation — marketing & conversion site for APAG. Built by WorkInFlow.",
   "scripts": {
-    "start": "eleventy --serve",
     "build": "eleventy",
+    "serve": "eleventy --serve",
     "clean": "rm -rf _site"
   },
-  "devDependencies": {
-    "@11ty/eleventy": "^3.1.2",
-    "markdown-it": "^14.1.0"
-  },
-  "engines": {
-    "node": ">=20"
-  },
   "dependencies": {
-    "@neondatabase/serverless": "^1.0.0"
+    "@netlify/neon": "^0.1.2"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.6"
   }
 }

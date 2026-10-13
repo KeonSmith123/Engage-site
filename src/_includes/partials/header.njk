@@ -1,21 +1,14 @@
-<header class="site-header">
-  <div class="container header-inner">
-    <a class="brand" href="/" aria-label="{{ site.name }} home">
-      <img src="{{ site.logo }}" alt="{{ site.name }}" width="{{ site.logoWidth }}" height="{{ site.logoHeight }}">
-    </a>
-    <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav">
-      <span class="sr-only">Menu</span><span class="nav-toggle-bar"></span>
-    </button>
-    <nav id="site-nav" class="site-nav" aria-label="Main">
-      <ul>
-        {% for item in site.nav %}
-        <li><a href="{{ item.url }}"{% if page.url == item.url %} aria-current="page"{% endif %}>{{ item.label }}</a></li>
-        {% endfor %}
-      </ul>
-      <div class="nav-actions">
-        {% if contact.whatsapp %}<a class="nav-wa" href="https://wa.me/{{ contact.whatsapp }}" rel="noopener">WhatsApp</a>{% endif %}
-        {% if site.navCta %}<a class="btn btn-sm" href="{{ site.navCta.url }}">{{ site.navCta.label }}</a>{% endif %}
-      </div>
-    </nav>
+<nav>
+  <div class="nav-logo-group">
+    <a class="nav-logo" href="/"><img src="/assets/img/brand/engage-logo.png" alt="engage job evaluation, by APAG"></a>
+    {% include "partials/whatsapp-button.njk" %}
   </div>
-</header>
+  <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="nav-links" onclick="toggleNav(this)">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="nav-links">
+    {% for item in site.nav %}
+    <li><a href="{{ item.url }}"{% if item.cta %} class="nav-cta"{% elif item.url | isActive(page.url) %} class="active"{% endif %}>{{ item.label }}</a></li>
+    {% endfor %}
+  </ul>
+</nav>
