@@ -1,0 +1,16 @@
+{% if collections.logos and collections.logos.length %}
+<section class="section section-tight logo-strip" aria-label="Clients">
+  <div class="container">
+    <p class="eyebrow center">{{ logoHeading or "Trusted by" }}</p>
+    <ul class="logos">
+      {% for logo in collections.logos %}
+      <li>
+        {% if logo.data.url %}<a href="{{ logo.data.url }}" rel="noopener">{% endif %}
+        <img src="{{ logo.data.image }}" alt="{{ logo.data.title }}" loading="lazy">
+        {% if logo.data.url %}</a>{% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}

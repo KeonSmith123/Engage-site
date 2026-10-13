@@ -1,0 +1,247 @@
+---
+layout: "layouts/base.njk"
+title: "Convoi OS fleet software"
+description: "Convoi OS: the fleet platform CapeX runs on. Drivers, vehicles, owners, trips and money in one place, for e-hailing fleets, staff transport, tour operators and company vehicles."
+permalink: "/software/"
+bodyClass: "convoi"
+---
+{# 1. HERO: light, product-led #}
+<section class="cv-hero">
+  <div class="container">
+    <div class="cv-hero-copy">
+      <p class="eyebrow">Convoi OS · fleet software by CapeX</p>
+      <h1>Run your fleet on the system <span class="hl">we run ours on.</span></h1>
+      <p class="lead">Drivers, vehicles, owners, trips and money in one place. Built and tested every day on a real Cape Town fleet, not in a boardroom.</p>
+      <div class="actions">
+        <a class="btn" href="#demo">Book a demo</a>
+        <a class="btn btn-ghost" href="#fleet-types">See how it works</a>
+      </div>
+    </div>
+    <div class="cv-hero-visual">
+      <div class="shot-browser"><img src="/assets/img/app/liveops-on-board.webp" alt="Convoi OS Live Ops: a live trip with riders on board and the car on a map" width="1600" height="544"></div>
+      <div class="cv-hero-phone shot-phone"><img src="/assets/img/app/driver-next-trip.webp" alt="Convoi OS driver app: the next trip, a countdown and the route" width="640" height="1300"></div>
+    </div>
+  </div>
+</section>
+
+{# 2. PROOF BAR #}
+<section class="section section-tight">
+  <div class="container proof">
+    <div><strong>380+</strong><span>trips a month run on it at CapeX</span></div>
+    <div><strong>Every Monday</strong><span>weekly close, with a statement for every driver</span></div>
+    <div><strong>4 apps</strong><span>ops dashboard, driver, rider and owner portal</span></div>
+    <div><strong>Since 2023</strong><span>built on running a real fleet</span></div>
+  </div>
+</section>
+
+{# 3. FLEET TYPES: one interactive block instead of two card grids #}
+<section class="section section-cream" id="fleet-types">
+  <div class="container">
+    <p class="eyebrow">Built for your kind of fleet</p>
+    <h2 class="section-title">What kind of fleet do you run?</h2>
+    <div class="cv-tabs" role="tablist" aria-label="Fleet types" data-cv-tabs>
+      <button class="cv-tab" role="tab" id="tab-ehailing" aria-controls="panel-ehailing" aria-selected="true">E-hailing</button>
+      <button class="cv-tab" role="tab" id="tab-staff" aria-controls="panel-staff" aria-selected="false">Staff transport</button>
+      <button class="cv-tab" role="tab" id="tab-tours" aria-controls="panel-tours" aria-selected="false">Tours &amp; experiences</button>
+      <button class="cv-tab" role="tab" id="tab-company" aria-controls="panel-company" aria-selected="false">Company vehicles</button>
+    </div>
+
+    <div class="cv-panel" role="tabpanel" id="panel-ehailing" aria-labelledby="tab-ehailing">
+      <div>
+        <h3>Cars on Uber and Bolt, drivers on rental.</h3>
+        <ul class="ticks">
+          <li>Uber and Bolt earnings imported per driver</li>
+          <li>Rent, ad hoc payments and shortfalls carried into next week</li>
+          <li>Debt and payment plans per driver</li>
+          <li>Every fine matched to whoever had the car that day</li>
+        </ul>
+        <p class="cv-modules">Core + E-hailing + Vehicle management</p>
+      </div>
+      <figure class="cv-panel-shot"><img src="/assets/img/app/convoi-vehicle-tracker.webp" alt="Vehicle tracker card: daily kilometres split into trips, Uber and personal use" width="846" height="1090" loading="lazy"></figure>
+    </div>
+
+    <div class="cv-panel" role="tabpanel" id="panel-staff" aria-labelledby="tab-staff">
+      <div>
+        <h3>You move people for companies.</h3>
+        <ul class="ticks">
+          <li>Rider app for bookings, changes and credits</li>
+          <li>A draft weekly schedule with suggested drivers</li>
+          <li>Boarding codes, live tracking and lateness stats</li>
+          <li>Invoices matched to the trips that ran</li>
+        </ul>
+        <p class="cv-modules">Core + Staff transport</p>
+      </div>
+      <figure class="cv-panel-shot"><div class="shot-phone"><img src="/assets/img/app/rider-book-month.webp" alt="Rider app: booking the month by shift" width="640" height="1300" loading="lazy"></div></figure>
+    </div>
+
+    <div class="cv-panel" role="tabpanel" id="panel-tours" aria-labelledby="tab-tours">
+      <div>
+        <h3>You sell tours and experiences.</h3>
+        <ul class="ticks">
+          <li>A booking page under your own brand</li>
+          <li>Fixed-price trips and group quotes with deposits</li>
+          <li>Card payments, with each driver's share worked out per trip</li>
+          <li>Partner operators run their own drivers inside your fleet</li>
+        </ul>
+        <p class="cv-soon"><b>Coming soon:</b> guided tour itineraries. Stop-by-stop stories and photos in English, German, French, Dutch or Portuguese, with the same guide in the driver's app.</p>
+        <p class="cv-modules">Core + Bookings &amp; partners + Sub-fleets</p>
+      </div>
+      <figure class="cv-panel-shot"><div class="shot-phone"><img src="/assets/img/app/rider-private-trip.webp" alt="Booking a private trip with pick-up, drop-off, date, time and passengers" width="640" height="1300" loading="lazy"></div></figure>
+    </div>
+
+    <div class="cv-panel" role="tabpanel" id="panel-company" aria-labelledby="tab-company">
+      <div>
+        <h3>Your company runs its own vehicles.</h3>
+        <ul class="ticks">
+          <li>A fleet register for owned and third-party cars</li>
+          <li>Pre-trip inspections with photos, straight from the driver's app</li>
+          <li>Incidents, services due and the full service log per car</li>
+          <li>Tracker kilometres and fines tied to the driver and the car</li>
+        </ul>
+        <p class="cv-modules">Core + Vehicle management</p>
+      </div>
+      <figure class="cv-panel-shot"><div class="shot-browser"><img src="/assets/img/app/convoi-inspections.webp" alt="Vehicle management: incidents, failed inspections and services due, with a nine-photo pre-trip inspection" width="1800" height="910" loading="lazy"></div></figure>
+    </div>
+  </div>
+</section>
+
+{# 4. FEATURE ROWS: three, alternating, one big screenshot each #}
+<section class="section">
+  <div class="container cv-rows">
+    <div class="cv-row">
+      <div class="cv-row-copy">
+        <p class="eyebrow">Drivers &amp; money</p>
+        <h2>Every driver, every rand, every Monday.</h2>
+        <p>Import platform earnings, add rent and ad hoc payments, and the system works out who owes what. Drivers see their statement in their own app.</p>
+        <ul class="ticks">
+          <li>One scorecard per driver, per week</li>
+          <li>Shortfalls carried forward automatically</li>
+          <li>Send a scorecard or chase a payment on WhatsApp in one tap</li>
+        </ul>
+      </div>
+      <figure class="cv-row-shot"><div class="shot-card"><img src="/assets/img/app/convoi-driver-scorecard.webp" alt="Convoi OS weekly driver scorecard" width="848" height="1344" loading="lazy"></div></figure>
+    </div>
+
+    <div class="cv-row cv-row-flip cv-row-wide">
+      <div class="cv-row-copy">
+        <p class="eyebrow">Vehicles, tracking &amp; fines</p>
+        <h2>Know where every kilometre, fine and scratch came from.</h2>
+        <ul class="ticks">
+          <li>Works with any vehicle tracker, car by car</li>
+          <li>Kilometres matched to your trips, platform hours and personal use</li>
+          <li>Fines imported by CSV and matched to the driver on the day</li>
+          <li>Inspections with photos, incidents and services due</li>
+        </ul>
+      </div>
+      <figure class="cv-row-shot"><div class="shot-browser"><img src="/assets/img/app/convoi-fines.webp" alt="Convoi OS fines manager: open fines, outstanding total and a fine being assigned to a driver" width="1800" height="871" loading="lazy"></div></figure>
+    </div>
+
+    <div class="cv-row">
+      <div class="cv-row-copy">
+        <p class="eyebrow">The apps</p>
+        <h2>Your drivers and riders, in their pockets.</h2>
+        <ul class="ticks">
+          <li>Driver app with phone and PIN login: trips, accept or reject, statements</li>
+          <li>Rider app for bookings, changes and credits</li>
+          <li>Owner portal with notices, documents and payouts</li>
+          <li>Push notifications to every app</li>
+        </ul>
+      </div>
+      <figure class="cv-row-shot cv-phones">
+        <div class="shot-phone"><img src="/assets/img/app/driver-code.webp" alt="Driver app: entering a rider's boarding code" width="640" height="1300" loading="lazy"></div>
+        <div class="shot-phone"><img src="/assets/img/app/rider-home.webp" alt="Rider app home screen with the next pickup" width="640" height="1300" loading="lazy"></div>
+      </figure>
+    </div>
+    <p class="shot-note center">Real Convoi OS screens. Names, plates, numbers and locations changed for privacy.</p>
+  </div>
+</section>
+
+{# 5. BEFORE / AFTER #}
+<section class="section section-alt">
+  <div class="container">
+    <p class="eyebrow">Monday morning</p>
+    <h2 class="section-title">Before and after Convoi OS.</h2>
+    <div class="cv-ba">
+      <div class="cv-ba-col cv-before">
+        <p class="card-label">With WhatsApp and Excel</p>
+        <ul>
+          <li>Earnings copied from three apps into a spreadsheet</li>
+          <li>Rent and shortfalls worked out by hand, driver by driver</li>
+          <li>Fines arrive months later, and nobody knows who was driving</li>
+          <li>Drivers dispute their pay on WhatsApp</li>
+        </ul>
+      </div>
+      <div class="cv-ba-col cv-after">
+        <p class="card-label">With Convoi OS</p>
+        <ul class="ticks">
+          <li>Earnings imported and matched to each driver</li>
+          <li>The weekly close works out every balance</li>
+          <li>Every fine matched to whoever had the car that day</li>
+          <li>Drivers see their own statement in their app</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# 6. EARLY ACCESS (replaces public pricing) #}
+<section class="section" id="early-access">
+  <div class="container">
+    <div class="cv-early">
+      <div>
+        <p class="eyebrow">Early access
+          <span class="tip">
+            <button type="button" class="tip-btn" aria-describedby="tip-early" aria-label="What is early access?">?</button>
+            <span class="tip-text" role="tooltip" id="tip-early">Join the waiting list to be first in line: early-access discounts and help getting set up.</span>
+          </span>
+        </p>
+        <h2>Be one of the first fleets on Convoi OS.</h2>
+        <p>We're opening Convoi OS to a small number of fleets first. Early users get a lower price and hands-on help moving across.</p>
+      </div>
+      <div class="card">
+        <ul class="ticks">
+          <li>An early-access discount on your monthly price</li>
+          <li>Setup done with you</li>
+          <li>Your first four weekly closes run alongside our team</li>
+          <li>Or start with a one-month pilot on part of your fleet</li>
+        </ul>
+        <div class="actions"><a class="btn" href="#demo" data-pick-intent="Join the early access list">Join the early access list</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# 7. DATA STRIP #}
+<section class="section section-tight section-alt">
+  <div class="container proof cv-data">
+    <div><strong>Your own space</strong><span>Each fleet gets its own separate space. Being finished now, before any outside fleet is loaded.</span></div>
+    <div><strong>Built for POPIA</strong><span>ID numbers and banking details locked to staff logins.</span></div>
+    <div><strong>Any tracker</strong><span>Sits on top of the tracker you already run.</span></div>
+    <div><strong>Yours to keep</strong><span>Export your records any time.</span></div>
+  </div>
+</section>
+
+{# 8. DEMO / WAITING LIST FORM #}
+<section class="section band-dark quote-band" id="demo">
+  <div class="container split">
+    <div>
+      <p class="eyebrow">Book a demo</p>
+      <h2>See it running a real fleet.</h2>
+      <p>30 minutes on the live system that runs CapeX. Bring your questions and your messiest spreadsheet. Or join the early access list and we'll be in touch.</p>
+    </div>
+    <div class="card">
+      {% set formType = "contact" %}
+      {% set service = "Convoi OS software demo" %}
+      {% set askPhone = true %}
+      {% set extraFields = [
+        { "label": "I'd like to", "type": "select", "required": true, "options": ["Book a demo", "Join the early access list"] },
+        { "label": "How many vehicles?", "type": "select", "half": true, "required": true, "options": ["1–5", "6–15", "16–50", "50+"] },
+        { "label": "What do you mainly run?", "type": "select", "half": true, "required": true, "options": ["E-hailing (Uber / Bolt)", "Staff or charter transport", "Tours and experiences", "Company vehicles"] }
+      ] %}
+      {% set messageLabel = "What would you like to see?" %}
+      {% set submitLabel = "Send" %}
+      {% set successText = "Thanks. We'll WhatsApp you within 4 working hours." %}
+      {% include "partials/lead-form.njk" %}
+    </div>
+  </div>
+</section>

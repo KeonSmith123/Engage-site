@@ -1,0 +1,10 @@
+{# Click-to-play YouTube. Nothing loads from YouTube until the visitor clicks. Set `videoId` and `videoTitle` before including. #}
+{% set vid = (videoId or site.video.youtube) | youtubeId %}
+{% if vid %}
+<div class="video" data-youtube-id="{{ vid }}">
+  <img class="video-thumb" src="https://i.ytimg.com/vi/{{ vid }}/hqdefault.jpg" alt="" loading="lazy">
+  <button class="video-play" type="button" aria-label="Play video: {{ videoTitle or 'video' }}">
+    <svg viewBox="0 0 68 48" width="68" height="48" aria-hidden="true"><path d="M66.5 7.7A8.5 8.5 0 0 0 60.5 1.6C55.2.2 34 .2 34 .2S12.8.2 7.5 1.6A8.5 8.5 0 0 0 1.5 7.7C.1 13 .1 24 .1 24s0 11 1.4 16.3a8.5 8.5 0 0 0 6 6.1C12.8 47.8 34 47.8 34 47.8s21.2 0 26.5-1.4a8.5 8.5 0 0 0 6-6.1C67.9 35 67.9 24 67.9 24s0-11-1.4-16.3z" fill="currentColor"/><path d="M45 24 27 14v20z" fill="#fff"/></svg>
+  </button>
+</div>
+{% endif %}

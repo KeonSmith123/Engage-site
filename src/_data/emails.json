@@ -1,0 +1,36 @@
+{
+  "signoff": "The CapeX team",
+  "disclaimer": "If this email is not relevant, please ignore this email.",
+  "guide": {
+    "subject": "Your guide: {{guideTitle}}",
+    "heading": "Here's your guide",
+    "body": [
+      "Hi {{firstName}},",
+      "Thanks for downloading {{guideTitle}}. You can open it any time with the button below.",
+      "If you'd like us to map your own staff or event transport, reply to this email or WhatsApp us on 067 077 0633."
+    ],
+    "button": "Open the guide"
+  },
+  "guideFollowup": {
+    "subject": "A next step after {{guideTitle}}",
+    "heading": "Want us to map it for you?",
+    "body": [
+      "Hi {{firstName}},",
+      "A few days ago you downloaded {{guideTitle}}. If you're weighing up transport for your team, send us your headcount, sites and shift times.",
+      "We'll come back with a route plan and a fixed quote within 2 working days. No obligation."
+    ],
+    "button": "Get a quote",
+    "buttonUrl": "/contact/"
+  },
+  "demoFollowup": {
+    "subject": "Following up on your request",
+    "heading": "Where to from here?",
+    "body": [
+      "Hi {{firstName}},",
+      "We wanted to check in after your request. If anything has changed, or you'd like to bring HR or ops into the conversation, reply here.",
+      "You can also WhatsApp us on 067 077 0633."
+    ],
+    "button": "Get in touch",
+    "buttonUrl": "/contact/"
+  }
+}

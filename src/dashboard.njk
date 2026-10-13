@@ -1,0 +1,37 @@
+---
+permalink: "/dashboard/"
+eleventyExcludeFromCollections: true
+---
+<!doctype html>
+<html lang="{{ site.lang }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Leads dashboard | {{ site.name }}</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/css/tokens.css">
+  <link rel="stylesheet" href="/assets/css/dashboard.css">
+</head>
+<body class="dash" data-site-name="{{ site.name }}" data-enabled="{{ 'true' if site.features.dashboard else 'false' }}">
+  <header class="dash-top">
+    <div class="dash-brand">
+      <img src="{{ site.logo }}" alt="" height="28">
+      <span class="dash-title">Leads</span>
+    </div>
+    <div class="dash-user" data-user hidden>
+      <span class="dash-user-email" data-user-email></span>
+      <button class="dash-btn dash-btn-quiet" type="button" data-logout>Sign out</button>
+    </div>
+  </header>
+
+  <div class="dash-banner" data-demo-banner hidden>Demo data. Nothing here is real, and changes aren't saved.</div>
+
+  <main id="dash-app" class="dash-main">
+    <p class="dash-loading" data-loading>Loading…</p>
+  </main>
+
+  <div class="dash-tooltip" data-tooltip role="status" hidden></div>
+  <script src="/assets/js/dashboard.js" defer></script>
+</body>
+</html>

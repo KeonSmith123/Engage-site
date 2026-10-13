@@ -1,0 +1,10 @@
+---
+permalink: "/guides-index.json"
+eleventyExcludeFromCollections: true
+---
+{#- Read by netlify/functions/lead.mjs so emails only ever link to real guides. -#}
+[
+{%- for g in collections.guides %}
+  {{ { "slug": g.fileSlug, "title": g.data.title, "url": g.url, "file": g.data.file or "" } | dump | safe }}{% if not loop.last %},{% endif %}
+{%- endfor %}
+]

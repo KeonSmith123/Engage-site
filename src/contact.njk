@@ -1,0 +1,42 @@
+---
+layout: "layouts/base.njk"
+title: "Get a quote"
+description: "Tell us what you need to move: staff transport, an event, a private trip, fleet branding or Convoi OS. We reply on WhatsApp or email, usually the same working day."
+permalink: "/contact/"
+---
+<section class="page-hero dark">
+  <div class="container">
+    <p class="eyebrow">Get a quote</p>
+    <h1>Tell us what you need to move.</h1>
+    <p class="lead">We reply on WhatsApp or email, usually the same working day. Staff transport quotes come with a route plan within 2 working days.</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container split">
+    <div class="prose">
+      <h2 class="h3">Prefer to talk?</h2>
+      <ul class="plain">
+        <li>WhatsApp: <a href="https://wa.me/{{ contact.whatsapp }}" rel="noopener">{{ contact.whatsappDisplay }}</a></li>
+        <li>Phone: <a href="tel:+27843772351">{{ contact.phone }}</a></li>
+        <li>Email: <a href="mailto:{{ contact.email }}">{{ contact.email }}</a></li>
+        <li class="muted">{{ contact.address }}</li>
+      </ul>
+      <h2 class="h3">Looking for something specific?</h2>
+      <ul class="plain">
+        <li><a href="/staff-transport/#quote">Staff transport quote form</a> (headcount, sites, shifts)</li>
+        <li><a href="/events/#plan">Event and year-end function form</a></li>
+        <li><a href="/rides/#price">Airport fares &amp; private rides</a></li>
+        <li><a href="/software/#demo">Book a Convoi OS demo</a></li>
+      </ul>
+    </div>
+    <div class="card">
+      {% set formType = "contact" %}
+      {% set serviceSelect = true %}
+      {% set askPhone = true %}
+      {% set submitLabel = "Send message" %}
+      {% set messageLabel = "What do you need?" %}
+      {% set successText = "Thanks, your message is on its way. We'll reply on WhatsApp or email, usually the same working day." %}
+      {% include "partials/lead-form.njk" %}
+    </div>
+  </div>
+</section>

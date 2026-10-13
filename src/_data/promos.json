@@ -1,0 +1,14 @@
+{
+  "items": [
+    {
+      "id": "yearend-fee-2026",
+      "active": true,
+      "style": "bar",
+      "message": "Year-end functions: confirm your booking by 31 Oct and we waive the R350 coordination fee.",
+      "linkLabel": "Plan your event",
+      "linkUrl": "/events/#plan",
+      "pages": ["/", "/events/"],
+      "endDate": "2026-10-31"
+    }
+  ]
+}

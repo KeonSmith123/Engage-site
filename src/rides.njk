@@ -1,0 +1,115 @@
+---
+layout: "layouts/base.njk"
+title: "CapeX Rides: airport transfers & private trips"
+description: "Book a CapeX ride online and pay by card, Apple Pay, Google Pay or instant EFT. Fixed airport fares from R420, a vetted driver and a boarding code before you travel."
+permalink: "/rides/"
+bodyClass: "rides"
+---
+{% set bookUrl = site.links.rideBooking %}
+{% set waText = "Hi CapeX, I have a question about a private ride." %}
+<div class="rides">
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <p class="eyebrow">CapeX Rides · Cape Town</p>
+      <h1>Book online. <span class="hl-mint">Know the price first.</span></h1>
+      <p class="lead">Airport transfers, wine farms and trips across Cape Town with a vetted CapeX driver. You see the fixed price before you pay, and get your driver's name, car and boarding code before you travel.</p>
+      <div class="actions">
+        <a class="btn btn-accent" href="{{ bookUrl }}" rel="noopener">Book a ride</a>
+        <a class="btn btn-outline-light" href="#price">See airport fares</a>
+      </div>
+      <p class="fine-print" style="margin-top:1rem">Pay by card, Apple Pay, Google Pay or instant EFT. No account needed.</p>
+    </div>
+    <div class="card" id="price">
+      <p class="card-label">Cape Town International (CPT)</p>
+      <h2 class="h3">Airport fares</h2>
+      <p class="muted">Fixed price per car, to or from the airport. Not per person.</p>
+      <table class="example">
+        <tbody>
+          <tr><td>CBD &amp; V&amp;A Waterfront</td><td>R420</td></tr>
+          <tr><td>Green Point &amp; Sea Point</td><td>R510</td></tr>
+          <tr><td>Camps Bay</td><td>R640</td></tr>
+          <tr><td>Hout Bay</td><td>R660</td></tr>
+          <tr><td>Fish Hoek</td><td>R700</td></tr>
+          <tr><td>Simon's Town</td><td>R720</td></tr>
+          <tr><td>Franschhoek</td><td>R1 250</td></tr>
+          <tr><td>Hermanus</td><td>R1 830</td></tr>
+        </tbody>
+      </table>
+      <a class="btn" href="{{ bookUrl }}" rel="noopener" style="margin-top:1.25rem">Book an airport transfer</a>
+      <p class="fine-print">Other trips are priced by distance, from R120. You see the exact fare before you pay.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<section class="section">
+  <div class="container">
+    <p class="eyebrow">Popular trips</p>
+    <h2 class="section-title">Where Cape Town goes.</h2>
+    <figure class="photo ratio-21-8" style="margin-bottom:1.5rem"><img src="/assets/img/photos/rides-banner.jpg" alt="V&amp;A Waterfront with Table Mountain" width="1600" height="609" loading="lazy"></figure>
+    <div class="grid grid-2">
+      <div class="card"><h3>Airport transfers</h3><p>To and from CPT, early and late flights included.</p><p class="hl"><b>From R420</b></p></div>
+      <div class="card"><h3>City &amp; Waterfront</h3><p>V&amp;A, CBD, Cableway, Kirstenbosch, Camps Bay.</p><p class="hl"><b>From R120</b></p></div>
+      <div class="card"><h3>Coast</h3><p>Hout Bay, Fish Hoek, Boulders and Simon's Town.</p><p class="hl"><b>Airport to Fish Hoek R700</b></p></div>
+      <div class="card"><h3>Winelands &amp; Overberg</h3><p>Franschhoek, Constantia and the wine farms, or the coast road to Hermanus.</p><p class="hl"><b>Airport to Franschhoek R1 250</b></p></div>
+    </div>
+    <div class="actions" style="margin-top:1.5rem">
+      <a class="btn" href="{{ bookUrl }}" rel="noopener">Get your fixed price</a>
+    </div>
+    <div class="grid grid-2" style="margin-top:1.5rem">
+      <figure class="photo ratio-3-2"><img src="/assets/img/photos/rides-city.jpg" alt="Colourful houses in Bo-Kaap below Table Mountain" width="1000" height="667" loading="lazy"><figcaption>City &amp; Bo-Kaap</figcaption></figure>
+      <figure class="photo ratio-3-2"><img src="/assets/img/photos/rides-coast.jpg" alt="Atlantic seaboard from Bantry Bay towards Camps Bay" width="1000" height="667" loading="lazy"><figcaption>Atlantic seaboard</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="section section-cream" id="tours">
+  <div class="container">
+    <p class="eyebrow">Tours &amp; experiences</p>
+    <h2>Local operators. <span class="hl">CapeX transport.</span></h2>
+    <p class="lead">Book trusted Cape Town tour operators through CapeX. One payment covers the experience and the ride there.</p>
+    <div class="grid grid-3" style="margin-top:1.5rem">
+      <div class="card">
+        <p class="card-label">GK Fusion Tours · powered by CapeX</p>
+        <h3>Overnight safari, Aquila Game Reserve</h3>
+        <p>Transport, stay and game drives in one booking.</p>
+        <p><b class="hl">From <span class="placeholder">[R____]</span> for 2</b> · <span class="pill">Coming soon</span></p>
+      </div>
+      <div class="card">
+        <p class="card-label">GK Fusion Tours · powered by CapeX</p>
+        <h3>Safari day trip, shared departures</h3>
+        <p>Goes ahead once 4 guests have booked.</p>
+        <p><b class="hl">From <span class="placeholder">[R____]</span> pp</b> · <span class="pill">Coming soon</span></p>
+      </div>
+      <div class="card feature">
+        <p class="card-label">For operators</p>
+        <h3>Run tours or experiences? List them here under your own brand.</h3>
+        <p>We manage the payment admin, run the transport and pay you out after the trip.</p>
+        <a class="card-more" href="/contact/?service=partner">Become a partner →</a>
+      </div>
+    </div>
+    <p class="fine-print" style="margin-top:1rem">Delivered by CapeX and our trusted network of vetted partner operators.</p>
+  </div>
+</section>
+
+<section class="section" id="how">
+  <div class="container">
+    <h2 class="section-title">How it works</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">01</div><h3>Choose pick-up and drop-off</h3><p>Add the date, time and passengers. The fixed price shows straight away.</p></div>
+      <div class="step"><div class="step-num">02</div><h3>Pay to confirm</h3><p>Card, Apple Pay, Google Pay or instant EFT, on a secure payment page.</p></div>
+      <div class="step"><div class="step-num">03</div><h3>Get your driver and code</h3><p>Name, car, plate and boarding code before the trip.</p></div>
+      <div class="step"><div class="step-num">04</div><h3>Ride, then rate</h3><p>Add the trip to your calendar or share it with someone waiting for you.</p></div>
+    </div>
+    <div class="actions" style="margin-top:1.5rem">
+      <a class="btn" href="{{ bookUrl }}" rel="noopener">Book a ride</a>
+      <a class="btn btn-ghost" href="https://wa.me/{{ contact.whatsapp }}?text={{ waText | urlencode }}" rel="noopener">Questions? WhatsApp us</a>
+    </div>
+    <p class="fine-print" style="margin-top:1rem"><span class="placeholder">[Cancellation and refund policy: confirm wording before launch]</span></p>
+    <div class="shots" style="max-width:640px">
+      <figure class="shot"><div class="shot-phone"><img src="/assets/img/app/rider-private-trip.webp" alt="CapeX app: booking a private trip with pick-up, drop-off, date, time and passengers" width="640" height="1300" loading="lazy"></div><figcaption>Regular riders can also book in the CapeX app</figcaption></figure>
+      <figure class="shot"><div class="shot-phone"><img src="/assets/img/app/rider-rate-driver.webp" alt="CapeX app: rate your driver after the trip" width="640" height="1300" loading="lazy"></div><figcaption>Rate your driver after the trip</figcaption></figure>
+    </div>
+  </div>
+</section>

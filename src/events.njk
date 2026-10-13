@@ -1,0 +1,107 @@
+---
+layout: "layouts/base.njk"
+title: "Events & group transport"
+description: "Year-end functions, conferences and team days across Cape Town and the Winelands. One booking, your team adds their own addresses, one fixed quote."
+permalink: "/events/"
+---
+<section class="page-hero dark">
+  <div class="container hero-grid">
+    <div>
+      <p class="eyebrow">Events &amp; group transport</p>
+      <h1>Everyone there. Everyone home. <span class="hl">One booking.</span></h1>
+      <p class="lead">Year-end functions, conferences and team days across Cape Town and the Winelands. You book once, your team adds their own addresses, and we sort the cars.</p>
+      <div class="chips">
+        <span class="chip">Year-end functions</span><span class="chip">Conferences</span><span class="chip">Team-building days</span><span class="chip">Wine-farm outings</span><span class="chip">Client events</span>
+      </div>
+      <div class="actions"><a class="btn" href="#plan">Plan an event</a></div>
+    </div>
+    <figure class="photo ratio-5-4"><img src="/assets/img/photos/events-hero.jpg" alt="Cape Town city lights at night below Devil's Peak" width="1200" height="960"></figure>
+  </div>
+</section>
+
+<section class="section" style="padding-bottom:0">
+  <div class="container">
+    <div class="proof">
+      <div><strong>Vetted</strong><span>every driver holds a PrDP and is checked through Huru</span></div>
+      <div><strong>Coded</strong><span>everyone boards with their own 4-digit code</span></div>
+      <div><strong>Tracked</strong><span>every car followed live by our ops team</span></div>
+      <div><strong>Fixed</strong><span>one quote for the whole night, no meters</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <p class="eyebrow">How it works</p>
+    <h2 class="section-title">Five steps, mostly ours.</h2>
+    <div class="steps">
+      <div class="step"><div class="step-num">01 · YOU</div><h3>Request</h3><p>Date, venue, headcount and pickup window. Two minutes, no login.</p></div>
+      <div class="step"><div class="step-num">02 · YOUR TEAM</div><h3>Share the staff link</h3><p>Each person adds their name, number and address through a link you share.</p></div>
+      <div class="step"><div class="step-num">03 · US</div><h3>We group the cars</h3><p>By area (CBD, Northern, Southern, Cape Flats). No one rides alone.</p></div>
+      <div class="step"><div class="step-num">04 · YOU</div><h3>Accept the quote</h3><p>One fixed total. Pay 50% to confirm.</p></div>
+      <div class="step"><div class="step-num">05 · US</div><h3>Codes go out</h3><p>Everyone gets their driver, car and boarding code.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container split">
+    <div>
+      <p class="eyebrow">Getting home</p>
+      <h2>Choose how the night ends.</h2>
+      <div class="grid">
+        <div class="card"><h3>Back to the office</h3><p>Everyone returns to one pickup point. Lowest price.</p></div>
+        <div class="card"><h3>Home drop-offs</h3><p>Each person dropped at their door, in the nearest order.</p></div>
+        <div class="card"><h3>One way only</h3><p>To the venue, and people make their own way back.</p></div>
+      </div>
+    </div>
+    <div class="card">
+      <p class="card-label">What it costs</p>
+      <p class="price">R180–R250 <small>a head, home drop-offs</small></p>
+      <p class="muted">Usual range for a team of 30, depending on where your team lives. Back to the office works out at about R120 a head.</p>
+      <table class="example">
+        <tr><td>One car, 45 km, back to the office</td><td>R400</td></tr>
+        <tr><td>Each extra home drop-off</td><td>+R80</td></tr>
+        <tr><td>One car, 45 km, 4 home drop-offs</td><td>R640</td></tr>
+        <tr><td>Coordination fee, per event</td><td>R350</td></tr>
+      </table>
+      <p class="muted" style="margin-top:1rem">One fixed total for the night. 50% deposit to confirm, balance 3 days before. Approved companies can pay on invoice.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container faq">
+    <h2>Good to know</h2>
+    <details><summary>How far ahead should we book?</summary><p>At least 2 days ahead. In November and December, book as early as you can.</p></details>
+    <details><summary>What if headcount changes?</summary><p>You can add, edit or remove people from your coordinator page until the trips are created.</p></details>
+  </div>
+</section>
+
+<section class="section band-dark quote-band" id="plan">
+  <div class="container split">
+    <div>
+      <p class="eyebrow">Plan an event</p>
+      <h2>Year-end coming up? <span class="hl">Lock in your cars.</span></h2>
+      <p>Send us the basics and we'll reply with next steps and a fixed quote. December Fridays fill up first.</p>
+      <p>Organising the night? <a href="/guides/year-end-transport-planner/">Get our free year-end transport planner →</a></p>
+    </div>
+    <div class="card">
+      {% set formType = "contact" %}
+      {% set service = "Event or group transport" %}
+      {% set askPhone = true %}
+      {% set extraFields = [
+        { "label": "Event date", "type": "date", "half": true, "required": true },
+        { "label": "Headcount", "type": "number", "half": true, "required": true },
+        { "label": "Venue", "required": true, "placeholder": "Name and area, e.g. Spier, Stellenbosch" },
+        { "label": "Getting home", "type": "select", "options": ["Home drop-offs", "Back to the office", "One way only", "Not sure yet"] },
+        { "label": "Pickup window", "half": true, "placeholder": "e.g. 17:00–17:30" },
+        { "label": "Return time", "half": true, "placeholder": "e.g. 23:00" }
+      ] %}
+      {% set messageLabel = "Anything else" %}
+      {% set submitLabel = "Request a quote" %}
+      {% set successText = "Thanks. We'll come back to you with next steps and a fixed quote, usually the same working day." %}
+      {% include "partials/lead-form.njk" %}
+    </div>
+  </div>
+</section>

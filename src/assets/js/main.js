@@ -1,585 +1,300 @@
-// engage Job Evaluation, site script.
-// The SPA showPage() logic from the demo is intentionally gone; routing
-// is now real pages. This stays minimal.
+/* ==========================================================================
+   main.js: one guarded IIFE per behaviour.
+   Each block checks its elements exist before doing anything, so a page
+   without that feature costs nothing. Add new behaviour as a new block at
+   the end, labelled with the date and change-request number.
+   ========================================================================== */
 
-// 0. Mobile nav toggle (hamburger). Closes on outside click, Escape,
-// or when a link inside it is clicked (full page nav still needs this
-// so the menu isn't left visually "open" for an instant on slow loads).
+/* --- Mobile nav ----------------------------------------------------------- */
 (function () {
   var toggle = document.querySelector(".nav-toggle");
-  var links = document.getElementById("nav-links");
-  if (!toggle || !links) return;
-
-  function setOpen(open) {
-    toggle.classList.toggle("open", open);
-    links.classList.toggle("open", open);
+  var nav = document.getElementById("site-nav");
+  if (!toggle || !nav) return;
+  toggle.addEventListener("click", function () {
+    var open = nav.classList.toggle("is-open");
     toggle.setAttribute("aria-expanded", open ? "true" : "false");
-    toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-  }
-
-  window.toggleNav = function (btn) {
-    setOpen(!links.classList.contains("open"));
-  };
-
-  links.addEventListener("click", function (e) {
-    if (e.target.closest("a")) setOpen(false);
-  });
-
-  document.addEventListener("click", function (e) {
-    if (!links.classList.contains("open")) return;
-    if (e.target.closest("nav")) return;
-    setOpen(false);
-  });
-
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape") setOpen(false);
   });
 })();
 
-// 1. Mark the current nav link active as a fallback to the server-rendered class.
+/* --- YouTube: best thumbnail + click to play ----------------------------- */
+/* YouTube returns a 120x90 placeholder (HTTP 200) when a size doesn't exist,
+   so each size is probed with a real image load and checked for width. */
 (function () {
-  var path = window.location.pathname;
-  document.querySelectorAll(".nav-links a").forEach(function (a) {
-    var href = a.getAttribute("href");
-    if (!href || href === "/") return;
-    if (path.indexOf(href) === 0) a.classList.add("active");
-  });
-})();
+  var videos = document.querySelectorAll(".video[data-youtube-id]");
+  if (!videos.length) return;
 
-// 2. FAQ accordion: CSS keys off .faq-item.open, so we just toggle that class.
-window.toggleFaq = function (el) {
-  var item = el.closest(".faq-item");
-  if (item) item.classList.toggle("open");
-};
-
-// 3. Guide gate: name + email → Netlify Function → Resend.
-(function () {
-  // If arriving from the emailed link (?unlocked=1), skip the gate entirely.
-  if (window.location.search.indexOf("unlocked=1") !== -1) {
-    var gateEl = document.getElementById("guide-gate");
-    var contentEl = document.getElementById("guide-content");
-    if (gateEl) gateEl.style.display = "none";
-    if (contentEl) contentEl.style.display = "block";
+  function probe(url) {
+    return new Promise(function (resolve) {
+      var img = new Image();
+      img.onload = function () { resolve(img.naturalWidth > 120 ? url : null); };
+      img.onerror = function () { resolve(null); };
+      img.src = url;
+    });
   }
-  var form = document.getElementById("gate-form");
-  if (!form) return;
 
-  var errorEl = document.getElementById("gate-error");
-  var submitBtn = document.getElementById("gate-submit");
-  var gate = document.getElementById("guide-gate");
-  var success = document.getElementById("guide-gate-success");
-  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  videos.forEach(function (box) {
+    var id = box.getAttribute("data-youtube-id");
+    var thumb = box.querySelector(".video-thumb");
+    var base = "https://i.ytimg.com/vi/" + id + "/";
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var name = document.getElementById("gate-name").value.trim();
-    var email = document.getElementById("gate-email").value.trim();
-    var companyEl = document.getElementById("gate-company");
-    var company = companyEl ? companyEl.value.trim() : "";
-
-    if (!name || !emailRe.test(email) || (companyEl && !company)) {
-      errorEl.textContent = "Please enter your name, a valid email address and your company.";
-      errorEl.style.display = "block";
-      return;
+    if (thumb) {
+      probe(base + "maxresdefault.jpg").then(function (u) {
+        return u || probe(base + "sddefault.jpg");
+      }).then(function (u) { if (u) thumb.src = u; });
     }
 
-    errorEl.style.display = "none";
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Sending…";
+    var play = box.querySelector(".video-play");
+    if (!play) return;
+    play.addEventListener("click", function () {
+      var iframe = document.createElement("iframe");
+      iframe.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1&rel=0";
+      iframe.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+      iframe.title = play.getAttribute("aria-label") || "Video";
+      box.innerHTML = "";
+      box.appendChild(iframe);
+      if (window.gtag) window.gtag("event", "video_play", { video_id: id });
+    });
+  });
+})();
 
-    fetch("/.netlify/functions/send-guide", {
+/* --- Lead forms: reCAPTCHA v3, v2 fallback, submit, success ------------- */
+(function () {
+  var forms = document.querySelectorAll("form[data-wif-form]");
+  if (!forms.length) return;
+
+  var cfg = (window.WIF && window.WIF.recaptcha) || {};
+  var bookingCfg = (window.WIF && window.WIF.booking) || {};
+
+  function v3Token(action) {
+    if (!cfg.enabled || !cfg.siteKey || !window.grecaptcha) return Promise.resolve(null);
+    return new Promise(function (resolve) {
+      window.grecaptcha.ready(function () {
+        window.grecaptcha.execute(cfg.siteKey, { action: action }).then(resolve, function () { resolve(null); });
+      });
+    });
+  }
+
+  function showError(form, msg) {
+    var el = form.querySelector("[data-error]");
+    if (!el) return;
+    el.textContent = msg;
+    el.hidden = false;
+  }
+
+  function clearError(form) {
+    var el = form.querySelector("[data-error]");
+    if (el) { el.hidden = true; el.textContent = ""; }
+  }
+
+  // provider (site.json → booking.provider):
+  //   hubspot  → HubSpot Meetings embed script
+  //   calendly → Calendly inline iframe
+  //   iframe   → any calendar page that allows embedding (Google appointment pages, Cal.com, Microsoft Bookings…)
+  //   link     → a button that opens the calendar in a new tab (for calendars that block embedding)
+  function revealBooking(url, provider) {
+    var host = document.querySelector("[data-booking-embed]");
+    if (!host || !url) return;
+    provider = provider || bookingCfg.provider;
+    host.hidden = false;
+    host.innerHTML = "";
+
+    if (provider === "link") {
+      var a = document.createElement("a");
+      a.className = "btn";
+      a.href = url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = "Open the calendar to choose a time";
+      host.appendChild(a);
+    } else if (provider === "iframe") {
+      var fr = document.createElement("iframe");
+      fr.src = url;
+      fr.title = "Choose a time";
+      host.appendChild(fr);
+    } else if (provider === "hubspot") {
+      // Build the container now (not hidden on load): HubSpot's script measures it when it runs.
+      var c = document.createElement("div");
+      c.className = "meetings-iframe-container";
+      c.setAttribute("data-src", url + (url.indexOf("?") > -1 ? "&" : "?") + "embed=true");
+      host.appendChild(c);
+      var s = document.createElement("script");
+      s.src = "https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js";
+      s.async = true;
+      host.appendChild(s);
+    } else if (provider === "calendly") {
+      var f = document.createElement("iframe");
+      f.src = url + (url.indexOf("?") > -1 ? "&" : "?") + "embed_type=Inline&embed_domain=" + encodeURIComponent(location.hostname);
+      f.title = "Choose a time";
+      host.appendChild(f);
+    }
+    host.style.minHeight = provider === "link" ? "0" : "";
+    host.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function onSuccess(form, body) {
+    form.hidden = true;
+    var ok = form.nextElementSibling;
+    if (ok && ok.hasAttribute("data-success")) ok.hidden = false;
+
+    var type = form.getAttribute("data-wif-form");
+    if (window.gtag) window.gtag("event", type === "demo" ? "book_demo" : "generate_lead", { form_type: type });
+
+    if (body && body.bookingUrl) revealBooking(body.bookingUrl, body.provider);
+  }
+
+  function send(form, extra) {
+    var btn = form.querySelector('button[type="submit"]');
+    var data = {};
+    new FormData(form).forEach(function (v, k) { data[k] = typeof v === "string" ? v.trim() : v; });
+    Object.keys(extra || {}).forEach(function (k) { data[k] = extra[k]; });
+
+    if (btn) btn.disabled = true;
+    return fetch(form.getAttribute("data-endpoint"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: name,
-        email: email,
-        company: company,
-        guideTitle: form.getAttribute("data-guide-title"),
-        guideSlug: form.getAttribute("data-guide-slug"),
-      }),
+      body: JSON.stringify(data),
     })
       .then(function (res) {
-        if (!res.ok) throw new Error("Request failed");
-        gate.style.display = "none";
-        success.style.display = "block";
+        return res.json().catch(function () { return {}; }).then(function (body) { return { res: res, body: body }; });
+      })
+      .then(function (r) {
+        if (r.res.ok && r.body.ok) return onSuccess(form, r.body);
+
+        if (r.body.challenge && cfg.v2SiteKey && window.grecaptcha) return showChallenge(form);
+
+        showError(form, r.body.error || "Something went wrong. Please try again, or email us directly.");
       })
       .catch(function () {
-        errorEl.textContent =
-          "Something went wrong, please try again, or email info@workinflow.co.za.";
-        errorEl.style.display = "block";
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Send me the guide";
-      });
-  });
-})();
-
-// 3b. Overview: engage-vs-traditional comparison accordion.
-window.toggleCompare = function (el) {
-  var box = el.closest(".eng-compare");
-  if (!box) return;
-  var open = box.classList.toggle("open");
-  el.setAttribute("aria-expanded", open ? "true" : "false");
-  var lbl = el.querySelector(".label");
-  if (lbl) lbl.textContent = open ? "Hide the full side-by-side" : "See the full side-by-side";
-};
-
-// 3c. Insights hub: Guides / Webinars sub-category tabs.
-window.showInsights = function (which) {
-  var names = ["guides", "webinars"];
-  names.forEach(function (n) {
-    var tab = document.getElementById("tab-" + n);
-    var panel = document.getElementById("panel-" + n);
-    var on = n === which;
-    if (tab) {
-      tab.classList.toggle("active", on);
-      tab.setAttribute("aria-selected", on ? "true" : "false");
-    }
-    if (panel) panel.hidden = !on;
-  });
-  if (history.replaceState) {
-    history.replaceState(null, "", which === "webinars" ? "#webinars" : "#guides");
-  }
-};
-(function () {
-  if (!document.getElementById("tab-webinars")) return;
-  if (window.location.hash === "#webinars") window.showInsights("webinars");
-})();
-
-// 4. How It Works: click-to-expand pillars and five-grid cards.
-window.togglePillar = function (head) {
-  var pillar = head.closest(".pillar");
-  if (pillar) pillar.classList.toggle("open");
-};
-window.toggleGridCard = function (card) {
-  card.classList.toggle("open");
-};
-
-// 5. Landing: animated count-up for the trust-stats band.
-(function () {
-  var nums = document.querySelectorAll(".trust-num");
-  if (!nums.length) return;
-  nums.forEach(function (el) {
-    var target = parseInt(el.getAttribute("data-count-to"), 10);
-    // No numeric target (e.g. a static value like "88+" or "Annual") → leave the text as authored.
-    if (isNaN(target)) return;
-    var suffix = el.getAttribute("data-suffix") || "";
-    var start = null, duration = 1200;
-    function step(ts) {
-      if (!start) start = ts;
-      var progress = Math.min((ts - start) / duration, 1);
-      el.textContent = Math.floor(progress * target).toLocaleString() + suffix;
-      if (progress < 1) requestAnimationFrame(step);
-      else el.textContent = target.toLocaleString() + suffix;
-    }
-    requestAnimationFrame(step);
-  });
-})();
-
-// 6. Landing: client logo carousel (arrows + dots).
-// Was hardcoded to 5 visible logos regardless of viewport, on a phone
-// that rendered as five unreadable slivers. visible now recalculates
-// on load and resize (5 desktop / 3 tablet / 2 phone), each logo's
-// flex-basis is set directly so it always matches what the transform
-// math expects, and the dots are rebuilt whenever the count changes.
-(function () {
-  var track = document.getElementById("engage-carousel-track");
-  var dotsWrap = document.getElementById("engage-carousel-dots");
-  if (!track || !dotsWrap) return;
-  var items = Array.prototype.slice.call(track.children);
-  var total = items.length;
-  var visible = 5;
-  var maxIndex = 0;
-  var index = 0;
-
-  function visibleForWidth() {
-    var w = window.innerWidth;
-    if (w <= 560) return 2;
-    if (w <= 860) return 3;
-    return 5;
-  }
-
-  function rebuildDots() {
-    dotsWrap.innerHTML = "";
-    var pageCount = maxIndex + 1;
-    for (var i = 0; i < pageCount; i++) {
-      var dot = document.createElement("button");
-      dot.setAttribute("aria-label", "Go to client " + (i + 1));
-      dot.style.cssText = "width:10px;height:10px;border-radius:50%;border:1px solid var(--border);background:white;cursor:pointer;padding:0;";
-      dot.addEventListener("click", (function (n) { return function () { go(n); }; })(i));
-      dotsWrap.appendChild(dot);
-    }
-  }
-
-  function layout() {
-    var newVisible = visibleForWidth();
-    var changed = newVisible !== visible;
-    visible = newVisible;
-    items.forEach(function (el) {
-      el.style.flex = "0 0 " + (100 / visible) + "%";
-    });
-    maxIndex = Math.max(0, total - visible);
-    index = Math.min(index, maxIndex);
-    if (changed) rebuildDots();
-    update();
-  }
-
-  function update() {
-    track.style.transform = "translateX(-" + (index * (100 / visible)) + "%)";
-    Array.prototype.forEach.call(dotsWrap.children, function (d, i) {
-      var active = i === index;
-      d.style.background = active ? "var(--apag-green)" : "white";
-      d.style.borderColor = active ? "var(--apag-green)" : "var(--border)";
-    });
-  }
-  function go(n) { index = Math.max(0, Math.min(maxIndex, n)); update(); restartAuto(); }
-  window.engageCarouselMove = function (dir) { go(index + dir); };
-
-  // Auto-rotate: advances one page at a time and loops back to the start.
-  // Pauses on hover/focus and respects prefers-reduced-motion.
-  var AUTO_MS = 4000;
-  var timer = null;
-  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  function startAuto() {
-    if (reduceMotion || maxIndex <= 0) return;
-    stopAuto();
-    timer = setInterval(function () {
-      index = index >= maxIndex ? 0 : index + 1;
-      update();
-    }, AUTO_MS);
-  }
-  function stopAuto() {
-    if (timer) { clearInterval(timer); timer = null; }
-  }
-  function restartAuto() { stopAuto(); startAuto(); }
-
-  var section = track.closest(".client-carousel-section") || track.parentElement;
-  section.addEventListener("mouseenter", stopAuto);
-  section.addEventListener("mouseleave", startAuto);
-  section.addEventListener("focusin", stopAuto);
-  section.addEventListener("focusout", startAuto);
-
-  layout();
-  startAuto();
-  var resizeTimer;
-  window.addEventListener("resize", function () {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function () { layout(); restartAuto(); }, 150);
-  });
-})();
-
-// 7. Landing: homepage hero explainer (click-to-play facade, YouTube or
-// legacy Vimeo). The player iframe is only injected on click, so the
-// homepage stays fast. The poster is the provider's own thumbnail so CMS
-// editors never upload a still; if it can't be resolved, the brand-gradient
-// box stays as the fallback. Mirrors the webinar embed, but deferred rather
-// than eager.
-(function () {
-  // YouTube serves several thumbnail sizes; maxresdefault (1280x720) only
-  // exists for videos uploaded in HD, and 404s to a tiny 120x90 grey
-  // placeholder rather than failing outright, so we probe it with a real
-  // Image() load and check its width before trusting it. Falls through to
-  // sddefault (640x480), then the original hqdefault (480x360) as the
-  // last resort, so it always ends up with the best size that exists.
-  function setBestYouTubeThumb(btn, yid) {
-    var sizes = ["maxresdefault", "sddefault", "hqdefault"];
-
-    function tryNext(i) {
-      if (i >= sizes.length) return;
-      var src = "https://img.youtube.com/vi/" + yid + "/" + sizes[i] + ".jpg";
-      var probe = new Image();
-      probe.onload = function () {
-        // A missing maxresdefault/sddefault still loads, but as a
-        // 120x90 placeholder — anything wider means it's the real thing.
-        if (probe.naturalWidth > 120 || i === sizes.length - 1) {
-          btn.style.backgroundImage = "url('" + src + "')";
-          btn.classList.add("has-thumb");
-        } else {
-          tryNext(i + 1);
-        }
-      };
-      probe.onerror = function () { tryNext(i + 1); };
-      probe.src = src;
-    }
-
-    tryNext(0);
-  }
-
-  var btn = document.querySelector(".hero-video-play");
-  if (!btn) return;
-
-  var url = btn.getAttribute("data-vimeo-url");
-  var embed = btn.getAttribute("data-vimeo-embed");
-  if (!embed) return;
-
-  if (url && /youtu/.test(url)) {
-    var yid = (url.match(/(?:v=|youtu\.be\/|embed\/|shorts\/)([A-Za-z0-9_-]{11})/) ||
-      url.match(/^([A-Za-z0-9_-]{11})$/) || [])[1];
-    if (yid) {
-      setBestYouTubeThumb(btn, yid);
-    }
-  } else if (url) {
-    var api =
-      "https://vimeo.com/api/oembed.json?url=" + encodeURIComponent(url) + "&width=900";
-    fetch(api)
-      .then(function (r) { return r.ok ? r.json() : null; })
-      .then(function (d) {
-        if (d && d.thumbnail_url) {
-          btn.style.backgroundImage = "url('" + d.thumbnail_url + "')";
-          btn.classList.add("has-thumb");
-        }
+        showError(form, "We couldn't reach the server. Check your connection and try again.");
       })
-      .catch(function () { /* keep the gradient fallback */ });
+      .finally(function () { if (btn) btn.disabled = false; });
   }
 
-  btn.addEventListener("click", function () {
-    var frame = btn.closest(".hero-video");
-    if (!frame) return;
-    var iframe = document.createElement("iframe");
-    iframe.src = embed + "&autoplay=1";
-    iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
-    iframe.setAttribute("allowfullscreen", "");
-    iframe.setAttribute("title", "engage, 60-second explainer");
-    frame.appendChild(iframe);
-    frame.classList.add("is-playing");
-  });
-})();
-
-
-// 8. Sub-page anchor nav: move the active underline to the section in view.
-// Inert on pages without an .anchor-nav (guarded return). Offset is read from
-// the fixed nav's own position so it stays correct if the header height changes.
-(function () {
-  var nav = document.querySelector(".anchor-nav");
-  if (!nav) return;
-  var links = Array.prototype.slice.call(nav.querySelectorAll('a[href^="#"]'));
-  if (!links.length) return;
-  var map = links
-    .map(function (a) { return { a: a, sec: document.getElementById(a.getAttribute("href").slice(1)) }; })
-    .filter(function (m) { return m.sec; });
-  if (!map.length) return;
-
-  function offset() { return nav.getBoundingClientRect().bottom + 8; }
-  function setActive(a) {
-    links.forEach(function (l) { l.classList.toggle("active", l === a); });
-  }
-  function update() {
-    var off = offset();
-    var current = map[0];
-    for (var i = 0; i < map.length; i++) {
-      if (map[i].sec.getBoundingClientRect().top - off <= 1) current = map[i];
-      else break;
-    }
-    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
-      current = map[map.length - 1];
-    }
-    setActive(current.a);
+  // Low v3 score: show the v2 checkbox instead of blocking the visitor outright.
+  function showChallenge(form) {
+    var box = form.querySelector("[data-challenge]");
+    if (!box) return;
+    box.hidden = false;
+    box.innerHTML = '<p class="muted">One more step: please confirm you\'re not a robot.</p><div></div>';
+    window.grecaptcha.render(box.lastChild, {
+      sitekey: cfg.v2SiteKey,
+      callback: function (token) {
+        send(form, { recaptchaToken: token, recaptchaVersion: "v2" });
+      },
+    });
   }
 
-  var ticking = false;
-  window.addEventListener("scroll", function () {
-    if (!ticking) { requestAnimationFrame(function () { update(); ticking = false; }); ticking = true; }
-  }, { passive: true });
-  window.addEventListener("resize", update);
-
-  // Click: set active immediately and smooth-scroll with the fixed-nav offset.
-  links.forEach(function (a) {
-    a.addEventListener("click", function (e) {
-      var sec = document.getElementById(a.getAttribute("href").slice(1));
-      if (!sec) return;
+  forms.forEach(function (form) {
+    form.addEventListener("submit", function (e) {
       e.preventDefault();
-      var y = sec.getBoundingClientRect().top + window.scrollY - offset() + 2;
-      window.scrollTo({ top: y, behavior: "smooth" });
-      setActive(a);
-    });
-  });
-
-  update();
-})();
-
-// 9. Book a demo: reCAPTCHA v3 pre-gate in front of the HubSpot calendar.
-// Same shape as section 3's guide gate: id-based lookups, fetch to a
-// Netlify Function, toggle an error element. v3 runs invisibly; a low
-// score falls back to a visible v2 checkbox rather than blocking outright,
-// since this form exists to capture demo bookings, not to lock people out.
-(function () {
-  var RECAPTCHA_SITE_KEY = "6LfwL8ctAAAAALvz7H0Nfg3sKams5rmH9HlnQcvg";
-
-  var gateForm = document.getElementById("demo-gate-form");
-  if (!gateForm) return; // only present on book-demo when hubspotMeetingUrl is set
-
-  var gate = document.getElementById("demo-gate");
-  var calendarEl = document.getElementById("demo-gate-calendar");
-  var errorEl = document.getElementById("demo-gate-error");
-  var submitBtn = document.getElementById("demo-gate-submit");
-  var fallbackEl = document.getElementById("demo-gate-fallback");
-  var emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  // Details from this step, reused to prefill HubSpot's booking form (so
-  // nobody types their name twice) and sent with the verify call so the
-  // company is recorded against the lead.
-  var lead = { name: "", email: "", company: "" };
-
-  function showError(message) {
-    errorEl.textContent = message;
-    errorEl.style.display = "block";
-  }
-  function clearError() {
-    errorEl.style.display = "none";
-  }
-  function setLoading(isLoading) {
-    submitBtn.disabled = isLoading;
-    submitBtn.textContent = isLoading ? "Checking…" : "See available times";
-  }
-
-  function loadScript(src) {
-    return new Promise(function (resolve, reject) {
-      var s = document.createElement("script");
-      s.src = src;
-      s.onload = resolve;
-      s.onerror = reject;
-      document.head.appendChild(s);
-    });
-  }
-
-  // Loaded once per page view, tied to the site key.
-  var recaptchaReady = loadScript(
-    "https://www.google.com/recaptcha/api.js?render=" + RECAPTCHA_SITE_KEY
-  );
-
-  function revealCalendar() {
-    gate.style.display = "none";
-    calendarEl.style.display = "block";
-
-    // Built fresh at reveal time rather than hidden on page load, so
-    // HubSpot's embed script always measures a visible container.
-    var iframeContainer = document.createElement("div");
-    iframeContainer.className = "meetings-iframe-container";
-    // HubSpot Meetings accepts firstName / lastName / email as query
-    // params and prefills its own form with them.
-    var parts = lead.name.split(/\s+/);
-    var params = "embed=true" +
-      "&firstName=" + encodeURIComponent(parts[0] || "") +
-      "&lastName=" + encodeURIComponent(parts.slice(1).join(" ")) +
-      "&email=" + encodeURIComponent(lead.email);
-    var baseUrl = calendarEl.getAttribute("data-hubspot-url");
-    iframeContainer.setAttribute(
-      "data-src",
-      baseUrl + (baseUrl.indexOf("?") === -1 ? "?" : "&") + params
-    );
-    calendarEl.appendChild(iframeContainer);
-
-    var embedScript = document.createElement("script");
-    embedScript.type = "text/javascript";
-    embedScript.src = "https://static.hsappstatic.net/MeetingsEmbed/ex/MeetingsEmbedCode.js";
-    document.body.appendChild(embedScript);
-  }
-
-  function verifyToken(token, action) {
-    return fetch("/.netlify/functions/verify-recaptcha", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: token, action: action, lead: lead }),
-    }).then(function (res) { return res.json(); });
-  }
-
-  function renderFallbackChallenge() {
-    // v3 returned a low score: ask for a visible v2 check as a second
-    // chance rather than rejecting the booking outright.
-    fallbackEl.style.display = "block";
-    fallbackEl.innerHTML = "";
-    var widget = document.createElement("div");
-    widget.className = "g-recaptcha";
-    widget.setAttribute("data-sitekey", RECAPTCHA_SITE_KEY);
-    widget.setAttribute("data-callback", "__demoGateFallbackSuccess");
-    fallbackEl.appendChild(widget);
-
-    if (!window.__demoGateV2Loaded) {
-      window.__demoGateV2Loaded = true;
-      loadScript("https://www.google.com/recaptcha/api.js");
-    }
-
-    window.__demoGateFallbackSuccess = function (v2Token) {
-      setLoading(true);
-      fetch("/.netlify/functions/verify-recaptcha", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ secondFactorToken: v2Token, lead: lead }),
-      })
-        .then(function (res) { return res.json(); })
-        .then(function (data) {
-          setLoading(false);
-          if (data.success) {
-            revealCalendar();
-          } else {
-            showError("That didn't verify, please try the checkbox again.");
-          }
-        })
-        .catch(function () {
-          setLoading(false);
-          showError("Something went wrong verifying that. Please try again.");
-        });
-    };
-  }
-
-  gateForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    clearError();
-
-    var name = document.getElementById("demo-gate-name").value.trim();
-    var email = document.getElementById("demo-gate-email").value.trim();
-    var company = document.getElementById("demo-gate-company").value.trim();
-    var agreeEl = document.getElementById("demo-gate-agree");
-
-    if (!name || !emailRe.test(email) || !company) {
-      showError("Fill in all three fields, with a valid email, to continue.");
-      return;
-    }
-    if (agreeEl && !agreeEl.checked) {
-      showError("Please confirm you have read the session guidelines to continue.");
-      return;
-    }
-    lead = { name: name, email: email, company: company };
-
-    setLoading(true);
-
-    recaptchaReady
-      .then(function () {
-        return new Promise(function (resolve) {
-          grecaptcha.ready(function () {
-            grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "book_demo" }).then(resolve);
-          });
-        });
-      })
-      .then(function (token) { return verifyToken(token, "book_demo"); })
-      .then(function (data) {
-        setLoading(false);
-        if (data.success && !data.lowScore) {
-          revealCalendar();
-        } else {
-          renderFallbackChallenge();
-        }
-      })
-      .catch(function () {
-        setLoading(false);
-        showError("Something went wrong. Please try again.");
+      clearError(form);
+      if (!form.checkValidity()) { form.reportValidity(); return; }
+      var action = form.getAttribute("data-wif-form");
+      v3Token(action).then(function (token) {
+        send(form, token ? { recaptchaToken: token, recaptchaVersion: "v3" } : {});
       });
+    });
   });
 })();
 
-
-/* ===== CR-02 (Oct 2026): homepage "Book a demo" email hand-off =====
-   The homepage CTA form now submits (GET) to /book-demo/?email=...
-   Here we prefill the gate's email field and move focus to the name field. */
+/* --- CapeX · 2026-10-04 · Preselect "What do you need?" from ?service= (e.g. /contact/?service=events) --- */
 (function () {
-  var emailInput = document.getElementById("demo-gate-email");
-  if (!emailInput || !window.URLSearchParams) return;
-  var email = "";
-  try { email = new URLSearchParams(window.location.search).get("email") || ""; } catch (e) { return; }
-  email = email.trim();
-  if (!email) return;
-  if (!emailInput.value) emailInput.value = email;
-  var nameInput = document.getElementById("demo-gate-name");
-  if (nameInput && !nameInput.value) {
-    try { nameInput.focus({ preventScroll: true }); } catch (e) { nameInput.focus(); }
+  var select = document.querySelector('select[name="service"]');
+  if (!select || !window.URLSearchParams) return;
+  var want = (new URLSearchParams(location.search).get("service") || "").toLowerCase();
+  if (!want) return;
+  var map = { staff: "Staff", events: "Event", event: "Event", rides: "Private", transfer: "Private", branding: "Fleet branding", software: "Convoi", demo: "Convoi", partner: "Partner", call: "Discovery", tour: "Private", tours: "Private" };
+  var key = (map[want] || want).toLowerCase();
+  for (var i = 0; i < select.options.length; i++) {
+    if (select.options[i].value.toLowerCase().indexOf(key) === 0) { select.selectedIndex = i; break; }
   }
+})();
+
+/* --- CapeX · 2026-10-04 · Rides fare calculator: R20 + R8.50/km, min R120, nearest R10 --- */
+(function () {
+  var form = document.querySelector("[data-fare-calc]");
+  if (!form) return;
+  var km = form.querySelector('input[name="km"]');
+  var out = form.querySelector("[data-fare]");
+  var note = form.querySelector("[data-fare-note]");
+  var book = form.querySelector("[data-fare-book]");
+  var base = book ? book.getAttribute("href").split("?")[0] : "";
+  form.addEventListener("submit", function (e) { e.preventDefault(); });
+  function update() {
+    var d = Math.max(1, Math.min(400, parseFloat(km.value) || 0));
+    var fare = Math.max(120, Math.round((20 + 8.5 * d) / 10) * 10);
+    var rand = "R" + String(fare).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    out.textContent = rand;
+    if (note) note.textContent = "About " + d + " km · per trip, up to 4 passengers";
+    if (book) book.setAttribute("href", base + "?text=" + encodeURIComponent("Hi CapeX, I'd like to book a private trip of about " + d + " km (" + rand + "). Pick-up, drop-off, date and time: "));
+  }
+  km.addEventListener("input", update);
+})();
+
+/* --- CapeX · 2026-10-12 · Promos: show banners/pop-ups until their end date; remember dismissals per visitor --- */
+(function () {
+  var els = document.querySelectorAll("[data-promo]");
+  if (!els.length) return;
+  var now = new Date();
+  var today = now.getFullYear() + "-" + String(now.getMonth() + 1).padStart(2, "0") + "-" + String(now.getDate()).padStart(2, "0");
+  function dismissed(id) { try { return localStorage.getItem("promo-closed-" + id) === "1"; } catch (e) { return false; } }
+  function remember(id) { try { localStorage.setItem("promo-closed-" + id, "1"); } catch (e) {} }
+  Array.prototype.forEach.call(els, function (el) {
+    var id = el.getAttribute("data-promo");
+    var end = el.getAttribute("data-promo-end");
+    if ((end && today > end) || dismissed(id)) { el.remove(); return; }
+    var isPop = el.classList.contains("promo-pop");
+    function close() { remember(id); el.remove(); document.removeEventListener("keydown", onKey); }
+    function onKey(e) { if (e.key === "Escape") close(); }
+    Array.prototype.forEach.call(el.querySelectorAll("[data-promo-close]"), function (b) { b.addEventListener("click", close); });
+    if (isPop) {
+      setTimeout(function () { el.hidden = false; document.addEventListener("keydown", onKey); }, 4000);
+    } else {
+      el.hidden = false;
+    }
+  });
+})();
+
+/* --- CapeX · 2026-10-12 · Convoi OS: fleet-type tabs (all panels stay visible without JS) --- */
+(function () {
+  var list = document.querySelector("[data-cv-tabs]");
+  if (!list) return;
+  var tabs = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+  function show(tab, focus) {
+    tabs.forEach(function (t) {
+      var on = t === tab;
+      t.setAttribute("aria-selected", on ? "true" : "false");
+      t.tabIndex = on ? 0 : -1;
+      var panel = document.getElementById(t.getAttribute("aria-controls"));
+      if (panel) panel.hidden = !on;
+    });
+    if (focus) tab.focus();
+  }
+  tabs.forEach(function (t, i) {
+    t.addEventListener("click", function () { show(t, false); });
+    t.addEventListener("keydown", function (e) {
+      var n = null;
+      if (e.key === "ArrowRight") n = tabs[(i + 1) % tabs.length];
+      if (e.key === "ArrowLeft") n = tabs[(i - 1 + tabs.length) % tabs.length];
+      if (n) { e.preventDefault(); show(n, true); }
+    });
+  });
+  show(tabs[0], false);
+})();
+
+/* --- CapeX · 2026-10-12 · Buttons that preselect an option in the form they jump to (data-pick-intent) --- */
+(function () {
+  var links = document.querySelectorAll("[data-pick-intent]");
+  if (!links.length) return;
+  Array.prototype.forEach.call(links, function (a) {
+    a.addEventListener("click", function () {
+      var want = a.getAttribute("data-pick-intent");
+      var selects = document.querySelectorAll("select");
+      for (var i = 0; i < selects.length; i++) {
+        for (var j = 0; j < selects[i].options.length; j++) {
+          if (selects[i].options[j].text === want) { selects[i].selectedIndex = j; return; }
+        }
+      }
+    });
+  });
 })();

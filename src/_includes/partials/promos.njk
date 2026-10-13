@@ -1,0 +1,25 @@
+{#- CapeX promos: banners and pop-ups, set in src/_data/promos.json (or /admin → Settings → Specials & banners).
+    A promo shows when active is true, the page matches `pages` (empty = every page) and today is not past `endDate`.
+    The end date is checked in the browser too, so an expired promo disappears without a rebuild. -#}
+{%- set promoList = promos.items if promos and promos.items else [] -%}
+{%- for p in promoList -%}
+{%- if p.active and ((not p.pages) or (p.pages | length == 0) or (page.url in p.pages)) -%}
+{%- if p.style == "popup" -%}
+<div class="promo-pop" data-promo="{{ p.id }}" data-promo-end="{{ p.endDate }}" role="dialog" aria-modal="false" aria-labelledby="promo-{{ p.id }}-msg" hidden>
+  <div class="promo-pop-card">
+    <button class="promo-close" type="button" data-promo-close aria-label="Close">×</button>
+    {% if p.title %}<p class="promo-pop-title">{{ p.title }}</p>{% endif %}
+    <p id="promo-{{ p.id }}-msg">{{ p.message }}</p>
+    {% if p.linkUrl %}<a class="btn" href="{{ p.linkUrl }}" data-promo-close>{{ p.linkLabel or "Find out more" }}</a>{% endif %}
+  </div>
+</div>
+{%- else -%}
+<div class="promo-bar" data-promo="{{ p.id }}" data-promo-end="{{ p.endDate }}" role="region" aria-label="Special offer" hidden>
+  <div class="container promo-bar-inner">
+    <p>{{ p.message }}{% if p.linkUrl %} <a href="{{ p.linkUrl }}">{{ p.linkLabel or "Find out more" }} →</a>{% endif %}</p>
+    <button class="promo-close" type="button" data-promo-close aria-label="Dismiss">×</button>
+  </div>
+</div>
+{%- endif -%}
+{%- endif -%}
+{%- endfor -%}

@@ -1,0 +1,105 @@
+{#
+  Shared lead form. Set before including:
+    formType       "guide" | "contact" | "demo"
+    guideSlug      (guide only) the guide's fileSlug
+    submitLabel    button text
+    successText    message shown after a good submit
+
+  CapeX additions (all optional, contact forms):
+    service        fixed service tag sent as a hidden field, e.g. "Staff transport quote"
+    serviceSelect  true = show a "What do you need?" dropdown instead (preselected from ?service=)
+    askPhone       true = ask for a mobile / WhatsApp number
+    companyLabel   label for the company field (default "Company")
+    extraFields    list of { label, type: "text"|"number"|"date"|"select"|"textarea", options, required, placeholder, half }
+                   Sent as "detail:<label>" and folded into the lead's message by lead.mjs (no schema change).
+    showMessage    false = hide the free-text message (default true for contact forms)
+    messageLabel   label for the message field
+  Posts JSON to the matching Netlify Function. main.js handles reCAPTCHA and the v2 fallback.
+#}
+{% set endpoint = "/.netlify/functions/booking-gate" if formType == "demo" else "/.netlify/functions/lead" %}
+{% set hasDetails = extraFields and extraFields.length %}
+<form class="lead-form" data-wif-form="{{ formType }}" data-endpoint="{{ endpoint }}" novalidate>
+  <input type="hidden" name="type" value="{{ formType }}">
+  {% if guideSlug %}<input type="hidden" name="guide" value="{{ guideSlug }}">{% endif %}
+  {% if service and not serviceSelect %}<input type="hidden" name="service" value="{{ service }}">{% endif %}
+
+  {% if serviceSelect %}
+  <label class="field">
+    <span>What do you need?</span>
+    <select name="service" required>
+      <option value="Discovery call">A 15-minute discovery call</option>
+      <option value="Staff transport quote">Staff &amp; shift transport</option>
+      <option value="Event or group transport">Event or group transport</option>
+      <option value="Private trip or transfer">Private trip, airport transfer or tour</option>
+      <option value="Fleet branding">Fleet branding</option>
+      <option value="Convoi OS software demo">Convoi OS fleet software</option>
+      <option value="Partner or operator">Partner, operator or vehicle owner</option>
+      <option value="Something else">Something else</option>
+    </select>
+  </label>
+  {% endif %}
+
+  <div class="field-row">
+    <label class="field">
+      <span>First name</span>
+      <input name="firstName" autocomplete="given-name" required>
+    </label>
+    <label class="field">
+      <span>Last name</span>
+      <input name="lastName" autocomplete="family-name" required>
+    </label>
+  </div>
+  <div class="field-row">
+    <label class="field">
+      <span>Work email</span>
+      <input type="email" name="email" autocomplete="email" required>
+    </label>
+    {% if askPhone %}
+    <label class="field">
+      <span>Mobile (WhatsApp)</span>
+      <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="e.g. 082 123 4567">
+    </label>
+    {% endif %}
+  </div>
+  <label class="field">
+    <span>{{ companyLabel or "Company" }}</span>
+    <input name="company" autocomplete="organization" {% if formType != "contact" %}required{% endif %}>
+  </label>
+
+  {% if hasDetails %}
+  <div class="field-row">
+  {% for f in extraFields %}
+    <label class="field{% if not f.half %} field-full{% endif %}">
+      <span>{{ f.label }}{% if not f.required %} <em class="optional">(optional)</em>{% endif %}</span>
+      {% if f.type == "select" %}
+        <select name="detail:{{ f.label }}"{% if f.required %} required{% endif %}>
+          {% for o in f.options %}<option>{{ o }}</option>{% endfor %}
+        </select>
+      {% elif f.type == "textarea" %}
+        <textarea name="detail:{{ f.label }}" rows="3"{% if f.placeholder %} placeholder="{{ f.placeholder }}"{% endif %}{% if f.required %} required{% endif %}></textarea>
+      {% else %}
+        <input type="{{ f.type or 'text' }}" name="detail:{{ f.label }}"{% if f.type == "number" %} inputmode="numeric" min="1"{% endif %}{% if f.placeholder %} placeholder="{{ f.placeholder }}"{% endif %}{% if f.required %} required{% endif %}>
+      {% endif %}
+    </label>
+  {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if formType == "contact" and showMessage != false %}
+  <label class="field">
+    <span>{{ messageLabel or "Message" }}{% if hasDetails %} <em class="optional">(optional)</em>{% endif %}</span>
+    <textarea name="message" rows="4"{% if not hasDetails %} required{% endif %}></textarea>
+  </label>
+  {% endif %}
+
+  {# Honeypot: hidden from people, bots fill it in #}
+  <label class="hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
+
+  <div class="recaptcha-challenge" data-challenge hidden></div>
+  <p class="form-error" data-error role="alert" hidden></p>
+  <button class="btn" type="submit">{{ submitLabel or "Submit" }}</button>
+  {% if site.features.recaptcha %}<p class="fine-print">Protected by reCAPTCHA. Google's <a href="https://policies.google.com/privacy">Privacy Policy</a> and <a href="https://policies.google.com/terms">Terms</a> apply. See our <a href="/privacy/">privacy policy</a>.</p>{% endif %}
+</form>
+<div class="form-success" data-success hidden>
+  <p>{{ successText or "Thank you. We'll be in touch." }}</p>
+</div>

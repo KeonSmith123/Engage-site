@@ -1,115 +1,109 @@
-# Engage Job Evaluation, Decap CMS configuration
-# Editors manage Guides and Case studies here. Content is committed back to
-# the Git repo as markdown; Netlify rebuilds the site automatically.
+# Decap CMS config
+# Login: GitHub backend. Netlify acts as the OAuth provider:
+#   1. GitHub > Settings > Developer settings > OAuth Apps > New
+#      Homepage URL: https://<site>.netlify.app   Callback URL: https://api.netlify.com/auth/done
+#   2. Netlify > Site configuration > Access control > OAuth > Install provider > GitHub (paste ID + secret)
+#   3. Editors need a GitHub account with write access to the repo.
 
 backend:
-  name: git-gateway
+  name: github
+  repo: CAPEX-GITHUB-ORG/capex-site   # <- set to the real GitHub org/repo
   branch: main
+  # base_url defaults to https://api.netlify.com (Netlify's OAuth service)
 
-# Lets editors preview the CMS locally with `npx decap-server` (ignored in prod).
-local_backend: true
+# Uncomment to have edits open as pull requests for review instead of going live on save
+# publish_mode: editorial_workflow
 
-# Drafts move through Draft -> In review -> Ready before publishing.
-publish_mode: editorial_workflow
+media_folder: "src/assets/img/uploads"
+public_folder: "/assets/img/uploads"
 
-media_folder: "src/assets/img"
-public_folder: "/assets/img"
+site_url: https://www.capextransport.co.za
+logo_url: /assets/img/logo-capex.png
 
 collections:
-  # ---------------------------------------------------------------- GUIDES
-  - name: "guides"
-    label: "Guides"
-    label_singular: "Guide"
-    description: "Practical guides and templates. Set 'Gated' to require an email; 'Draft' hides an entry from the site."
-    folder: "src/guides"
+  - name: guides
+    label: Guides
+    label_singular: Guide
+    folder: src/guides
     create: true
     slug: "{{slug}}"
-    extension: "md"
-    format: "frontmatter"
-    sortable_fields: ["order", "title"]
+    extension: md
+    format: frontmatter
+    sortable_fields: [order, title]
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Summary", name: "summary", widget: "text", hint: "One or two sentences shown on the guide card." }
-      - label: "Category"
-        name: "category"
-        widget: "select"
-        options: ["Basics", "Methodology", "Checklist", "Governance", "Org Design", "Template"]
-      - { label: "Read time", name: "readtime", widget: "string", required: false, hint: "e.g. 6 min read, or 'Template'." }
-      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 99, hint: "Lower numbers appear first." }
-      - { label: "Gated (require email)", name: "gated", widget: "boolean", default: false }
-      - { label: "Draft (hide from site)", name: "draft", widget: "boolean", default: false }
-      - { label: "Body", name: "body", widget: "markdown" }
+      - { label: Title, name: title, widget: string }
+      - { label: Summary, name: summary, widget: text, hint: "One or two sentences. Shown on cards and in search results." }
+      - { label: Read time, name: readTime, widget: string, required: false, hint: "e.g. 5 min read, or PDF, 6 pages" }
+      - { label: Order, name: order, widget: number, default: 10, value_type: int }
+      - { label: Gated (email to get it), name: gated, widget: boolean, default: false }
+      - { label: PDF file, name: file, widget: file, required: false, hint: "Required for gated guides. This is what gets emailed." }
+      - { label: Preview (gated guides), name: preview, widget: markdown, required: false }
+      - { label: Body (open guides), name: body, widget: markdown, required: false }
 
-  # -------------------------------------------------------------- WEBINARS
-  - name: "webinars"
-    label: "Webinars"
-    label_singular: "Webinar"
-    description: "On-demand webinars shown under Insights → Webinars. Paste the YouTube link; a new page and card are generated automatically."
-    folder: "src/webinars"
+  - name: logos
+    label: Client logos
+    label_singular: Logo
+    folder: src/logos
     create: true
     slug: "{{slug}}"
-    extension: "md"
-    format: "frontmatter"
-    sortable_fields: ["order", "title"]
+    extension: md
+    format: frontmatter
     fields:
-      - { label: "Title", name: "title", widget: "string" }
-      - { label: "Summary", name: "summary", widget: "text", hint: "One or two sentences shown on the webinar card." }
-      - { label: "Category", name: "category", widget: "string", default: "Webinar", required: false }
-      - { label: "YouTube link", name: "youtube", widget: "string", hint: "Paste the full YouTube link (e.g. https://www.youtube.com/watch?v=XXXXXXXXXXX), a start time in the link is respected." }
-      - { label: "Label", name: "readtime", widget: "string", required: false, default: "Webinar", hint: "Small label on the card, e.g. 'Webinar' or '32 min'." }
-      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 99, hint: "Lower numbers appear first." }
-      - { label: "Draft (hide from site)", name: "draft", widget: "boolean", default: false }
-      - { label: "Description", name: "body", widget: "markdown", required: false }
+      - { label: Client name, name: title, widget: string }
+      - { label: Logo, name: image, widget: image, hint: "SVG or PNG on a transparent background, at least 240px wide" }
+      - { label: Website, name: url, widget: string, required: false }
+      - { label: Order, name: order, widget: number, default: 10, value_type: int }
 
-  # ----------------------------------------------------------- CASE STUDIES
-  - name: "case_studies"
-    label: "Case studies"
-    label_singular: "Case study"
-    description: "Client case studies. 'Draft' keeps an entry off the live site until quotes/logos are approved."
-    folder: "src/case-studies"
-    create: true
-    slug: "{{slug}}"
-    extension: "md"
-    format: "frontmatter"
-    sortable_fields: ["order", "title"]
-    fields:
-      - { label: "Client / Title", name: "title", widget: "string" }
-      - { label: "Order", name: "order", widget: "number", value_type: "int", default: 99 }
-      - { label: "Draft (hide from site)", name: "draft", widget: "boolean", default: false }
-      - { label: "Region (display)", name: "region", widget: "string", hint: "e.g. East Africa, or Kenya + Uganda." }
-      - { label: "Sector (display)", name: "sector", widget: "string", hint: "e.g. Financial Services." }
-      - { label: "Image", name: "image", widget: "image", required: false, hint: "Optional photo for the case study. Upload here or pick from the media library. Leave blank to show a placeholder." }
-      - label: "Region filter tag"
-        name: "regionTag"
-        widget: "select"
-        options: ["east-africa", "southern-africa", "west-africa"]
-      - label: "Sector filter tag"
-        name: "sectorTag"
-        widget: "select"
-        options: ["financial", "public", "ngo", "private"]
-      - { label: "Meta line (scope)", name: "meta", widget: "string", required: false, hint: "e.g. 200 employees · 400 roles in two weeks." }
-      - { label: "Logo", name: "logo", widget: "image", required: false }
-      - { label: "Abstract (card + intro)", name: "abstract", widget: "text" }
-      - { label: "Context", name: "context", widget: "text" }
-      - { label: "Business challenge", name: "challenge", widget: "text" }
-      - { label: "Our approach", name: "approach", widget: "text" }
-      - { label: "Outcome", name: "outcome", widget: "text" }
-      - { label: "Client quote", name: "quote", widget: "text", required: false }
-      - { label: "Quote author", name: "quoteAuthor", widget: "string", required: false }
-
-  # ------------------------------------------------------------ SITE MEDIA
-  - name: "site_media"
-    label: "Site images"
-    description: "Photos for fixed pages (homepage hero, Book a Demo, Overview). Upload an image or pick from the media library; leave blank to show a placeholder."
+  - name: settings
+    label: Settings
     files:
-      - name: "media"
-        label: "Page images"
-        file: "src/_data/media.json"
+      - name: contact
+        label: Contact details
+        file: src/_data/contact.json
+        format: json
         fields:
-          - { label: "Homepage explainer video (Vimeo)", name: "heroVideo", widget: "string", required: false, hint: "Paste the full Vimeo link (e.g. https://vimeo.com/123456789/abcdef1234). For unlisted videos, keep the code after the number. Leave blank to show the 'coming soon' placeholder." }
-          - { label: "Homepage hero background", name: "homeHero", widget: "image", required: false, hint: "Wide image. Shows behind the homepage hero with a brand tint over it." }
-          - { label: "Book a Demo image", name: "demoImage", widget: "image", required: false, hint: "A working-session / people photo for the Book a Demo page." }
-          - { label: "Engage vs traditional image", name: "compareImage", widget: "image", required: false, hint: "Photo shown beside the 'Engage vs traditional' intro on the Overview page." }
-          - { label: "The problem image", name: "tensionImage", widget: "image", required: false, hint: "Photo shown below the intro text in the 'Many job evaluation systems...' section on the homepage." }
-          - { label: "How It Works, why it matters photo", name: "mattersImage", widget: "image", required: false, hint: "Photo in the 'Why this framework matters' section on the How It Works page." }
-          - { label: "The Process, three ways to engage photo", name: "modelsImage", widget: "image", required: false, hint: "Photo beside the three delivery-model cards on The Process page." }
+          - { label: Email, name: email, widget: string }
+          - { label: Phone, name: phone, widget: string, required: false }
+          - { label: WhatsApp number (digits only, with country code), name: whatsapp, widget: string, required: false }
+          - { label: WhatsApp number as shown on the site, name: whatsappDisplay, widget: string, required: false, hint: "e.g. 067 077 0633" }
+          - { label: Address, name: address, widget: string, required: false }
+          - { label: LinkedIn URL, name: linkedin, widget: string, required: false }
+          - { label: Facebook URL, name: facebook, widget: string, required: false }
+          - { label: Instagram URL, name: instagram, widget: string, required: false }
+      - name: promos
+        label: Specials & banners
+        file: src/_data/promos.json
+        format: json
+        fields:
+          - label: Promos
+            name: items
+            widget: list
+            summary: "{{fields.id}} · {{fields.style}} · ends {{fields.endDate}}"
+            fields:
+              - { label: ID (short, unique, no spaces), name: id, widget: string, hint: "e.g. yearend-fee-2026. Change it to show a dismissed promo again." }
+              - { label: Switched on, name: active, widget: boolean, default: true }
+              - { label: Style, name: style, widget: select, options: [ { label: "Bar under the menu", value: bar }, { label: "Pop-up in the corner", value: popup } ], default: bar }
+              - { label: Pop-up heading, name: title, widget: string, required: false }
+              - { label: Message, name: message, widget: text }
+              - { label: Button or link text, name: linkLabel, widget: string, required: false }
+              - { label: Button or link URL, name: linkUrl, widget: string, required: false, hint: "e.g. /events/#plan" }
+              - { label: Show on pages, name: pages, widget: list, required: false, hint: "e.g. / or /events/. Leave empty to show on every page." }
+              - { label: Last day to show, name: endDate, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - name: emails
+        label: Email copy
+        file: src/_data/emails.json
+        format: json
+        fields:
+          - { label: Sign-off, name: signoff, widget: string }
+          - { label: Disclaimer line, name: disclaimer, widget: string }
+          - label: Guide delivery
+            name: guide
+            widget: object
+            fields: &emailFields
+              - { label: Subject, name: subject, widget: string, hint: "Use {{firstName}} and {{guideTitle}}" }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Paragraphs, name: body, widget: list, field: { label: Paragraph, name: p, widget: text } }
+              - { label: Button text, name: button, widget: string }
+              - { label: Button link, name: buttonUrl, widget: string, required: false }
+          - { label: Guide follow-up (day 5), name: guideFollowup, widget: object, fields: *emailFields }
+          - { label: Demo follow-up (day 5), name: demoFollowup, widget: object, fields: *emailFields }

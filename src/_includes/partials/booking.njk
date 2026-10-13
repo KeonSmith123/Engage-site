@@ -1,0 +1,16 @@
+{#
+  Booking gate: visitor gives name, email, company; booking-gate.mjs verifies and stores it,
+  then returns a prefilled calendar URL. main.js builds the embed only at reveal time
+  (HubSpot's script can't size a hidden container).
+#}
+<div class="booking" id="booking">
+  <div class="card booking-gate" data-booking-gate>
+    <h2 class="h3">Your details</h2>
+    <p class="muted">We'll show the calendar as soon as you've filled these in.</p>
+    {% set formType = "demo" %}
+    {% set submitLabel = "Show available times" %}
+    {% set successText = "Thanks. Pick a time below." %}
+    {% include "partials/lead-form.njk" %}
+  </div>
+  <div class="booking-embed" data-booking-embed hidden></div>
+</div>
